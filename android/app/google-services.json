@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "356156403961",
+    "firebase_url": "https://yogurtandsuch-e0ba6.firebaseio.com",
+    "project_id": "yogurtandsuch-e0ba6",
+    "storage_bucket": "yogurtandsuch-e0ba6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356156403961:android:46d8ad155dc53221deb228",
+        "android_client_info": {
+          "package_name": "com.moreyeahs.yogurt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356156403961-m0pq4kdnqcntsbrcm1h8f6qmdjrmcrtl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2GtTPovHoAWVsDo3AdeyWtmn8Q1zjl5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356156403961-m0pq4kdnqcntsbrcm1h8f6qmdjrmcrtl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "356156403961-qoupj3n8fp1upgl8b5k4nf2albai8qdr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Yogurt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

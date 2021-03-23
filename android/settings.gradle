@@ -1,0 +1,22 @@
+rootProject.name = 'Yogurt'
+include ':react-native-square-in-app-payments'
+project(':react-native-square-in-app-payments').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-square-in-app-payments/android')
+include ':react-native-square-in-app-payments'
+project(':react-native-square-in-app-payments').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-square-in-app-payments/android')
+include ':react-native-reanimated'
+project(':react-native-reanimated').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-reanimated/android')
+
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+
+include ':@react-native-community_netinfo'
+project(':@react-native-community_netinfo').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/netinfo/android')
+
+include ':react-native-push-notification'
+project(':react-native-push-notification').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-push-notification/android')
+
+include ':react-native-firebase'
+project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
+
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
