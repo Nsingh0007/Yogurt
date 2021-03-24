@@ -2849,10 +2849,10 @@ class SelectProduct extends Component {
                     fontFamily: 'OpenSans-SemiBold',
                     textAlign: 'center',
                   }}>
-                  {cartData.length}
+                  {cartData.TotalQuantity}
                 </Text>
               </View>
-              {cartData.length > 0 || adding ? (
+              {cartData.TotalQuantity > 0 || adding ? (
                 <FastImage
                   source={cart2}
                   style={{width: 45, height: 45}}

@@ -35,7 +35,11 @@ export const fetchCartDataAsyncCreator = () => async (dispatch) => {
 
     const cartDataResponse = await getCartDetails();
     if (cartDataResponse.result) {
-        dispatch({ type: FETCH_CART_SUCCESS, data: cartDataResponse.response });
+        let TotalQuantity = 0
+        cartDataResponse.response.map((cart)=>{
+            TotalQuantity += cart.Quantity
+        })
+        dispatch({ type: FETCH_CART_SUCCESS, data: {...cartDataResponse.response, TotalQuantity} });
     } else {
         dispatch({ type: FETCH_CART_ERROR, data: [] });
     }

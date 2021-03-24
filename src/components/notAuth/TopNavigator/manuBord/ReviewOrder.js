@@ -515,7 +515,7 @@ class ReviewOrder extends Component {
                 alignSelf: 'flex-start',
                 marginStart: 20,
               }}>
-              {`Review Order (${this.state.userCartData.length})`}
+              {`Review Order (${this.props.getCartStore.cartData.TotalQuantity})`}
             </Text>
           </View>
           <View

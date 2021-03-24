@@ -831,7 +831,7 @@
 				CODE_SIGN_ENTITLEMENTS = Yogurt/Yogurt.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.8;
+				CURRENT_PROJECT_VERSION = 1.9;
 				DEVELOPMENT_TEAM = FS87CRZ2ZU;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Yogurt/Info.plist;
@@ -862,7 +862,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.8;
+				CURRENT_PROJECT_VERSION = 1.9;
 				DEVELOPMENT_TEAM = FS87CRZ2ZU;
 				INFOPLIST_FILE = Yogurt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

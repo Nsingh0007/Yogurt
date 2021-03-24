@@ -250,10 +250,10 @@ class Featured extends Component {
                     fontFamily: 'OpenSans-SemiBold',
                     textAlign: 'center',
                   }}>
-                  {cartData.length}
+                  {cartData.TotalQuantity}
                 </Text>
               </View>
-              {cartData.length > 0 ? (
+              {cartData.TotalQuantity > 0 ? (
                 <FastImage
                   source={cart2}
                   style={{width: 45, height: 45}}
