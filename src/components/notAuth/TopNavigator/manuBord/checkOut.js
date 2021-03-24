@@ -27,6 +27,7 @@ import {SQIPCore, SQIPCardEntry} from 'react-native-square-in-app-payments';
 const Checkout = (props) => {
   const dispatch = useDispatch();
   const [IsPayNow, SetIsPayNow] = useState(true);
+  const [paymentId, SetPaymentId] = useState('');
   const [IsPayAtPickup, SetIsPayAtPickup] = useState(false);
   const {userDetails} = useSelector((state)=> state.userstore) 
   const [RouteData, SetRouteData] = useState(
@@ -91,9 +92,7 @@ const Checkout = (props) => {
       const PaymentResponce = await createPaymentRequest(body);
       //console.log('Payment response ----- ', PaymentResponce.response)
       if (PaymentResponce.result == true) {
-        this.setState({
-          paymentId: PaymentResponce.response.payment.id,
-        });
+        SetPaymentId(PaymentResponce.response.payment.id)
         setTimeout(() => {
           this.postOrderByUser();
         }, 500);
@@ -137,7 +136,7 @@ const Checkout = (props) => {
       body.CartId = singleCartData.CartIdId;
       body.OrderPrice = RouteData.Totalprice;
       body.IsPayAtPickup = IsPayAtPickup;
-      body.PaymentNumber = RouteData.paymentId;
+      body.PaymentNumber = paymentId;
       body.PickUpName = RouteData.pickupName;
       body.PickUpTime = RouteData.pickupTime;
       body.Mobile = mobileNo;
