@@ -1647,22 +1647,22 @@ class SelectProduct extends Component {
     if (!selectedCategory?.isSubCategory) {
       let updatedDemo = selectedProductData.find((singleCategory) => {
         if (
-          selectedCategory.category.CategoryId === singleCategory.CategoryId
+          selectedCategory?.category.CategoryId === singleCategory.CategoryId
         ) {
           return true;
         } else {
           return false;
         }
       });
-      selectFlavorsForSpecificCategory = updatedDemo.flavours;
-      selectBottomFlavorsForSpecificCategory = updatedDemo.bottomflavours;
-      selectTopTopingsForSpecificCategory = updatedDemo.topTopping;
-      selectBottomToppingsForSpecificCategory = updatedDemo.bottomTopping;
-      selectMiddleToppingsForSpecificCategory = updatedDemo.middleTopping;
-      selectSideToppingsForSpecificCategory = updatedDemo.sideTopping;
-      selectToppingForSpecificCategory = updatedDemo.toppings;
-      selectMiddleFlavorsForSpecificCategory = updatedDemo.middleflavours;
-      selectTopFlavorsForSpecificCategory = updatedDemo.topflavours;
+      selectFlavorsForSpecificCategory = updatedDemo?.flavours;
+      selectBottomFlavorsForSpecificCategory = updatedDemo?.bottomflavours;
+      selectTopTopingsForSpecificCategory = updatedDemo?.topTopping;
+      selectBottomToppingsForSpecificCategory = updatedDemo?.bottomTopping;
+      selectMiddleToppingsForSpecificCategory = updatedDemo?.middleTopping;
+      selectSideToppingsForSpecificCategory = updatedDemo?.sideTopping;
+      selectToppingForSpecificCategory = updatedDemo?.toppings;
+      selectMiddleFlavorsForSpecificCategory = updatedDemo?.middleflavours;
+      selectTopFlavorsForSpecificCategory = updatedDemo?.topflavours;
     } else {
       let updatedDemo = [];
 
@@ -1867,7 +1867,7 @@ class SelectProduct extends Component {
                     }}>
                     <Text style={styles.subContent}>Flavors</Text>
 
-                    {selectFlavorsForSpecificCategory.map(
+                    {selectFlavorsForSpecificCategory?.map(
                       (singleFlavor, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -1913,7 +1913,7 @@ class SelectProduct extends Component {
                     }}>
                     <Text style={styles.subContent}>Bottom Flavor</Text>
 
-                    {selectBottomFlavorsForSpecificCategory.map(
+                    {selectBottomFlavorsForSpecificCategory?.map(
                       (singleFlavor, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -1959,7 +1959,7 @@ class SelectProduct extends Component {
                     }}>
                     <Text style={styles.subContent}>Middle Flavor</Text>
 
-                    {selectMiddleFlavorsForSpecificCategory.map(
+                    {selectMiddleFlavorsForSpecificCategory?.map(
                       (singleFlavor, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2005,7 +2005,7 @@ class SelectProduct extends Component {
                     }}>
                     <Text style={styles.subContent}>Top Flavor</Text>
 
-                    {selectTopFlavorsForSpecificCategory.map(
+                    {selectTopFlavorsForSpecificCategory?.map(
                       (singleFlavor, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2050,7 +2050,7 @@ class SelectProduct extends Component {
                       flexDirection: 'column',
                     }}>
                     <Text style={styles.subContent}>Toppings</Text>
-                    {selectToppingForSpecificCategory.map(
+                    {selectToppingForSpecificCategory?.map(
                       (singleBottomTopping, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2095,7 +2095,7 @@ class SelectProduct extends Component {
                       flexDirection: 'column',
                     }}>
                     <Text style={styles.subContent}>Bottom Toppings</Text>
-                    {selectBottomToppingsForSpecificCategory.map(
+                    {selectBottomToppingsForSpecificCategory?.map(
                       (singleBottomTopping, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2140,7 +2140,7 @@ class SelectProduct extends Component {
                       flexDirection: 'column',
                     }}>
                     <Text style={styles.subContent}>Middle Toppings</Text>
-                    {selectMiddleToppingsForSpecificCategory.map(
+                    {selectMiddleToppingsForSpecificCategory?.map(
                       (singleBottomTopping, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2185,7 +2185,7 @@ class SelectProduct extends Component {
                       flexDirection: 'column',
                     }}>
                     <Text style={styles.subContent}>Top Toppings</Text>
-                    {selectTopTopingsForSpecificCategory.map(
+                    {selectTopTopingsForSpecificCategory?.map(
                       (singleTopTopping, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2230,7 +2230,7 @@ class SelectProduct extends Component {
                       flexDirection: 'column',
                     }}>
                     <Text style={styles.subContent}>Side Topping</Text>
-                    {selectSideToppingsForSpecificCategory.map(
+                    {selectSideToppingsForSpecificCategory?.map(
                       (singleSideTopping, index) => {
                         return (
                           <Text style={styles.subTextContent}>
@@ -2250,7 +2250,7 @@ class SelectProduct extends Component {
             </Fragment>
           ) : null}
 
-          {selectedCategory.category.CategoryName === 'Cakes' ? (
+          {selectedCategory?.category.CategoryName === 'Cakes' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2275,7 +2275,7 @@ class SelectProduct extends Component {
             </Fragment>
           ) : null}
 
-          {selectedCategory.category.CategoryName === 'Shakes' ? (
+          {selectedCategory?.category.CategoryName === 'Shakes' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2301,8 +2301,8 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Calender */}
-          {selectedCategory.category.CategoryName === 'Cakes' ||
-          selectedCategory.category.CategoryName === 'Pies' ? (
+          {selectedCategory?.category.CategoryName === 'Cakes' ||
+          selectedCategory?.category.CategoryName === 'Pies' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2356,7 +2356,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Cups */}
-          {selectedCategory.category.CategoryName === 'Cups' ? (
+          {selectedCategory?.category.CategoryName === 'Cups' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2426,7 +2426,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Parfait */}
-          {selectedCategory.category.CategoryName === 'Parfait' ? (
+          {selectedCategory?.category.CategoryName === 'Parfait' ? (
             <View style={[styles.SizeList]}>
               {AdditionalInsPerfaitData.map((insData, insIndex) => {
                 let isInsSelected = false;
@@ -2484,7 +2484,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Cones */}
-          {selectedCategory.category.CategoryName === 'Cones' ? (
+          {selectedCategory?.category.CategoryName === 'Cones' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2554,7 +2554,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Nippers */}
-          {selectedCategory.category.CategoryName === 'Nippers' ? (
+          {selectedCategory?.category.CategoryName === 'Nippers' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2624,7 +2624,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Pints & Quarts */}
-          {selectedCategory.category.CategoryName === 'Pints & Quarts' ? (
+          {selectedCategory?.category.CategoryName === 'Pints & Quarts' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2694,8 +2694,8 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Other */}
-          {selectedCategory.category.CategoryName === 'Shakes' ||
-          selectedCategory.category.CategoryName === 'Saucers' ? (
+          {selectedCategory?.category.CategoryName === 'Shakes' ||
+          selectedCategory?.category.CategoryName === 'Saucers' ? (
             <Fragment>
               <View style={styles.borderLine} />
               <View
