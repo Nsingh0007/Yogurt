@@ -30,7 +30,7 @@ export const getCartReducer = (state = initialCartData, action) => {
 }
 
 
-export const fetchCartDataAsyncCreator = () => async (dispatch) => {
+export const fetchCartDataAsyncCreator = (cb = () => { }) => async (dispatch) => {
     dispatch({ type: FETCH_CART_REQUEST, data: [] });
 
     const cartDataResponse = await getCartDetails();
@@ -39,6 +39,7 @@ export const fetchCartDataAsyncCreator = () => async (dispatch) => {
         cartDataResponse.response.map((cart)=>{
             TotalQuantity += cart.Quantity
         })
+        cb(cartDataResponse);
         dispatch({ type: FETCH_CART_SUCCESS, data: {...cartDataResponse.response, TotalQuantity} });
     } else {
         dispatch({ type: FETCH_CART_ERROR, data: [] });

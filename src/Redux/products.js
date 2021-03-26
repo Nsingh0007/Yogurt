@@ -56,6 +56,8 @@ export const resetProductReciepe = (selectedProductData) => {
 };
 const productReducer = (state = intialState, action) => {
   switch (action.type) {
+    case "MUTATE_PRODUCTSTORE_ROOT" :
+      return {...state, ...action.payload};
     case "CUPAUTOPOPULATE":
       return { ...state,...action.data };
     case RESET_PRODUCT_RECIEPE:
