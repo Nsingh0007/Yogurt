@@ -125,11 +125,12 @@ class sendeGift extends Component {
 
   render() {
     const {userDetails} = this.props.userstore;
+    const {spinner} = this.state
     let giftImage = this.props.navigation.getParam('giftImage');
 
     return (
       <View style={styles.container}>
-        <Spinner visible={this.state.spinner} />
+        <Spinner visible={spinner} size="large" color="#793422" />
         <View style={styles.header}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity

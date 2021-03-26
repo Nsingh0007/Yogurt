@@ -18,6 +18,7 @@ import {
   setCurrentSelectedCategory,
 } from '@redux';
 LogBox.ignoreAllLogs();
+import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
 import SignIn from '../../assets/icon/SignIn.png';
@@ -96,6 +97,7 @@ class Home extends Component {
     // }, 15000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      console.log('DID_FOCUS_EXECUTED');
       this.setState({
         spinner: true,
       });
@@ -254,7 +256,7 @@ class Home extends Component {
   progressBarData() {
     const {userDetails} = this.props.userstore;
     const {LeftRewardPoints} = userDetails;
-
+    console.log('USER_DETAILS - ', JSON.stringify(userDetails));
     if (LeftRewardPoints <= 75) {
       //First Bar
       if (LeftRewardPoints == 75) {
@@ -359,8 +361,14 @@ class Home extends Component {
     }, 500);
   }
 
-  ProgressBarView = () => {
+  render() {
+    const {messageStore} = this.props;
+    const {inboxData, loader, messageCount} = messageStore;
+    const {isUserLoggedIn, loading, userDetails} = this.props.userstore;
     const {
+      IsRedeem,
+      spinner,
+      slideByUserData,
       firstCircleColor,
       secondCircleColor,
       thirdCircleColor,
@@ -369,204 +377,6 @@ class Home extends Component {
       progressBarcompleted3Data,
       progressBarcompleted4Data,
     } = this.state;
-    const {isUserLoggedIn, loading, userDetails} = this.props.userstore;
-    return (
-      <Fragment>
-        <View style={{width: '98%', alignSelf: 'center'}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-            }}>
-            <View style={{flexDirection: 'row'}}>
-              <Text
-                style={{
-                  fontSize: 28,
-                  fontFamily: 'OpenSans-Bold',
-                  marginStart: 6,
-                }}>
-                {userDetails.LeftRewardPoints == null
-                  ? 0
-                  : userDetails.LeftRewardPoints}
-              </Text>
-              <FastImage
-                source={rewards}
-                style={{
-                  width: 15,
-                  height: 15,
-                  margin: 12,
-                  marginLeft: 3,
-                  marginTop: 15,
-                }}
-              />
-            </View>
-            <View style={{alignSelf: 'flex-end', margin: 7}}>
-              <Text style={styles.freeMiniText}>Yogurt & Such Rewards</Text>
-              <Text style={styles.freeMiniText}>
-                Free mini cup for every 75 flakes
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              marginVertical: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                width: '96%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.progressBarMainView}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={styles.progressBar}>
-                      <View
-                        style={[
-                          styles.progressBarcompleted,
-                          {width: progressBarcompleted1Data},
-                        ]}
-                      />
-                    </View>
-                  </View>
-                </View>
-
-                <View style={styles.progressBarMainView}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={[
-                        styles.Circle,
-                        {backgroundColor: firstCircleColor},
-                      ]}
-                    />
-                    <View style={styles.progressBar}>
-                      <View
-                        style={[
-                          styles.progressBarcompleted,
-                          {width: progressBarcompleted2Data},
-                        ]}
-                      />
-                    </View>
-                  </View>
-                  <Text style={styles.barText}>75</Text>
-                </View>
-
-                <View style={styles.progressBarMainView}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={[
-                        styles.Circle,
-                        {backgroundColor: secondCircleColor},
-                      ]}
-                    />
-                    <View style={styles.progressBar}>
-                      <View
-                        style={[
-                          styles.progressBarcompleted,
-                          {width: progressBarcompleted3Data},
-                        ]}
-                      />
-                    </View>
-                  </View>
-                  <Text style={styles.barText2}>150</Text>
-                </View>
-
-                <View style={styles.progressBarMainView}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={[
-                        styles.Circle,
-                        {backgroundColor: thirdCircleColor},
-                      ]}
-                    />
-                    <View style={styles.progressBar}>
-                      <View
-                        style={[
-                          styles.progressBarcompleted,
-                          {width: progressBarcompleted4Data},
-                        ]}
-                      />
-                    </View>
-                  </View>
-                  <Text style={styles.barText2}>225</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              alignSelf: 'center',
-              margin: 10,
-            }}>
-            <TouchableOpacity
-              disabled={
-                this.state.IsRedeem || userDetails.LeftRewardPoints < 75
-                  ? true
-                  : false
-              }
-              onPress={() => this.addRedeem()}
-              style={{
-                backgroundColor:
-                  this.state.IsRedeem || userDetails.LeftRewardPoints < 75
-                    ? '#C4C4C4'
-                    : 'lightblue',
-                justifyContent: 'center',
-                height: 42,
-                width: 130,
-                borderRadius: 20,
-              }}>
-              <Text
-                style={{
-                  color: '#FFFFFF',
-                  fontSize: 15,
-                  fontFamily: 'OpenSans-Bold',
-                  alignSelf: 'center',
-                }}>
-                Redeem Now
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: 'center',
-              fontWeight: '400',
-              fontFamily: 'OpenSans-SemiBold',
-              margin: 4,
-            }}>
-            Earn flakes
-          </Text>
-
-          <FastImage
-            source={rewards}
-            style={{width: 30, height: 30, alignSelf: 'center', margin: 4}}
-          />
-
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: 'center',
-              fontWeight: '400',
-              fontFamily: 'OpenSans-SemiBold',
-              margin: 4,
-            }}>
-            For every dollar you spend
-          </Text>
-        </View>
-      </Fragment>
-    );
-  };
-
-  render() {
-    const {messageStore} = this.props;
-    const {inboxData, loader, messageCount} = messageStore;
-    const {isUserLoggedIn, loading, userDetails} = this.props.userstore;
-    const {spinner} = this.state;
-    const {slideByUserData} = this.state;
 
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
@@ -589,7 +399,6 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <Spinner visible={spinner} size="large" color="#793422" />
-
         <Animated.View
           useNativeDriver={true}
           style={{
@@ -686,8 +495,6 @@ class Home extends Component {
                       flexDirection: 'row',
                       position: 'relative',
                       marginLeft: 15,
-                      borderColor: 'red',
-                      borderWidth: 0,
                     }}>
                     <FastImage
                       source={Inbox}
@@ -741,62 +548,41 @@ class Home extends Component {
             {/* code here for the rewards points */}
 
             {isUserLoggedIn != null && isUserLoggedIn == true && !spinner ? (
-              <this.ProgressBarView />
+              <ProgressBar
+                data={{
+                  firstCircleColor,
+                  secondCircleColor,
+                  thirdCircleColor,
+                  progressBarcompleted1Data,
+                  progressBarcompleted2Data,
+                  progressBarcompleted3Data,
+                  progressBarcompleted4Data,
+                  IsRedeem,
+                }}
+                add={() => this.addRedeem()}
+              />
             ) : null}
 
             {slideByUserData?.map((singleslide) => {
               return (
-                <View
-                  style={{
-                    height: 350,
-                    width: '97%',
-                    marginTop: 9,
-                    alignSelf: 'center',
-                    backgroundColor: '#F9F9F9',
-                    shadowColor: '#000',
-                    shadowOffset: {width: 0, height: 2},
-                    shadowOpacity: 0.2,
-                    shadowRadius: 2,
-                    elevation: 2,
-                    borderRadius: 7,
-                  }}>
+                <View style={styles.bannerView}>
                   <View>
                     <FastImage
                       resizeMode="stretch"
                       source={{
                         uri: `${HostURL}${singleslide.Pic}`,
                       }}
-                      style={{
-                        width: '100%',
-                        alignSelf: 'center',
-                        height: 200,
-                        borderTopLeftRadius: 7,
-                        borderTopRightRadius: 7,
-                      }}
+                      style={styles.bannerImage}
                     />
                   </View>
                   <View>
                     <Text
-                      style={{
-                        fontSize: 19,
-                        color: '#222624',
-                        marginTop: 15,
-                        marginStart: 15,
-                        marginEnd: 8,
-                        fontFamily: 'OpenSans-Bold',
-                      }}>
+                      style={styles.bannerTitle}>
                       {singleslide.SliderTitle}
                     </Text>
                     <Text
                       numberOfLines={2}
-                      style={{
-                        fontSize: 13,
-                        fontFamily: 'OpenSans-SemiBold',
-                        color: '#262A29',
-                        marginTop: 8,
-                        marginStart: 15,
-                        marginEnd: 8,
-                      }}>
+                      style={styles.bannerSubTitle}>
                       {singleslide.Description}
                     </Text>
                     <View
@@ -814,23 +600,9 @@ class Home extends Component {
                               ? this.props.navigation.navigate('topNav')
                               : this.props.navigation.navigate('login');
                           }}
-                          style={{
-                            backgroundColor: '#793422',
-                            borderRadius: 50,
-                            width: 77,
-                            height: 30,
-                            borderColor: '#000',
-                            borderWidth: 0,
-                            justifyContent: 'center',
-                          }}>
+                          style={styles.bannerButton}>
                           <Text
-                            style={{
-                              color: '#F9F9F9',
-                              textAlign: 'center',
-                              alignSelf: 'center',
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 15,
-                            }}>
+                            style={styles.bannerButtonText}>
                             {singleslide.ButtonName.split(' ')[0]}
                           </Text>
                         </TouchableOpacity>
@@ -843,23 +615,9 @@ class Home extends Component {
                               ? this.props.navigation.navigate('login')
                               : this.props.navigation.navigate('singup');
                           }}
-                          style={{
-                            backgroundColor: '#793422',
-                            borderRadius: 50,
-                            width: 77,
-                            height: 30,
-                            borderColor: '#000',
-                            borderWidth: 0,
-                            justifyContent: 'center',
-                          }}>
+                          style={styles.bannerButton}>
                           <Text
-                            style={{
-                              color: '#F9F9F9',
-                              textAlign: 'center',
-                              alignSelf: 'center',
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 15,
-                            }}>
+                            style={styles.bannerButtonText}>
                             {singleslide.ButtonName.split(' ')[0]}
                           </Text>
                         </TouchableOpacity>
@@ -1020,6 +778,58 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-SemiBold',
     textAlign: 'right',
   },
+  bannerView: {
+    height: 350,
+    width: '97%',
+    marginTop: 9,
+    alignSelf: 'center',
+    backgroundColor: '#F9F9F9',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+    borderRadius: 7,
+  },
+  bannerImage: {
+    width: '100%',
+    alignSelf: 'center',
+    height: 200,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
+  },
+  bannerTitle: {
+    fontSize: 19,
+    color: '#222624',
+    marginTop: 15,
+    marginStart: 15,
+    marginEnd: 8,
+    fontFamily: 'OpenSans-Bold',
+  },
+  bannerSubTitle: {
+    fontSize: 13,
+    fontFamily: 'OpenSans-SemiBold',
+    color: '#262A29',
+    marginTop: 8,
+    marginStart: 15,
+    marginEnd: 8,
+  },
+  bannerButton: {
+    backgroundColor: '#793422',
+    borderRadius: 50,
+    width: 77,
+    height: 30,
+    borderColor: '#000',
+    borderWidth: 0,
+    justifyContent: 'center',
+  },
+  bannerButtonText: {
+    color: '#F9F9F9',
+    textAlign: 'center',
+    alignSelf: 'center',
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 15,
+  }
 });
 
 const mapStateToProps = (state) => {

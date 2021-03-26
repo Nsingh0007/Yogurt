@@ -335,6 +335,8 @@ class SelectProduct extends Component {
   };
 
   addToCartPhase1 = () => {
+    console.log("FULL_STORE - ", JSON.stringify(this.props.state));
+    return;
     let {selectedCategory} = this.props?.categorystore;
     let {selectedProductData} = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {
@@ -1712,7 +1714,7 @@ class SelectProduct extends Component {
           onCancel={() => this.hideDatePicker()}
         />
         <View>
-          <ImageBackground
+          <FastImage
             source={{uri: `${HostURL}${DisplayImage}`}}
             style={{width: '100%', height: 200}}
             resizeMode="cover">
@@ -1725,7 +1727,7 @@ class SelectProduct extends Component {
               }>
               <FastImage source={cross} style={{width: 30, height: 30}} />
             </TouchableOpacity>
-          </ImageBackground>
+          </FastImage>
           {IsRedeem === true ? (
             <View>
               <Text style={styles.congratsText}>{'Congratulations!'}</Text>
@@ -2903,7 +2905,7 @@ class SelectProduct extends Component {
               backgroundColor: '#FFF',
               transform: [{rotateZ: '45deg'}],
             }}>
-            <Image
+            <FastImage
               source={{uri: `${HostURL}${DisplayImage}`}}
               style={{
                 height: 37,
@@ -3089,6 +3091,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    state,
     productstore: state.productstore,
     categorystore: state.categoryStore,
     userstore: state.userstore,

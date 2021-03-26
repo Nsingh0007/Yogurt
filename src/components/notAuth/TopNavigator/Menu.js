@@ -97,10 +97,10 @@ class Menu extends Component {
   render() {
     const { categoryStore, getCartStore } = this.props;
     const { categoryData, loader } = categoryStore;
-    const { cartData }= getCartStore
+    const { cartData }= getCartStore 
     return (
       <View style={styles.continer}>
-        <Spinner visible={loader} />
+        <Spinner visible={loader} size="large" color="#793422" />
         <ScrollView showsVerticalScrollIndicator={false}>
           {categoryData?.map((singleMenu, categoryIndex) => {
             let showSubCategory =
@@ -282,7 +282,7 @@ class Menu extends Component {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <View style={{width: '80%'}}>
+          <View style={{width: '80%', }}>
             <Text
               style={[styles.subContent, {color: '#bfbfbf', marginStart: 0}]}>
               Pickup Store
