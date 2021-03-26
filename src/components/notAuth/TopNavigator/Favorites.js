@@ -113,7 +113,7 @@ class Favorites extends Component {
   }
 
   render() {
-    const { favoritesItemData } = this.state;
+    const { favoritesItemData, spinner } = this.state;
     const { cartData } = this.props.getCartStore;
     const newArray = [];
     favoritesItemData.forEach(obj => {
@@ -124,7 +124,7 @@ class Favorites extends Component {
 
     return (
       <View style={styles.continer}>
-        <Spinner visible={this.state.spinner} />
+        <Spinner visible={spinner} size="large" color="#793422" />
         <ScrollView showsVerticalScrollIndicator={false}>
           {
             favoritesItemData.length > 0 ?

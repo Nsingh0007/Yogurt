@@ -418,7 +418,7 @@ class ReviewOrder extends Component {
     const {dateArray, spinner} = this.state;
     return (
       <View style={styles.container}>
-        <Spinner visible={spinner} />
+        <Spinner visible={spinner} size="large" color="#793422" />
         <View
           style={{
             width: '40%',

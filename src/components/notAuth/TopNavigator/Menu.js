@@ -100,7 +100,7 @@ class Menu extends Component {
     const { cartData }= getCartStore
     return (
       <View style={styles.continer}>
-        <Spinner visible={loader} />
+        <Spinner visible={loader} size="large" color="#793422" />
         <ScrollView showsVerticalScrollIndicator={false}>
           {categoryData?.map((singleMenu, categoryIndex) => {
             let showSubCategory =
