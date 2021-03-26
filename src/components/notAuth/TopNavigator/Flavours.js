@@ -52,17 +52,7 @@ class Featured extends Component {
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
       this.fetchGetCategory();
     });
-  };
-
-  getCardData = async () => {
-    const GetCartDataResponse = await getCartDetails();
-    if (GetCartDataResponse.result === true) {
-      var userCartData = GetCartDataResponse.response;
-      this.setState({cartDataLength: userCartData.length});
-    } else {
-      console.log('getting Error on the get cart details --------------- ');
-    }
-  };
+  }; 
 
   handle_Navigate() {
     const navigateAction = NavigationActions.navigate({

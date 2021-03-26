@@ -335,6 +335,8 @@ class SelectProduct extends Component {
   };
 
   addToCartPhase1 = () => {
+    console.log("FULL_STORE - ", JSON.stringify(this.props.state));
+    return;
     let {selectedCategory} = this.props?.categorystore;
     let {selectedProductData} = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {
@@ -3089,6 +3091,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    state,
     productstore: state.productstore,
     categorystore: state.categoryStore,
     userstore: state.userstore,

@@ -97,7 +97,7 @@ class Menu extends Component {
   render() {
     const { categoryStore, getCartStore } = this.props;
     const { categoryData, loader } = categoryStore;
-    const { cartData }= getCartStore
+    const { cartData }= getCartStore 
     return (
       <View style={styles.continer}>
         <Spinner visible={loader} />
@@ -282,7 +282,7 @@ class Menu extends Component {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <View style={{width: '80%'}}>
+          <View style={{width: '80%', }}>
             <Text
               style={[styles.subContent, {color: '#bfbfbf', marginStart: 0}]}>
               Pickup Store
