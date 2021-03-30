@@ -231,7 +231,7 @@ export async function addCart(body, token) {
       endPoints.addCartAPI,
       body,
       {
-        headers: { ...commonHeader, Authorization: `Bearer ${token}` },
+        headers: { ...commonHeader, Authorization: `Bearer ${Authorization}` },
       },
     );
     if (addCartResponse.status === 200) {
@@ -241,6 +241,27 @@ export async function addCart(body, token) {
     }
   } catch (error) {
     console.log("add cart API error-------", error)
+    return { result: false, error };
+
+  }
+}
+
+export async function editCart(body) {
+  try {
+    const Authorization = await AsyncStorage.getItem('userLoggedInToken');
+    const editCartResponse = await Axios.put(
+      endPoints.editCartAPI,
+      body,
+      {
+        headers: { ...commonHeader, Authorization: `Bearer ${Authorization}` },
+      },
+    );
+    if (editCartResponse.status === 200) {
+      return { result: true, response: editCartResponse.data };
+    } else {
+      return { result: false, error: editCartResponse.data };
+    }
+  } catch (error) {
     return { result: false, error };
 
   }

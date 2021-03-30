@@ -256,7 +256,7 @@ class Home extends Component {
   progressBarData() {
     const {userDetails} = this.props.userstore;
     const {LeftRewardPoints} = userDetails;
-    console.log('USER_DETAILS - ', JSON.stringify(userDetails));
+    
     if (LeftRewardPoints <= 75) {
       //First Bar
       if (LeftRewardPoints == 75) {

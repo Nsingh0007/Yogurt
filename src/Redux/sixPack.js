@@ -20,6 +20,7 @@ export const SixPackReducer = (state = initialState, action) => {
     case INIT:
       return { ...state, ...data };
     case "MUTATE":
+      console.log('MUTATE_SIX_PACK_REDUCER_1 - ', JSON.stringify(data));
       return { ...state, ...data };
     default:
       return state;
