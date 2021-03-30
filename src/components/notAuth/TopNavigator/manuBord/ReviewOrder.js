@@ -203,7 +203,7 @@ class ReviewOrder extends Component {
     if (singleCartData.IsSixPack) {
       return Alert.alert('Message', 'Work in progress!');
     }
-    console.log('REDUX_STATE_CONTESST - ', JSON.stringify(singleCartData));
+
     let newProductStore = { ...this.props.productstore };
     let selectedProductData = [];
     newProductStore.selectedProductData.map((productData, index) => {
@@ -221,7 +221,11 @@ class ReviewOrder extends Component {
           });
           newProductData.subCategoryData = [...newSubCategoryData];
         } else {
-
+          let newProductAssignmentData = this.assignmentData({ ...productData }, singleCartData);
+          newProductData = {
+            ...newProductData,
+            ...newProductAssignmentData
+          }
         }
         selectedProductData.push({ ...newProductData });
       } else {
@@ -235,7 +239,7 @@ class ReviewOrder extends Component {
   getCardData = () => {
     const { userDetails } = this.props.userstore;
     this.props.fetchCartData((GetCartDataResponse) => {
-      this.setState({ spinner: true }, async () => { 
+      this.setState({ spinner: true }, async () => {
         if (GetCartDataResponse.result === true) {
           let SubTotalprice = 0;
           let cartId = 0;
@@ -256,7 +260,7 @@ class ReviewOrder extends Component {
           SubTotalprice = parseFloat(SubTotalprice).toFixed(2);
           let userEmail = userDetails.Email.toLowerCase();
           let Amount = 0;
-  
+
           if (
             userEmail === 'employee1@gmail.com' ||
             userEmail === 'employee2@gmail.com' ||
@@ -268,7 +272,7 @@ class ReviewOrder extends Component {
           } else {
             Amount = 0;
           }
-  
+
           let Discount = parseFloat(Amount * 0.1).toFixed(2);
           let Taxprice = (parseFloat(SubTotalprice - Discount) * 0.08625).toFixed(
             2,
@@ -292,7 +296,7 @@ class ReviewOrder extends Component {
         }
       });
     });
-    
+
   };
 
   deleteCartById = async (cartId) => {
