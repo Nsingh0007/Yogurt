@@ -334,7 +334,7 @@ class SelectProduct extends Component {
     }, 300);
   };
 
-  addToCartPhase1 = () => { 
+  addToCartPhase1 = () => {
     let {selectedCategory} = this.props?.categorystore;
     let {selectedProductData} = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {
@@ -398,11 +398,13 @@ class SelectProduct extends Component {
       } else {
         this.addToCart();
       }
-    } else if (selectedCategory?.category.CategoryName == 'Cones'){
+    } else if (selectedCategory?.category.CategoryName == 'Cones') {
       let {categoryIndex} = selectedCategory;
       let isLayerItIndexNumber = 0;
-      let subCategoryIndex = selectedCategory?.subCategory?.SubCategoryName == "Wafer" ? 0 : 1
-      let currentSelectedProduct = selectedProductData[categoryIndex].subCategoryData[subCategoryIndex];
+      let subCategoryIndex =
+        selectedCategory?.subCategory?.SubCategoryName == 'Wafer' ? 0 : 1;
+      let currentSelectedProduct =
+        selectedProductData[categoryIndex].subCategoryData[subCategoryIndex];
       for (index in currentSelectedProduct) {
         let lowerCaseIndex = index.toLowerCase();
         if (lowerCaseIndex.indexOf('toppings') > -1) {
@@ -1589,32 +1591,44 @@ class SelectProduct extends Component {
       }
     });
     if (sendBody.length > 0) {
-      const addCartResponse = await addCart(sendBody, this.state.authToken);
-      if (addCartResponse.result === true) {
-        this.props.fetchCartData();
-        this.setState({
-          adding: true,
-        });
-        if (this.state.IsRedeem == true) {
+      if (!this.props.navigation.getParam('isEdit')) {
+        const addCartResponse = await addCart(sendBody);
+        if (addCartResponse.result === true) {
+          this.props.fetchCartData();
           this.setState({
-            IsRedeem: false,
+            adding: true,
           });
-          this.props.navigation.getParam('disabledReedemButton')();
-        }
-        setTimeout(() => {
-          this.handleResetReciepe();
-          Vibration.vibrate();
-          setTimeout(() => {
+          if (this.state.IsRedeem == true) {
             this.setState({
-              adding: false,
+              IsRedeem: false,
             });
-          }, 2000);
-        }, 300);
+            this.props.navigation.getParam('disabledReedemButton')();
+          }
+          setTimeout(() => {
+            this.handleResetReciepe();
+            Vibration.vibrate();
+            setTimeout(() => {
+              this.setState({
+                adding: false,
+              });
+            }, 2000);
+          }, 300);
+        } else {
+          // Alert.alert(
+          //   "Warning",
+          //   "Oops something went wrong, please try again later."
+          // );
+        }
       } else {
-        // Alert.alert(
-        //   "Warning",
-        //   "Oops something went wrong, please try again later."
-        // );
+        let TempBody = {...sendBody[0], CartId: this.state.cartId};
+        const editCartResponse = await editCart(TempBody);
+        if (editCartResponse.result === true) {
+          setTimeout(() => {
+            this.props.fetchCartData();
+            this.handleResetReciepe();
+            Vibration.vibrate();
+          }, 300);
+        }
       }
     }
   };
@@ -2874,7 +2888,7 @@ class SelectProduct extends Component {
             position: 'absolute',
             left: Dimensions.get('window').width * 0.65,
             right: 5,
-            bottom: adding? 119 : 70,
+            bottom: adding ? 119 : 70,
             flexDirection: 'column-reverse',
           }}>
           <TouchableOpacity
@@ -3118,12 +3132,12 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(SelectProduct);
 
 // (selectedCategory.subCategory.IsTopping == true &&
-                //   singleProductData.toppings.length == 0) ||
-                // (selectedCategory.subCategory.IsTopTopping == true &&
-                //   singleProductData.topTopping.length == 0) ||
-                // (selectedCategory.subCategory.IsMiddleTopping == true &&
-                //   singleProductData.middleTopping.length == 0) ||
-                // (selectedCategory.subCategory.IsBottomTopping == true &&
-                //   singleProductData.bottomTopping.length == 0) ||
-                // (selectedCategory.subCategory.IsSideTopping == true &&
-                //   singleProductData.sideTopping.length == 0))
+//   singleProductData.toppings.length == 0) ||
+// (selectedCategory.subCategory.IsTopTopping == true &&
+//   singleProductData.topTopping.length == 0) ||
+// (selectedCategory.subCategory.IsMiddleTopping == true &&
+//   singleProductData.middleTopping.length == 0) ||
+// (selectedCategory.subCategory.IsBottomTopping == true &&
+//   singleProductData.bottomTopping.length == 0) ||
+// (selectedCategory.subCategory.IsSideTopping == true &&
+//   singleProductData.sideTopping.length == 0))
