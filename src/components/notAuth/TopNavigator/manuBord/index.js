@@ -334,9 +334,7 @@ class SelectProduct extends Component {
     }, 300);
   };
 
-  addToCartPhase1 = () => {
-    // console.log("FULL_STORE - ", JSON.stringify(this.props.state));
-    // return;
+  addToCartPhase1 = () => { 
     let {selectedCategory} = this.props?.categorystore;
     let {selectedProductData} = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {

@@ -199,9 +199,95 @@ class ReviewOrder extends Component {
     console.log('ROOT_OBJECT_TEST_2 - ', JSON.stringify(rootObject));
     return rootObject;
   }
+  getFlavorsOrToppingFromStore = (outerKey, innerKey, id) => {
+    let productStore = this.props.reduxState.productstore;
+    let returnData = {};
+    productStore[outerKey].map(i => {
+      if (i[innerKey] == id) {
+        returnData = { ...i };
+      }
+    });
+    return returnData;
+  }
+  handleSixPackEdit = (singleCartData, cartIndex) => {
+    let newSixPackStore = { ...this.props.reduxState.sixPackStore };
+    let executeSixPackIndex = -1;
+    let executeSixPackRootObject = {};
+    newSixPackStore.sixPackData.map((rootSixPack, index) => {
+      if (rootSixPack.Category.CategoryId == singleCartData.CategoryId &&
+        rootSixPack.SubCategory.SubCategoryId == singleCartData.SubCategoryId) {
+        executeSixPackIndex = index;
+        executeSixPackRootObject = { ...rootSixPack };
+      }
+    });
+    if (executeSixPackIndex == -1 || Object.keys(executeSixPackRootObject).length == 0) {
+      return Alert.alert('Message', "You Can't Edit this Item in Cart");
+    }
+
+    const assignSixPackDataToStore = (Products) => {
+      let rootProducts = { ...Products };
+      let bindObj = [
+        {
+          inCartKey: 'Flavor',
+          inSixPackProductKey: 'flavours',
+          dataProductStoreFetch: 'flavorData',
+          dataProductStoreFetchKey: 'FlavorId'
+        },
+        {
+          inCartKey: 'Topping',
+          inSixPackProductKey: 'toppings',
+          dataProductStoreFetch: 'toppingsData',
+          dataProductStoreFetchKey: 'ToppingId'
+        },
+      ];
+      bindObj.map((bind) => {
+        try {
+          let inCartSelectProduct = JSON.parse(singleCartData[bind.inCartKey]);
+
+          rootProducts[bind.inSixPackProductKey] =
+            rootProducts[bind.inSixPackProductKey].map((productTypesData) => {
+              let findProductsFromCart = inCartSelectProduct.find(i => i.type == productTypesData.type);
+              if (!findProductsFromCart) {
+                productTypesData.products = [];
+                return { ...productTypesData };
+              };
+              let products = [];
+              let mapProducts = findProductsFromCart.products.split(",");
+              if (mapProducts.length == 0) {
+                productTypesData.products = [];
+                return { ...productTypesData };
+              }
+              mapProducts.map((productInCart) => {
+                let returnObj = {
+                  ...this.getFlavorsOrToppingFromStore(
+                    bind.dataProductStoreFetch,
+                    bind.dataProductStoreFetchKey,
+                    parseInt(productInCart))
+                }
+                if (Object.keys(returnObj).length > 0) {
+                  products.push(returnObj);
+                }
+              });
+              let newProductReturnData = { ...productTypesData };
+              newProductReturnData.products = products;
+              return newProductReturnData;
+            });
+        } catch (e) {
+          return;
+        }
+
+      });
+      console.log('ROOT_MIGRATION_1 - ', JSON.stringify(rootProducts));
+      return rootProducts;
+    }
+    executeSixPackRootObject.Products = assignSixPackDataToStore(executeSixPackRootObject.Products);
+    newSixPackStore.sixPackData[executeSixPackIndex] = { ...executeSixPackRootObject };
+    console.log('NEW_SIX_PACK_MUTATION_1 - ', JSON.stringify(newSixPackStore));
+    this.props.dispatch({ type: "MUTATE", data: newSixPackStore });
+  }
   handleCartEdit = (singleCartData, cartIndex) => {
     if (singleCartData.IsSixPack) {
-      return Alert.alert('Message', 'Work in progress!');
+      return this.handleSixPackEdit(singleCartData, cartIndex);
     }
 
     let newProductStore = { ...this.props.productstore };
