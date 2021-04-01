@@ -19,7 +19,7 @@ import Add_Item from '../../../../assets/icon/order/Add_Item.png';
 import Minus_Item from '../../../../assets/icon/order/Minus_Item.png';
 import EmptyCart from '../../../../assets/icon/order/EmptyCart.png';
 import {connect} from 'react-redux';
-import {getCartDetails, deleteCart, updateCart, HostURL} from '@api';
+import { deleteCart, updateCart, HostURL} from '@api';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import {setCurrentSelectedCategory} from '@redux';
 import {navigateTabRef} from '@navigation/refs';
@@ -209,6 +209,7 @@ class ReviewOrder extends Component {
     console.log('ROOT_OBJECT_TEST_2 - ', JSON.stringify(rootObject));
     return rootObject;
   };
+
   getFlavorsOrToppingFromStore = (outerKey, innerKey, id) => {
     let productStore = this.props.reduxState.productstore;
     let returnData = {};
@@ -219,6 +220,7 @@ class ReviewOrder extends Component {
     });
     return returnData;
   };
+
   handleSixPackEdit = (singleCartData, cartIndex) => {
     const {categoryStore, getCartStore} = this.props;
     const {categoryData, loader} = categoryStore;
@@ -736,7 +738,6 @@ class ReviewOrder extends Component {
             position: 'absolute',
             zIndex: 5000,
             flex: 1,
-            height: 310,
             right: 15,
             top: 88,
           }}>
@@ -1275,8 +1276,9 @@ class ReviewOrder extends Component {
 
                               <TouchableOpacity
                                 style={{
-                                  marginLeft: 20,
-                                  justifyContent: 'center',
+                                  height: 30,
+                                  marginStart: 15,
+                                  justifyContent: 'center'
                                 }}
                                 onPress={() =>
                                   this.handleCartEdit(singleCartData, cartIndex)
