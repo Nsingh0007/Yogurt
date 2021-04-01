@@ -269,7 +269,6 @@ export async function editCart(body) {
 
 export async function getCartDetails() {
   try {
-
     const Authorization = await AsyncStorage.getItem('userLoggedInToken');
     GetCartDetailsResponse = await Axios.get(
       endPoints.getCartAPI,

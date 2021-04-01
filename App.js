@@ -15,7 +15,7 @@ Text.defaultProps = {
 class App extends React.Component {
 
   jsExceptionHandler = (e, isFatal) => {
-    console.log("JS Error ", e, "isfatal:", isFatal);
+    //console.log("JS Error ", e, "isfatal:", isFatal);
     //crashlytics().log(e);
     if (isFatal) {
       Alert.alert(
