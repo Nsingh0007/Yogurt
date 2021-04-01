@@ -9,7 +9,6 @@ import {
   TextInput,
   Platform,
   Vibration,
-  Image,
 } from 'react-native';
 import leftArrow from '../../../../assets/icon/order/leftArrow.png';
 import snow from '../../../../assets/icon/order/snow.png';
@@ -907,7 +906,6 @@ class ReviewOrder extends Component {
         {!spinner ? (
           <>
             <ScrollView
-              
               showsVerticalScrollIndicator={false}
               style={{
                 flex: 1,
@@ -1278,13 +1276,12 @@ class ReviewOrder extends Component {
                               <TouchableOpacity
                                 style={{
                                   marginLeft: 20,
+                                  justifyContent: 'center',
                                 }}
                                 onPress={() =>
                                   this.handleCartEdit(singleCartData, cartIndex)
                                 }>
-                                <View>
-                                  <MaterialIcons name={'edit'} size={25} />
-                                </View>
+                                <Text style={styles.changeItem}>Edit Item</Text>
                               </TouchableOpacity>
                             </View>
                           }
@@ -1433,6 +1430,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'OpenSans-Bold',
     textAlign: 'center',
+  },
+  changeItem: {
+    fontSize: 14,
+    fontWeight: '800',
+    lineHeight: 19,
+    color: '#793422',
   },
 });
 
