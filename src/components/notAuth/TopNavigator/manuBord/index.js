@@ -2318,8 +2318,10 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Calender */}
+
           {selectedCategory.category.CategoryName === 'Cakes' ||
             selectedCategory.category.CategoryName === 'Pies' ? (
+
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2713,6 +2715,7 @@ class SelectProduct extends Component {
           {/* Additional Instructions Other */}
           {selectedCategory.category.CategoryName === 'Shakes' ||
             selectedCategory.category.CategoryName === 'Saucers' ? (
+
             <Fragment>
               <View style={styles.borderLine} />
               <View
