@@ -1,11 +1,12 @@
-import React from 'react';
-import { SafeAreaView, Text, Alert } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { SafeAreaView, Text, Alert, View, Button } from 'react-native';
 import { ReduxStore } from '@redux';
 import { Provider } from 'react-redux';
 import Appcontainer from './src/router/index';
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import RNRestart from "react-native-restart";
-import {setTopLevelNav} from '@navigation/topLevelRef.js';
+import { setTopLevelNav } from '@navigation/topLevelRef.js';
+import { Component } from 'react';
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1
@@ -14,7 +15,7 @@ Text.defaultProps = {
 class App extends React.Component {
 
   jsExceptionHandler = (e, isFatal) => {
-    console.log("JS Error ", e, "isfatal:", isFatal);
+    //console.log("JS Error ", e, "isfatal:", isFatal);
     //crashlytics().log(e);
     if (isFatal) {
       Alert.alert(
@@ -52,3 +53,4 @@ class App extends React.Component {
   }
 }
 export default App;
+ 

@@ -47,6 +47,8 @@ export const endPoints = {
 
     addCartAPI: APIENDPOINT.endPoint + 'api/Cart/AddCart',
 
+    editCartAPI: APIENDPOINT.endPoint + 'api/Cart/UpdateCarts',
+
     getCartAPI: APIENDPOINT.endPoint + 'api/Cart/GetCart',
 
     postOrderAPI: APIENDPOINT.endPoint + 'api/OrderMaster/AddCustomerOrder',

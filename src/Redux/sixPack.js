@@ -20,6 +20,7 @@ export const SixPackReducer = (state = initialState, action) => {
     case INIT:
       return { ...state, ...data };
     case "MUTATE":
+      console.log('MUTATE_SIX_PACK_REDUCER_1 - ', JSON.stringify(data));
       return { ...state, ...data };
     default:
       return state;
@@ -55,6 +56,7 @@ export const initSixPack = (categoryData) => (dispatch) => {
             let productType = singleSubCategory.SubCategoryName == "Six Pack" ? "Nipper" : "Saucer";
             singleSubCategoryParent = singleSubCategory;
             sixPackData.push({
+              isEditMode: false,
               Category: singleCategory,
               SubCategory: singleSubCategoryParent,
               Products: {
