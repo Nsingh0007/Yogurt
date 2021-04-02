@@ -965,6 +965,7 @@ export const initialSelectedProductData = (categoryData) => (dispatch) => {
         (singleSubCategory) => {
           return {
             SubCategoryId: singleSubCategory.SubCategoryId,
+            isEditMode: false,
             flavours: [],
             bottomflavours: [],
             middleflavours: [],
@@ -986,6 +987,7 @@ export const initialSelectedProductData = (categoryData) => (dispatch) => {
     } else {
       return {
         CategoryId: singleCategory.CategoryId,
+        isEditMode: false,
         isSubCategory: false,
         flavours: [],
         bottomflavours: [],
