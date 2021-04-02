@@ -197,6 +197,7 @@ class ReviewOrder extends Component {
       });
     });
     console.log('ROOT_OBJECT_TEST_2 - ', JSON.stringify(rootObject));
+    rootObject.isEditMode = true;
     return rootObject;
   }
   getFlavorsOrToppingFromStore = (outerKey, innerKey, id) => {
@@ -223,7 +224,7 @@ class ReviewOrder extends Component {
     if (executeSixPackIndex == -1 || Object.keys(executeSixPackRootObject).length == 0) {
       return Alert.alert('Message', "You Can't Edit this Item in Cart");
     }
-
+    executeSixPackRootObject.isEditMode = true;
     const assignSixPackDataToStore = (Products) => {
       let rootProducts = { ...Products };
       let bindObj = [
