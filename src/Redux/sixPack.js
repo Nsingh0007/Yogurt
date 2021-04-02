@@ -56,6 +56,7 @@ export const initSixPack = (categoryData) => (dispatch) => {
             let productType = singleSubCategory.SubCategoryName == "Six Pack" ? "Nipper" : "Saucer";
             singleSubCategoryParent = singleSubCategory;
             sixPackData.push({
+              isEditMode: false,
               Category: singleCategory,
               SubCategory: singleSubCategoryParent,
               Products: {

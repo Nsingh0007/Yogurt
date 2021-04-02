@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View,
   Text,
@@ -11,17 +11,17 @@ import {
   Vibration,
   Image,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Collapsible from 'react-native-collapsible';
 import SwitchToggle from 'react-native-switch-toggle';
 import cross from '../../../../assets/icon/cross1.png';
-import {resetProductReciepe} from '@redux';
-import {connect} from 'react-redux';
+import { resetProductReciepe } from '@redux';
+import { connect } from 'react-redux';
 import nextArrow from '../../../../assets/icon/order/icons8-forward-26.png';
 import cart1 from '../../../../assets/icon/order/cart1.png';
 import cart2 from '../../../../assets/icon/order/cart2.png';
-import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
-import {GetCategorySize, addCart, HostURL} from '@api';
+import { fetchCartDataAsyncCreator } from '@redux/getcart.js';
+import { GetCategorySize, addCart, HostURL } from '@api';
 import index from '../../giftCard';
 import FastImage from 'react-native-fast-image';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -144,7 +144,7 @@ class SelectProduct extends Component {
   };
 
   HandleCandles = () => {
-    const {IsCandle} = this.state;
+    const { IsCandle } = this.state;
     if (IsCandle === true) {
       this.setState({
         IsCandle: false,
@@ -157,7 +157,7 @@ class SelectProduct extends Component {
   };
 
   HandleWhippedCream = () => {
-    const {IsWippedCream} = this.state;
+    const { IsWippedCream } = this.state;
     if (IsWippedCream === true) {
       this.setState({
         IsWippedCream: false,
@@ -171,12 +171,12 @@ class SelectProduct extends Component {
 
   toggleExpanded = () => {
     //Toggling the state of single Collapsible
-    this.setState({collapsed: !this.state.collapsed});
+    this.setState({ collapsed: !this.state.collapsed });
   };
 
   componentDidMount = async () => {
-    const {userDetails, authToken} = this.props.userstore;
-    this.setState({userDetails: userDetails, authToken: authToken});
+    const { userDetails, authToken } = this.props.userstore;
+    this.setState({ userDetails: userDetails, authToken: authToken });
     const selectedSubCategoryId = this.props?.categorystore.selectedCategory
       .subCategory.SubCategoryId;
 
@@ -193,7 +193,7 @@ class SelectProduct extends Component {
     if (GetCategorySizeDetailsResponse.result === true) {
       var categorySize = GetCategorySizeDetailsResponse.response;
     }
-    this.setState({categorySize});
+    this.setState({ categorySize });
     GetCategorySizeDetailsResponse.response.map((singleCategorySize) => {
       if (
         singleCategorySize.SizeName === 'Mini' &&
@@ -208,8 +208,8 @@ class SelectProduct extends Component {
   };
 
   getSelectedPriceDetailsWithPrice = () => {
-    const {selectedSize} = this.state;
-    const {selectedCategory} = this.props?.categorystore;
+    const { selectedSize } = this.state;
+    const { selectedCategory } = this.props?.categorystore;
     return selectedCategory.priceDetails.find((singlePriceDetails, index) => {
       if (selectedCategory.subCategory.IsSize) {
         if (singlePriceDetails.SizeId === selectedSize.SizeId) {
@@ -227,11 +227,11 @@ class SelectProduct extends Component {
   };
 
   handleResetReciepe = () => {
-    const {selectedSize, userDetails} = this.state;
-    const {selectedCategory} = this.props?.categorystore;
-    const {selectedProductData} = this.props?.productstore;
+    const { selectedSize, userDetails } = this.state;
+    const { selectedCategory } = this.props?.categorystore;
+    const { selectedProductData } = this.props?.productstore;
 
-    let {sixPackData} = this.props.sixPackStore;
+    let { sixPackData } = this.props.sixPackStore;
     let sixPackMutateIndex = 0;
     if (selectedCategory.isSixPack) {
       let sixPackLogicContainer = sixPackData.find((single, index) => {
@@ -239,10 +239,10 @@ class SelectProduct extends Component {
         return (
           single.Category.CategoryId === selectedCategory.category.CategoryId &&
           single.SubCategory.SubCategoryId ==
-            selectedCategory.subCategory.SubCategoryId
+          selectedCategory.subCategory.SubCategoryId
         );
       });
-      let {Products} = sixPackLogicContainer;
+      let { Products } = sixPackLogicContainer;
 
       for (let productTopLevelKeys in Products) {
         for (
@@ -255,7 +255,8 @@ class SelectProduct extends Component {
       }
 
       sixPackLogicContainer.Products = Products;
-      sixPackData[sixPackMutateIndex] = sixPackLogicContainer;
+      sixPackLogicContainer.isEditMode = false;
+      sixPackData[sixPackMutateIndex] = { ...sixPackLogicContainer };
       this.setState({
         selectedSize: {},
         comment: '',
@@ -281,6 +282,7 @@ class SelectProduct extends Component {
                 ) {
                   return {
                     ...singleSubCategory,
+                    isEditMode: false,
                     flavours: [],
                     bottomflavours: [],
                     middleflavours: [],
@@ -335,17 +337,18 @@ class SelectProduct extends Component {
   };
 
   addToCartPhase1 = () => {
-    let {selectedCategory} = this.props?.categorystore;
-    let {selectedProductData} = this.props?.productstore;
+    console.log('FULL_STORE_4 - ', JSON.stringify(this.props.reduxStore));
+    let { selectedCategory } = this.props?.categorystore;
+    let { selectedProductData } = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {
       let replicateContent = [
-        {toppings: selectedCategory?.subCategory?.IsTopping},
-        {bottomTopping: selectedCategory?.subCategory?.IsBottomTopping},
-        {middleTopping: selectedCategory?.subCategory?.IsMiddleTopping},
-        {topTopping: selectedCategory?.subCategory?.IsTopTopping},
-        {sideTopping: selectedCategory?.subCategory?.IsSideTopping},
+        { toppings: selectedCategory?.subCategory?.IsTopping },
+        { bottomTopping: selectedCategory?.subCategory?.IsBottomTopping },
+        { middleTopping: selectedCategory?.subCategory?.IsMiddleTopping },
+        { topTopping: selectedCategory?.subCategory?.IsTopTopping },
+        { sideTopping: selectedCategory?.subCategory?.IsSideTopping },
       ];
-      let {categoryIndex} = selectedCategory;
+      let { categoryIndex } = selectedCategory;
       let isLayerItIndexNumber = 0;
       let currentSelectedProduct = selectedProductData[categoryIndex];
       for (index in currentSelectedProduct) {
@@ -389,17 +392,17 @@ class SelectProduct extends Component {
             },
             {
               text: 'Yes',
-              onPress: () => {},
+              onPress: () => { },
               style: 'cancel',
             },
           ],
-          {cancelable: false},
+          { cancelable: false },
         );
       } else {
         this.addToCart();
       }
     } else if (selectedCategory?.category.CategoryName == 'Cones') {
-      let {categoryIndex} = selectedCategory;
+      let { categoryIndex } = selectedCategory;
       let isLayerItIndexNumber = 0;
       let subCategoryIndex =
         selectedCategory?.subCategory?.SubCategoryName == 'Wafer' ? 0 : 1;
@@ -425,11 +428,11 @@ class SelectProduct extends Component {
             },
             {
               text: 'Yes',
-              onPress: () => {},
+              onPress: () => { },
               style: 'cancel',
             },
           ],
-          {cancelable: false},
+          { cancelable: false },
         );
       } else {
         this.addToCart();
@@ -471,11 +474,11 @@ class SelectProduct extends Component {
   };
 
   addToCart = async () => {
-    const {selectedSize, userDetails, additionalInstruction} = this.state;
-    const {selectedCategory} = this.props?.categorystore;
-    const {selectedProductData} = this.props?.productstore;
+    const { selectedSize, userDetails, additionalInstruction } = this.state;
+    const { selectedCategory } = this.props?.categorystore;
+    const { selectedProductData } = this.props?.productstore;
 
-    const {sixPackData} = this.props.sixPackStore;
+    const { sixPackData } = this.props.sixPackStore;
     const sendBody = [];
     const body = {};
     let insData = '';
@@ -567,13 +570,13 @@ class SelectProduct extends Component {
         return (
           single.Category.CategoryId === selectedCategory.category.CategoryId &&
           single.SubCategory.SubCategoryId ==
-            selectedCategory.subCategory.SubCategoryId
+          selectedCategory.subCategory.SubCategoryId
         );
       });
       //Six Pack Body Compose Starts here
       const selectedPriceData = this.getSelectedPriceDetailsWithPrice();
       let bodyToBeAppend = {};
-      const {Products: sixPackSelectedProduct} = sixPackLogicContainer;
+      const { Products: sixPackSelectedProduct } = sixPackLogicContainer;
       let isAllFlavorSelected = 1;
       for (let sixPackReduxIndex in sixPackSelectedProduct) {
         let isProductType = sixPackReduxIndex.toLowerCase().indexOf('topping');
@@ -628,7 +631,7 @@ class SelectProduct extends Component {
           );
         }
       }
-      let updatedBodyAfterAppendData = {...body, ...bodyToBeAppend};
+      let updatedBodyAfterAppendData = { ...body, ...bodyToBeAppend };
       updatedBodyAfterAppendData.isSixPack = true;
       updatedBodyAfterAppendData.IsCandle = this.state.IsCandle;
       updatedBodyAfterAppendData.IsWippedCream = this.state.IsWippedCream;
@@ -1182,7 +1185,7 @@ class SelectProduct extends Component {
                   Alert.alert('Message', 'Select Size');
                 } else if (
                   selectedCategory.subCategory.SubCategoryName ==
-                    'Custom Cakes' &&
+                  'Custom Cakes' &&
                   ((selectedCategory.subCategory.IsBottomFlavor == true &&
                     singleData.bottomflavours.length == 0) ||
                     (selectedCategory.subCategory.IsMiddleFlavor == true &&
@@ -1398,7 +1401,7 @@ class SelectProduct extends Component {
                   Alert.alert('Message', 'Select Flavors');
                 } else if (
                   selectedCategory.subCategory.SubCategoryName ==
-                    'Custom Pies' &&
+                  'Custom Pies' &&
                   singleData.toppings.length === 0
                 ) {
                   Alert.alert('Message', 'Select Toppings');
@@ -1634,7 +1637,7 @@ class SelectProduct extends Component {
   };
 
   render() {
-    const {getParam} = this.props.navigation;
+    const { getParam } = this.props.navigation;
     const {
       CategoryName,
       CategoryId,
@@ -1644,9 +1647,9 @@ class SelectProduct extends Component {
 
     const subCategoryData = getParam('subCategory', {});
     const isSubCategory = getParam('isSubCategory', {});
-    const {selectedProductData} = this.props?.productstore;
+    const { selectedProductData } = this.props?.productstore;
 
-    const {selectedCategory} = this.props?.categorystore;
+    const { selectedCategory } = this.props?.categorystore;
     let selectFlavorsForSpecificCategory = [];
     let selectBottomFlavorsForSpecificCategory = [];
     let selectMiddleFlavorsForSpecificCategory = [];
@@ -1703,8 +1706,8 @@ class SelectProduct extends Component {
       selectTopFlavorsForSpecificCategory = updatedDemo.topflavours;
     }
 
-    const {userDetails, authToken, isUserLoggedIn} = this.props.userstore;
-    const {cartData} = this.props.getCartStore;
+    const { userDetails, authToken, isUserLoggedIn } = this.props.userstore;
+    const { cartData } = this.props.getCartStore;
     const {
       categorySize,
       customDate,
@@ -1731,13 +1734,13 @@ class SelectProduct extends Component {
             style={{width: '100%', height: 200}}
             resizeMode="cover">
             <TouchableOpacity
-              style={{width: 30, margin: 10}}
+              style={{ width: 30, margin: 10 }}
               onPress={() =>
                 IsRedeem == true
                   ? this.props.navigation.navigate('Home')
                   : this.props.navigation.navigate('topNav')
               }>
-              <FastImage source={cross} style={{width: 30, height: 30}} />
+              <FastImage source={cross} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>
           </FastImage>
           {IsRedeem === true ? (
@@ -1753,7 +1756,7 @@ class SelectProduct extends Component {
           ) : null}
 
           {IsRedeem != true ? (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.mainContent}>{CategoryName + ' '}</Text>
               {subCategoryData?.SubCategoryName && isSubCategory && (
                 <Text
@@ -1829,7 +1832,7 @@ class SelectProduct extends Component {
                           borderRadius: 50,
                           backgroundColor:
                             singleCategorySize.SizeName ===
-                            this.state.selectedSize?.SizeName
+                              this.state.selectedSize?.SizeName
                               ? '#505755'
                               : '#262A29',
                         }}
@@ -1894,7 +1897,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -1940,7 +1943,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -1986,7 +1989,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2032,7 +2035,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2077,7 +2080,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2122,7 +2125,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2167,7 +2170,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2212,7 +2215,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2257,7 +2260,7 @@ class SelectProduct extends Component {
 
                   <FastImage
                     source={nextArrow}
-                    style={{width: 15, height: 15, margin: 10, marginEnd: 20}}
+                    style={{ width: 15, height: 15, margin: 10, marginEnd: 20 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -2315,8 +2318,10 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Calender */}
-          {selectedCategory?.category.CategoryName === 'Cakes' ||
-          selectedCategory?.category.CategoryName === 'Pies' ? (
+
+          {selectedCategory.category.CategoryName === 'Cakes' ||
+            selectedCategory.category.CategoryName === 'Pies' ? (
+
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2336,11 +2341,11 @@ class SelectProduct extends Component {
                   <View>
                     <FastImage
                       source={Calender}
-                      style={{height: 40, width: 40}}
+                      style={{ height: 40, width: 40 }}
                     />
                   </View>
                 </TouchableOpacity>
-                <View style={{justifyContent: 'center'}}>
+                <View style={{ justifyContent: 'center' }}>
                   <Text style={styles.subTextContent}>{customDate}</Text>
                 </View>
               </View>
@@ -2363,7 +2368,7 @@ class SelectProduct extends Component {
                   placeholder="Please Type your special instructions"
                   style={styles.textInput}
                   value={this.state.comment}
-                  onChangeText={(comment) => this.setState({comment})}
+                  onChangeText={(comment) => this.setState({ comment })}
                 />
               </View>
             </Fragment>
@@ -2390,9 +2395,9 @@ class SelectProduct extends Component {
                       ) {
                         if (
                           selectedCategory.subCategory.SubCategoryId ===
-                            singleData?.subCategory.SubCategoryId &&
+                          singleData?.subCategory.SubCategoryId &&
                           insData.instruction ===
-                            singleData?.insData.instruction
+                          singleData?.insData.instruction
                         ) {
                           isInsSelected = true;
                         }
@@ -2408,7 +2413,7 @@ class SelectProduct extends Component {
                             });
                           } else {
                             let addData = [...this.state.additionalInstruction];
-                            addData.push({...selectedCategory, insData});
+                            addData.push({ ...selectedCategory, insData });
                             this.setState({
                               additionalInstruction: addData,
                             });
@@ -2426,7 +2431,7 @@ class SelectProduct extends Component {
                           <Text
                             style={[
                               styles.SizeItemText,
-                              {color: isInsSelected ? '#FFF' : '#2D2926'},
+                              { color: isInsSelected ? '#FFF' : '#2D2926' },
                             ]}>
                             {insData.instruction}
                           </Text>
@@ -2451,7 +2456,7 @@ class SelectProduct extends Component {
                   ) {
                     if (
                       selectedCategory.subCategory.SubCategoryId ===
-                        singleData?.subCategory.SubCategoryId &&
+                      singleData?.subCategory.SubCategoryId &&
                       insData.instruction === singleData?.insData.instruction
                     ) {
                       isInsSelected = true;
@@ -2468,7 +2473,7 @@ class SelectProduct extends Component {
                         });
                       } else {
                         let addData = [...this.state.additionalInstruction];
-                        addData.push({...selectedCategory, insData});
+                        addData.push({ ...selectedCategory, insData });
                         this.setState({
                           additionalInstruction: addData,
                         });
@@ -2486,7 +2491,7 @@ class SelectProduct extends Component {
                       <Text
                         style={[
                           styles.SizeItemText,
-                          {color: isInsSelected ? '#FFF' : '#2D2926'},
+                          { color: isInsSelected ? '#FFF' : '#2D2926' },
                         ]}>
                         {insData.instruction}
                       </Text>
@@ -2518,9 +2523,9 @@ class SelectProduct extends Component {
                       ) {
                         if (
                           selectedCategory.subCategory.SubCategoryId ===
-                            singleData?.subCategory.SubCategoryId &&
+                          singleData?.subCategory.SubCategoryId &&
                           insData.instruction ===
-                            singleData?.insData.instruction
+                          singleData?.insData.instruction
                         ) {
                           isInsSelected = true;
                         }
@@ -2536,7 +2541,7 @@ class SelectProduct extends Component {
                             });
                           } else {
                             let addData = [...this.state.additionalInstruction];
-                            addData.push({...selectedCategory, insData});
+                            addData.push({ ...selectedCategory, insData });
                             this.setState({
                               additionalInstruction: addData,
                             });
@@ -2554,7 +2559,7 @@ class SelectProduct extends Component {
                           <Text
                             style={[
                               styles.SizeItemText,
-                              {color: isInsSelected ? '#FFF' : '#2D2926'},
+                              { color: isInsSelected ? '#FFF' : '#2D2926' },
                             ]}>
                             {insData.instruction}
                           </Text>
@@ -2588,9 +2593,9 @@ class SelectProduct extends Component {
                       ) {
                         if (
                           selectedCategory.subCategory.SubCategoryId ===
-                            singleData?.subCategory.SubCategoryId &&
+                          singleData?.subCategory.SubCategoryId &&
                           insData.instruction ===
-                            singleData?.insData.instruction
+                          singleData?.insData.instruction
                         ) {
                           isInsSelected = true;
                         }
@@ -2606,7 +2611,7 @@ class SelectProduct extends Component {
                             });
                           } else {
                             let addData = [...this.state.additionalInstruction];
-                            addData.push({...selectedCategory, insData});
+                            addData.push({ ...selectedCategory, insData });
                             this.setState({
                               additionalInstruction: addData,
                             });
@@ -2624,7 +2629,7 @@ class SelectProduct extends Component {
                           <Text
                             style={[
                               styles.SizeItemText,
-                              {color: isInsSelected ? '#FFF' : '#2D2926'},
+                              { color: isInsSelected ? '#FFF' : '#2D2926' },
                             ]}>
                             {insData.instruction}
                           </Text>
@@ -2658,9 +2663,9 @@ class SelectProduct extends Component {
                       ) {
                         if (
                           selectedCategory.subCategory.SubCategoryId ===
-                            singleData?.subCategory.SubCategoryId &&
+                          singleData?.subCategory.SubCategoryId &&
                           insData.instruction ===
-                            singleData?.insData.instruction
+                          singleData?.insData.instruction
                         ) {
                           isInsSelected = true;
                         }
@@ -2676,7 +2681,7 @@ class SelectProduct extends Component {
                             });
                           } else {
                             let addData = [...this.state.additionalInstruction];
-                            addData.push({...selectedCategory, insData});
+                            addData.push({ ...selectedCategory, insData });
                             this.setState({
                               additionalInstruction: addData,
                             });
@@ -2694,7 +2699,7 @@ class SelectProduct extends Component {
                           <Text
                             style={[
                               styles.SizeItemText,
-                              {color: isInsSelected ? '#FFF' : '#2D2926'},
+                              { color: isInsSelected ? '#FFF' : '#2D2926' },
                             ]}>
                             {insData.instruction}
                           </Text>
@@ -2708,8 +2713,9 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Other */}
-          {selectedCategory?.category.CategoryName === 'Shakes' ||
-          selectedCategory?.category.CategoryName === 'Saucers' ? (
+          {selectedCategory.category.CategoryName === 'Shakes' ||
+            selectedCategory.category.CategoryName === 'Saucers' ? (
+
             <Fragment>
               <View style={styles.borderLine} />
               <View
@@ -2729,9 +2735,9 @@ class SelectProduct extends Component {
                       ) {
                         if (
                           selectedCategory.subCategory.SubCategoryId ===
-                            singleData?.subCategory.SubCategoryId &&
+                          singleData?.subCategory.SubCategoryId &&
                           insData.instruction ===
-                            singleData?.insData.instruction
+                          singleData?.insData.instruction
                         ) {
                           isInsSelected = true;
                         }
@@ -2747,7 +2753,7 @@ class SelectProduct extends Component {
                             });
                           } else {
                             let addData = [...this.state.additionalInstruction];
-                            addData.push({...selectedCategory, insData});
+                            addData.push({ ...selectedCategory, insData });
                             this.setState({
                               additionalInstruction: addData,
                             });
@@ -2765,7 +2771,7 @@ class SelectProduct extends Component {
                           <Text
                             style={[
                               styles.SizeItemText,
-                              {color: isInsSelected ? '#FFF' : '#2D2926'},
+                              { color: isInsSelected ? '#FFF' : '#2D2926' },
                             ]}>
                             {insData.instruction}
                           </Text>
@@ -2829,17 +2835,17 @@ class SelectProduct extends Component {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <View style={{width: '80%'}}>
+          <View style={{ width: '80%' }}>
             <Text
-              style={[styles.subContent, {color: '#bfbfbf', marginStart: 0}]}>
+              style={[styles.subContent, { color: '#bfbfbf', marginStart: 0 }]}>
               Pickup Store
             </Text>
             <View
-              style={{borderBottomWidth: 0.3, borderBottomColor: '#666666'}}>
+              style={{ borderBottomWidth: 0.3, borderBottomColor: '#666666' }}>
               <Text
                 style={[
                   styles.subContent,
-                  {color: '#FFF', margin: 0, marginStart: 0},
+                  { color: '#FFF', margin: 0, marginStart: 0 },
                 ]}>
                 Greenvale, NY 11548
               </Text>
@@ -2847,7 +2853,7 @@ class SelectProduct extends Component {
           </View>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('revieworder')}>
-            <View style={{marginTop: -18}}>
+            <View style={{ marginTop: -18 }}>
               <View
                 style={{
                   zIndex: 10,
@@ -2869,13 +2875,13 @@ class SelectProduct extends Component {
               {cartData.TotalQuantity > 0 || adding ? (
                 <FastImage
                   source={cart2}
-                  style={{width: 45, height: 45}}
+                  style={{ width: 45, height: 45 }}
                   resizeMode="contain"
                 />
               ) : (
                 <FastImage
                   source={cart1}
-                  style={{width: 45, height: 45}}
+                  style={{ width: 45, height: 45 }}
                   resizeMode="contain"
                 />
               )}
@@ -2915,7 +2921,7 @@ class SelectProduct extends Component {
               borderTopRightRadius: 25,
               borderBottomLeftRadius: 25,
               backgroundColor: '#FFF',
-              transform: [{rotateZ: '45deg'}],
+              transform: [{ rotateZ: '45deg' }],
             }}>
             <FastImage
               source={{uri: `${HostURL}${DisplayImage}`}}
@@ -2923,7 +2929,7 @@ class SelectProduct extends Component {
                 height: 37,
                 width: 37,
                 borderRadius: 20,
-                transform: [{rotateZ: '-45deg'}],
+                transform: [{ rotateZ: '-45deg' }],
               }}
             />
           </View>
@@ -3103,7 +3109,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    state,
+    reduxStore: state,
     productstore: state.productstore,
     categorystore: state.categoryStore,
     userstore: state.userstore,
@@ -3118,10 +3124,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(resetProductReciepe(updatedSlectedProduct));
     },
     handleAutoPopulate: (selectedProductData) => {
-      dispatch({type: 'CUPAUTOPOPULATE', data: {selectedProductData}});
+      dispatch({ type: 'CUPAUTOPOPULATE', data: { selectedProductData } });
     },
     mutateSixPackStore: (type, data) => {
-      dispatch({type, data});
+      dispatch({ type, data });
     },
     fetchCartData: () => {
       dispatch(fetchCartDataAsyncCreator());
