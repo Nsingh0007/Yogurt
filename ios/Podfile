@@ -16,6 +16,8 @@ target 'Yogurt' do
 
   pod 'RNSquareInAppPayments', :path => '../node_modules/react-native-square-in-app-payments'
 
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
   target 'YogurtTests' do
     inherit! :complete
     # Pods for testing

@@ -21,7 +21,7 @@ import nextArrow from '../../../../assets/icon/order/icons8-forward-26.png';
 import cart1 from '../../../../assets/icon/order/cart1.png';
 import cart2 from '../../../../assets/icon/order/cart2.png';
 import { fetchCartDataAsyncCreator } from '@redux/getcart.js';
-import { GetCategorySize, addCart, HostURL } from '@api';
+import { GetCategorySize, addCart, HostURL, editCart } from '@api';
 import index from '../../giftCard';
 import FastImage from 'react-native-fast-image';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -122,6 +122,7 @@ class SelectProduct extends Component {
       IsCalender: false,
       adding: false,
       additionalInstruction: [],
+      cartId: this.props.navigation?.getParam('cartId'),
     };
   }
 
@@ -179,10 +180,12 @@ class SelectProduct extends Component {
     this.setState({ userDetails: userDetails, authToken: authToken });
     const selectedSubCategoryId = this.props?.categorystore.selectedCategory
       .subCategory.SubCategoryId;
-
     this.GetCategorySizeData(selectedSubCategoryId);
     this.setState({
       IsRedeem: this.props.navigation?.getParam('IsRedeem'),
+    });
+    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      this.GetCategorySizeData(selectedSubCategoryId);
     });
   };
 
@@ -199,6 +202,12 @@ class SelectProduct extends Component {
         singleCategorySize.SizeName === 'Mini' &&
         this.state.IsRedeem == true
       ) {
+        this.setState({
+          selectedSize: singleCategorySize,
+          collapsed: true,
+        });
+      }
+      if(this.props.navigation.getParam('size') && singleCategorySize.SizeName == this.props.navigation.getParam('size')){
         this.setState({
           selectedSize: singleCategorySize,
           collapsed: true,
@@ -304,6 +313,7 @@ class SelectProduct extends Component {
             };
           } else {
             return Object.assign(singleProduct, {
+              isEditMode: false,
               flavours: [],
               bottomflavours: [],
               middleflavours: [],
@@ -337,7 +347,6 @@ class SelectProduct extends Component {
   };
 
   addToCartPhase1 = () => {
-    console.log('FULL_STORE_4 - ', JSON.stringify(this.props.reduxStore));
     let { selectedCategory } = this.props?.categorystore;
     let { selectedProductData } = this.props?.productstore;
     if (selectedCategory?.subCategory.SubCategoryName == 'Cups') {
@@ -354,7 +363,6 @@ class SelectProduct extends Component {
       for (index in currentSelectedProduct) {
         let lowerCaseIndex = index.toLowerCase();
         if (lowerCaseIndex.indexOf('topping') > -1) {
-          console.log('Selected Product -> ', currentSelectedProduct[index]);
           isLayerItIndexNumber +=
             currentSelectedProduct[index].length > 0 ? 1 : 0;
         }
@@ -485,6 +493,7 @@ class SelectProduct extends Component {
     additionalInstruction.map((ins, insIndex) => {
       insData += `${ins?.insData.instruction}, `;
     });
+    let EditMode = false
     body.Email = userDetails.Email || '';
     body.CategoryId = selectedCategory.category.CategoryId || '';
     body.CategoryName = selectedCategory.category.CategoryName || '';
@@ -963,7 +972,7 @@ class SelectProduct extends Component {
                   Price += selectedPriceData.TopToppingPrice;
                 }
               }
-
+              EditMode = singleProductData?.isEditMode
               body.OrderPrice = Price.toFixed(2);
               sendBody.push(body);
             }
@@ -1168,7 +1177,7 @@ class SelectProduct extends Component {
                 );
                 Price += selectedPriceData.BottomToppingPrice;
               }
-
+              EditMode = singleProductData.isEditMode
               body.OrderPrice = Price.toFixed(2);
               sendBody.push(body);
             }
@@ -1390,6 +1399,7 @@ class SelectProduct extends Component {
                   if (this.state.IsCandle === true) {
                     Price += 2.99;
                   }
+                  EditMode = singleData.isEditMode
                   body.OrderPrice = Price.toFixed(2);
                   sendBody.push(body);
                 }
@@ -1584,6 +1594,7 @@ class SelectProduct extends Component {
                   if (this.state.IsCandle === true) {
                     Price += 2.99;
                   }
+                  EditMode = singleData.isEditMode
                   body.OrderPrice = Price.toFixed(2);
                   sendBody.push(body);
                 }
@@ -1594,7 +1605,7 @@ class SelectProduct extends Component {
       }
     });
     if (sendBody.length > 0) {
-      if (!this.props.navigation.getParam('isEdit')) {
+      if (!EditMode) {
         const addCartResponse = await addCart(sendBody);
         if (addCartResponse.result === true) {
           this.props.fetchCartData();
@@ -1623,13 +1634,23 @@ class SelectProduct extends Component {
           // );
         }
       } else {
+        console.log('BODY ----> ',{...sendBody[0], CartId: this.state.cartId})
         let TempBody = {...sendBody[0], CartId: this.state.cartId};
         const editCartResponse = await editCart(TempBody);
         if (editCartResponse.result === true) {
+          this.setState({
+            adding: true,
+          });
+          console.log('reponse --> ', editCartResponse.response);
           setTimeout(() => {
             this.props.fetchCartData();
             this.handleResetReciepe();
             Vibration.vibrate();
+            setTimeout(() => {
+              this.setState({
+                adding: false,
+              });
+            }, 2000);
           }, 300);
         }
       }
@@ -1650,6 +1671,9 @@ class SelectProduct extends Component {
     const { selectedProductData } = this.props?.productstore;
 
     const { selectedCategory } = this.props?.categorystore;
+    
+    let isEditMode = false;
+
     let selectFlavorsForSpecificCategory = [];
     let selectBottomFlavorsForSpecificCategory = [];
     let selectMiddleFlavorsForSpecificCategory = [];
@@ -1671,6 +1695,7 @@ class SelectProduct extends Component {
           return false;
         }
       });
+      isEditMode = updatedDemo?.isEditMode;
       selectFlavorsForSpecificCategory = updatedDemo?.flavours;
       selectBottomFlavorsForSpecificCategory = updatedDemo?.bottomflavours;
       selectTopTopingsForSpecificCategory = updatedDemo?.topTopping;
@@ -1695,6 +1720,7 @@ class SelectProduct extends Component {
           });
         }
       });
+      isEditMode = updatedDemo?.isEditMode;
       selectFlavorsForSpecificCategory = updatedDemo.flavours;
       selectBottomFlavorsForSpecificCategory = updatedDemo.bottomflavours;
       selectTopTopingsForSpecificCategory = updatedDemo.topTopping;
@@ -1724,7 +1750,6 @@ class SelectProduct extends Component {
           minimumDate={new Date()}
           onConfirm={(date) => {
             this.handleConfirm(date);
-            console.log('Date --> ', date);
           }}
           onCancel={() => this.hideDatePicker()}
         />
@@ -1738,7 +1763,9 @@ class SelectProduct extends Component {
               onPress={() =>
                 IsRedeem == true
                   ? this.props.navigation.navigate('Home')
-                  : this.props.navigation.navigate('topNav')
+                  : this.props.navigation.getParam('cartId') ? 
+                    (this.handleResetReciepe(),this.props.navigation.navigate('topNav'))
+                  :this.props.navigation.navigate('topNav')
               }>
               <FastImage source={cross} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>
@@ -2903,8 +2930,8 @@ class SelectProduct extends Component {
                 ? this.props.navigation.navigate('login')
                 : this.addToCartPhase1()
             }
-            style={styles.addItemButton}>
-            <Text style={styles.addItemText}>Add item</Text>
+            style={[styles.addItemButton,{width: isEditMode ? 150 : 110}]}>
+            <Text style={styles.addItemText}>{isEditMode ? "Update item" : "Add item"  }</Text>
           </TouchableOpacity>
         </View>
         {adding ? (
@@ -3067,7 +3094,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#793422',
     borderRadius: 50,
     height: 46,
-    width: 110,
     justifyContent: 'center',
     alignSelf: 'flex-end',
     marginLeft: 30,

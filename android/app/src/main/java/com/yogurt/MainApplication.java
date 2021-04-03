@@ -6,6 +6,9 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import sqip.react.SquareInAppPaymentsPackage;
 import sqip.react.SquareInAppPaymentsPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
+import sqip.react.SquareInAppPaymentsPackage;
+import sqip.react.SquareInAppPaymentsPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -17,6 +20,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import com.facebook.react.bridge.JSIModulePackage; 
+import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,6 +48,12 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+
+        @Override
+        protected JSIModulePackage getJSIModulePackage() {
+          return new ReanimatedJSIModulePackage();
+        }
+
       };
 
   @Override

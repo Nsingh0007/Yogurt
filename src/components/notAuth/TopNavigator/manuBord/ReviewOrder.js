@@ -161,10 +161,29 @@ class ReviewOrder extends Component {
   }
 
   assignmentData = (rootObject, cartData) => {
+    
     let extractKeysFromCartData = [
       {
         cartDataKey: 'Flavor',
         rootObjectKey: 'flavours',
+        containerKey: 'flavorData',
+        mapKey: 'FlavorId',
+      },
+      {
+        cartDataKey: 'TopFlavor',
+        rootObjectKey: 'topflavours',
+        containerKey: 'flavorData',
+        mapKey: 'FlavorId',
+      },
+      {
+        cartDataKey: 'MiddleFlavor',
+        rootObjectKey: 'middleflavours',
+        containerKey: 'flavorData',
+        mapKey: 'FlavorId',
+      },
+      {
+        cartDataKey: 'BottomFlavor',
+        rootObjectKey: 'bottomflavours',
         containerKey: 'flavorData',
         mapKey: 'FlavorId',
       },
@@ -177,6 +196,18 @@ class ReviewOrder extends Component {
       {
         cartDataKey: 'TopTopping',
         rootObjectKey: 'topTopping',
+        containerKey: 'toppingsData',
+        mapKey: 'ToppingId',
+      },
+      {
+        cartDataKey: 'MiddleTopping',
+        rootObjectKey: 'middleTopping',
+        containerKey: 'toppingsData',
+        mapKey: 'ToppingId',
+      },
+      {
+        cartDataKey: 'SideTopping',
+        rootObjectKey: 'sideTopping',
         containerKey: 'toppingsData',
         mapKey: 'ToppingId',
       },
@@ -206,7 +237,6 @@ class ReviewOrder extends Component {
         }
       });
     });
-    console.log('ROOT_OBJECT_TEST_2 - ', JSON.stringify(rootObject));
     rootObject.isEditMode = true;
     return rootObject;
   };
@@ -300,7 +330,6 @@ class ReviewOrder extends Component {
           return;
         }
       });
-      console.log('ROOT_MIGRATION_1 - ', JSON.stringify(rootProducts));
       return rootProducts;
     };
     executeSixPackRootObject.Products = assignSixPackDataToStore(
@@ -309,7 +338,6 @@ class ReviewOrder extends Component {
     newSixPackStore.sixPackData[executeSixPackIndex] = {
       ...executeSixPackRootObject,
     };
-    console.log('NEW_SIX_PACK_MUTATION_1 - ', JSON.stringify(newSixPackStore));
     this.props.dispatch({type: 'MUTATE', data: newSixPackStore});
     categoryData?.map((singleMenu, categoryIndex) => {
       if (
@@ -328,24 +356,15 @@ class ReviewOrder extends Component {
                 subCategoryIndex,
                 isSubCategory: true,
                 priceDetails: singleMenu.priceDetails,
-                isSixPack:
-                  singleSubCategory.SubCategoryName == 'Six Pack' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers with toppings' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers without toppings',
+                isSixPack: true,
               });
               topLevelNavigate('menuIndex', {
                 category: singleMenu,
                 subCategory: singleSubCategory,
                 isSubCategory: true,
                 priceDetails: singleMenu.priceDetails,
-                isSixPack:
-                  singleSubCategory.SubCategoryName == 'Six Pack' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers with toppings' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers without toppings',
+                isSixPack: true,
+                cartId: singleCartData.CartIdId
               });
             }
           },
@@ -357,7 +376,7 @@ class ReviewOrder extends Component {
   handleCartEdit = (singleCartData, cartIndex) => {
     const {categoryStore, getCartStore} = this.props;
     const {categoryData, loader} = categoryStore;
-
+    console.log('Single Cart Data ---> ',singleCartData);
     if (singleCartData.IsSixPack) {
       return this.handleSixPackEdit(singleCartData, cartIndex);
     }
@@ -398,7 +417,6 @@ class ReviewOrder extends Component {
         selectedProductData.push({...productData});
       }
     });
-    // console.log('FINAL_CODE_CHECK_1 - ', JSON.stringify(singleCartData));
     newProductStore.selectedProductData = [...selectedProductData];
     this.props.dispatch({
       type: 'MUTATE_PRODUCTSTORE_ROOT',
@@ -426,6 +444,8 @@ class ReviewOrder extends Component {
           isSubCategory: false,
           categoryIndex,
           IsRedeem: false,
+          cartId: singleCartData.CartIdId,
+          size: singleCartData.SizeName
         });
       } else if (
         singleCartData.CategoryId == singleMenu.CategoryId &&
@@ -443,24 +463,16 @@ class ReviewOrder extends Component {
                 subCategoryIndex,
                 isSubCategory: true,
                 priceDetails: singleMenu.priceDetails,
-                isSixPack:
-                  singleSubCategory.SubCategoryName == 'Six Pack' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers with toppings' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers without toppings',
+                isSixPack: false,
               });
               topLevelNavigate('menuIndex', {
                 category: singleMenu,
                 subCategory: singleSubCategory,
                 isSubCategory: true,
                 priceDetails: singleMenu.priceDetails,
-                isSixPack:
-                  singleSubCategory.SubCategoryName == 'Six Pack' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers with toppings' ||
-                  singleSubCategory.SubCategoryName ==
-                    'Saucers without toppings',
+                isSixPack: false,
+                cartId: singleCartData.CartIdId,
+                size: singleCartData.SizeName
               });
             }
           },

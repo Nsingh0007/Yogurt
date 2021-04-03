@@ -24,6 +24,7 @@ export {
     RemoveSingleMessage,
     GetItemPrice,
     addCart,
+    editCart,
     getCartDetails,
     addToken,
     postOrder,
