@@ -117,7 +117,7 @@ class SelectProduct extends Component {
       userCartData: [],
       comment: '',
       customDate: '',
-      IsRedeem: false,
+      IsRedeem: this.props.navigation?.getParam('IsRedeem')? this.props.navigation?.getParam('IsRedeem') : false,
       IsLayered: false,
       IsCalender: false,
       adding: false,
@@ -1709,7 +1709,7 @@ class SelectProduct extends Component {
       let updatedDemo = [];
 
       selectedProductData.map((singleMap) => {
-        if (singleMap.CategoryId === selectedCategory.category.CategoryId) {
+        if (singleMap.CategoryId === selectedCategory?.category.CategoryId) {
           singleMap.subCategoryData.map((singleSubCategory) => {
             if (
               singleSubCategory.SubCategoryId ===
@@ -2346,8 +2346,8 @@ class SelectProduct extends Component {
 
           {/* Calender */}
 
-          {selectedCategory.category.CategoryName === 'Cakes' ||
-            selectedCategory.category.CategoryName === 'Pies' ? (
+          {selectedCategory?.category.CategoryName === 'Cakes' ||
+            selectedCategory?.category.CategoryName === 'Pies' ? (
 
             <Fragment>
               <View style={styles.borderLine} />
@@ -2740,8 +2740,8 @@ class SelectProduct extends Component {
           ) : null}
 
           {/* Additional Instructions Other */}
-          {selectedCategory.category.CategoryName === 'Shakes' ||
-            selectedCategory.category.CategoryName === 'Saucers' ? (
+          {selectedCategory?.category.CategoryName === 'Shakes' ||
+            selectedCategory?.category.CategoryName === 'Saucers' ? (
 
             <Fragment>
               <View style={styles.borderLine} />

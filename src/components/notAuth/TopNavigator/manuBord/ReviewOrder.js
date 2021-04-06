@@ -19,7 +19,7 @@ import Add_Item from '../../../../assets/icon/order/Add_Item.png';
 import Minus_Item from '../../../../assets/icon/order/Minus_Item.png';
 import EmptyCart from '../../../../assets/icon/order/EmptyCart.png';
 import {connect} from 'react-redux';
-import { deleteCart, updateCart, HostURL} from '@api';
+import {deleteCart, updateCart, HostURL} from '@api';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import {setCurrentSelectedCategory} from '@redux';
 import {navigateTabRef} from '@navigation/refs';
@@ -161,7 +161,6 @@ class ReviewOrder extends Component {
   }
 
   assignmentData = (rootObject, cartData) => {
-    
     let extractKeysFromCartData = [
       {
         cartDataKey: 'Flavor',
@@ -222,7 +221,7 @@ class ReviewOrder extends Component {
         let id = parseInt(ids);
         let dataFetchFromProductStore = this.props.productstore[
           singleOperation.containerKey
-        ].find((data) => {
+        ].find(data => {
           if (data[singleOperation.mapKey] == id) {
             return true;
           }
@@ -244,7 +243,7 @@ class ReviewOrder extends Component {
   getFlavorsOrToppingFromStore = (outerKey, innerKey, id) => {
     let productStore = this.props.reduxState.productstore;
     let returnData = {};
-    productStore[outerKey].map((i) => {
+    productStore[outerKey].map(i => {
       if (i[innerKey] == id) {
         returnData = {...i};
       }
@@ -274,7 +273,7 @@ class ReviewOrder extends Component {
       return Alert.alert('Message', "You Can't Edit this Item in Cart");
     }
     executeSixPackRootObject.isEditMode = true;
-    const assignSixPackDataToStore = (Products) => {
+    const assignSixPackDataToStore = Products => {
       let rootProducts = {...Products};
       let bindObj = [
         {
@@ -290,15 +289,15 @@ class ReviewOrder extends Component {
           dataProductStoreFetchKey: 'ToppingId',
         },
       ];
-      bindObj.map((bind) => {
+      bindObj.map(bind => {
         try {
           let inCartSelectProduct = JSON.parse(singleCartData[bind.inCartKey]);
 
           rootProducts[bind.inSixPackProductKey] = rootProducts[
             bind.inSixPackProductKey
-          ].map((productTypesData) => {
+          ].map(productTypesData => {
             let findProductsFromCart = inCartSelectProduct.find(
-              (i) => i.type == productTypesData.type,
+              i => i.type == productTypesData.type,
             );
             if (!findProductsFromCart) {
               productTypesData.products = [];
@@ -310,7 +309,7 @@ class ReviewOrder extends Component {
               productTypesData.products = [];
               return {...productTypesData};
             }
-            mapProducts.map((productInCart) => {
+            mapProducts.map(productInCart => {
               let returnObj = {
                 ...this.getFlavorsOrToppingFromStore(
                   bind.dataProductStoreFetch,
@@ -364,7 +363,7 @@ class ReviewOrder extends Component {
                 isSubCategory: true,
                 priceDetails: singleMenu.priceDetails,
                 isSixPack: true,
-                cartId: singleCartData.CartIdId
+                cartId: singleCartData.CartIdId,
               });
             }
           },
@@ -376,7 +375,7 @@ class ReviewOrder extends Component {
   handleCartEdit = (singleCartData, cartIndex) => {
     const {categoryStore, getCartStore} = this.props;
     const {categoryData, loader} = categoryStore;
-    console.log('Single Cart Data ---> ',singleCartData);
+    console.log('Single Cart Data ---> ', singleCartData);
     if (singleCartData.IsSixPack) {
       return this.handleSixPackEdit(singleCartData, cartIndex);
     }
@@ -443,9 +442,9 @@ class ReviewOrder extends Component {
           subCategory: singleMenu.SubCategoryInfolst[0],
           isSubCategory: false,
           categoryIndex,
-          IsRedeem: false,
+          IsRedeem: singleCartData.IsRedeem,
           cartId: singleCartData.CartIdId,
-          size: singleCartData.SizeName
+          size: singleCartData.SizeName,
         });
       } else if (
         singleCartData.CategoryId == singleMenu.CategoryId &&
@@ -472,7 +471,7 @@ class ReviewOrder extends Component {
                 priceDetails: singleMenu.priceDetails,
                 isSixPack: false,
                 cartId: singleCartData.CartIdId,
-                size: singleCartData.SizeName
+                size: singleCartData.SizeName,
               });
             }
           },
@@ -483,7 +482,7 @@ class ReviewOrder extends Component {
 
   getCardData = () => {
     const {userDetails} = this.props.userstore;
-    this.props.fetchCartData((GetCartDataResponse) => {
+    this.props.fetchCartData(GetCartDataResponse => {
       this.setState({spinner: true}, async () => {
         if (GetCartDataResponse.result === true) {
           let SubTotalprice = 0;
@@ -544,7 +543,7 @@ class ReviewOrder extends Component {
     });
   };
 
-  deleteCartById = async (cartId) => {
+  deleteCartById = async cartId => {
     this.Is5hourOrder = false;
     this.setState({pickupTime: 'Pickup Time'});
     const deleteCartResponse = await deleteCart(cartId);
@@ -557,12 +556,12 @@ class ReviewOrder extends Component {
     }
   };
 
-  updateCartForFavoriteItems = async (cartId) => {
+  updateCartForFavoriteItems = async cartId => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
     let body = {};
 
-    this.state.userCartData.map((singleCartData) => {
+    this.state.userCartData.map(singleCartData => {
       if (cartId == singleCartData.CartIdId) {
         body.CartId = singleCartData.CartIdId;
         body.IsFavourite = !singleCartData.IsFavourite;
@@ -580,13 +579,13 @@ class ReviewOrder extends Component {
     }
   };
 
-  updateCartForIncreaseQuantity = async (cartId) => {
+  updateCartForIncreaseQuantity = async cartId => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
 
     let body = {};
 
-    this.state.userCartData.map((singleCartData) => {
+    this.state.userCartData.map(singleCartData => {
       if (cartId == singleCartData.CartIdId) {
         body.IsFavourite = singleCartData.IsFavourite;
         body.CartId = singleCartData.CartIdId;
@@ -605,13 +604,13 @@ class ReviewOrder extends Component {
     }
   };
 
-  updateCartForDecreaseQuantity = async (cartId) => {
+  updateCartForDecreaseQuantity = async cartId => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
 
     let body = {};
     let currentQuantity = 0;
-    this.state.userCartData.map((singleCartData) => {
+    this.state.userCartData.map(singleCartData => {
       if (cartId == singleCartData.CartIdId && singleCartData.Quantity > 1) {
         body.IsFavourite = singleCartData.IsFavourite;
         body.CartId = singleCartData.CartIdId;
@@ -635,7 +634,7 @@ class ReviewOrder extends Component {
     }
   };
 
-  pickName = (name) => {
+  pickName = name => {
     let re = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
     if (name.length <= 25 || name == '') {
       this.setState({
@@ -713,7 +712,7 @@ class ReviewOrder extends Component {
     this.setState({dateArray: [...ShowDate]});
   };
 
-  phoneNoWithDash = (phoneNo) => {
+  phoneNoWithDash = phoneNo => {
     if (phoneNo != undefined) {
       let output = phoneNo;
       let str = phoneNo.split('-').join('');
@@ -745,15 +744,7 @@ class ReviewOrder extends Component {
     return (
       <View style={styles.container}>
         <Spinner visible={spinner} size="large" color="#793422" />
-        <View
-          style={{
-            width: '40%',
-            height: 250,
-            position: 'absolute',
-            zIndex: 5000,
-            right: 15,
-            top: 88,
-          }}>
+        <View style={styles.DropDownView}>
           <DropDownPicker
             items={dateArray}
             scrollViewProps={{
@@ -762,26 +753,14 @@ class ReviewOrder extends Component {
             }}
             placeholder="Pickup Time"
             arrowColor={'#ADA7A5'}
-            placeholderStyle={{
-              color: '#ADA7A5',
-              fontSize: 16,
-              fontFamily: 'OpenSans-SemiBold',
-            }}
-            itemStyle={{
-              color: '#ADA7A5',
-              fontSize: 16,
-              fontFamily: 'OpenSans-SemiBold',
-            }}
-            labelStyle={{
-              color: '#ADA7A5',
-              fontSize: 16,
-              fontFamily: 'OpenSans-SemiBold',
-            }}
+            placeholderStyle={styles.DropDownText}
+            itemStyle={styles.DropDownText}
+            labelStyle={styles.DropDownText}
             containerStyle={{height: Platform.OS === 'ios' ? 38 : 38}}
             dropDownMaxHeight={270}
-            style={{backgroundColor: '#2D2926', borderColor: '#2D2926'}}
-            dropDownStyle={{backgroundColor: '#2D2926', borderColor: '#2D2926'}}
-            onChangeItem={(item) => this.setState({pickupTime: item.value})}
+            style={styles.DropDownStyle}
+            dropDownStyle={styles.DropDownStyle}
+            onChangeItem={item => this.setState({pickupTime: item.value})}
           />
           <View
             style={{
@@ -795,8 +774,6 @@ class ReviewOrder extends Component {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={{
-                borderColor: 'red',
-                borderWidth: 0,
                 width: 30,
                 margin: 10,
               }}
@@ -805,76 +782,32 @@ class ReviewOrder extends Component {
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
               <View style={{justifyContent: 'center', marginEnd: 10}}>
-                <Text
-                  style={{
-                    color: '#FFFFFF',
-                    fontSize: 22,
-                    fontFamily: 'OpenSans-Bold',
-                    fontWeight: '700',
-                    textAlign: 'center',
-                  }}>
+                <Text style={styles.RewardText}>
                   {userDetails.LeftRewardPoints == null
                     ? 0
                     : userDetails.LeftRewardPoints}
                 </Text>
               </View>
-              <FastImage
-                source={snow}
-                style={{
-                  height: 15,
-                  width: 15,
-                  marginTop: 16,
-                  marginEnd: 20,
-                  marginLeft: -5,
-                }}
-              />
+              <FastImage source={snow} style={styles.snowPic} />
             </View>
           </View>
           <View>
-            <Text
-              style={{
-                fontSize: 27,
-                fontFamily: 'OpenSans-Bold',
-                fontWeight: '700',
-                color: '#FFFFFF',
-                alignSelf: 'flex-start',
-                marginStart: 20,
-              }}>
+            <Text style={styles.HeadingText}>
               {`Review Order (${this.props.getCartStore.cartData.TotalQuantity})`}
             </Text>
           </View>
-          <View
-            style={{
-              borderColor: '#666461',
-              borderWidth: 0.5,
-              width: '90%',
-              alignSelf: 'center',
-              marginTop: 5,
-            }}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '94%',
-              marginStart: 10,
-            }}>
+          <View style={styles.HeaderSeperator} />
+          <View style={styles.TextView}>
             <View style={{marginStart: 10, width: '50%'}}>
               <TextInput
-                style={{
-                  color: '#ADA7A5',
-                  fontSize: 16,
-                  fontFamily: 'OpenSans-SemiBold',
-                  marginTop: Platform.OS === 'ios' ? 10 : -5,
-                  borderColor: '#ADA7A5',
-                }}
-                underlineColorAndroid={'#ADA7A5'}
+                style={styles.TextInputStyle}
                 placeholder={'Pickup name'}
                 placeholderTextColor={'#ADA7A5'}
+                underlineColorAndroid={'#ADA7A5'}
                 allowFontScaling={false}
                 fontScale={1}
                 value={this.state.pickupName}
-                onChangeText={(name) => {
+                onChangeText={name => {
                   this.pickName(name);
                 }}
               />
@@ -890,17 +823,12 @@ class ReviewOrder extends Component {
           </View>
           <View style={{marginStart: 20, width: '50%'}}>
             <TextInput
-              style={{
-                color: '#ADA7A5',
-                fontSize: 16,
-                fontFamily: 'OpenSans-SemiBold',
-                marginTop: Platform.OS === 'ios' ? 10 : -5,
-              }}
+              style={styles.TextInputStyle}
               placeholder={'Pickup number'}
               placeholderTextColor={'#ADA7A5'}
               underlineColorAndroid={'#ADA7A5'}
               value={this.phoneNoWithDash(this.state.pickupNumber)}
-              onChangeText={(number) => {
+              onChangeText={number => {
                 this.setState({pickupNumber: this.phoneNoWithDash(number)});
               }}
               maxLength={12}
@@ -947,23 +875,8 @@ class ReviewOrder extends Component {
                     }
                   }
                   return (
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: '#FFFFFF',
-                        width: '100%',
-                        alignSelf: 'center',
-                        justifyContent: 'center',
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          width: '97%',
-                          margin: 10,
-                          borderBottomColor: '#DDDDDD',
-                          borderBottomWidth: 1,
-                          justifyContent: 'space-around',
-                        }}>
+                    <View style={styles.cardView}>
+                      <View style={styles.cardSubView}>
                         <View>
                           <FastImage
                             style={{height: 40, width: 40, marginTop: 5}}
@@ -976,15 +889,8 @@ class ReviewOrder extends Component {
                           style={{
                             width: '67%',
                             paddingStart: 10,
-                            borderWidth: 0,
                           }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: 'bold',
-                              fontFamily: 'OpenSans-Bold',
-                              color: '#414040',
-                            }}>
+                          <Text style={styles.categoryText}>
                             {singleCartData.CategoryName ==
                             singleCartData.SubCategoryName
                               ? `${singleCartData.CategoryName}`
@@ -1171,40 +1077,16 @@ class ReviewOrder extends Component {
                               flexDirection: 'row',
                               marginVertical: 3,
                             }}>
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontFamily: 'OpenSans-Bold',
-                                color: '#505755',
-                              }}>
+                            <Text style={styles.RewardPointText}>
                               {singleCartData.RewardPoints}
                             </Text>
-                            <FastImage
-                              source={snow}
-                              style={{
-                                height: 10,
-                                width: 10,
-                                alignSelf: 'center',
-                                marginLeft: 3,
-                                marginRight: 5,
-                                marginTop: 2,
-                              }}
-                            />
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontFamily: 'OpenSans-Bold',
-                                color: '#505755',
-                              }}>
-                              item
-                            </Text>
+                            <FastImage source={snow} style={styles.RewardImg} />
+                            <Text style={styles.RewardPointText}>item</Text>
                           </View>
                           {
                             <View
                               style={{
                                 flexDirection: 'row',
-                                borderColor: 'red',
-                                borderWidth: 0,
                                 height: 30,
                                 marginVertical: 10,
                               }}>
@@ -1212,8 +1094,6 @@ class ReviewOrder extends Component {
                                 <>
                                   <TouchableOpacity
                                     style={{
-                                      borderColor: 'blue',
-                                      borderWidth: 0,
                                       width: 30,
                                     }}
                                     onPress={() =>
@@ -1248,8 +1128,6 @@ class ReviewOrder extends Component {
                                   <TouchableOpacity
                                     style={{
                                       width: 30,
-                                      borderColor: 'blue',
-                                      borderWidth: 0,
                                       marginStart: 20,
                                     }}
                                     onPress={() =>
@@ -1267,8 +1145,6 @@ class ReviewOrder extends Component {
                               <TouchableOpacity
                                 style={{
                                   width: 30,
-                                  borderColor: 'blue',
-                                  borderWidth: 0,
                                   marginStart: 20,
                                 }}
                                 onPress={() =>
@@ -1291,7 +1167,7 @@ class ReviewOrder extends Component {
                                 style={{
                                   height: 30,
                                   marginStart: 15,
-                                  justifyContent: 'center'
+                                  justifyContent: 'center',
                                 }}
                                 onPress={() =>
                                   this.handleCartEdit(singleCartData, cartIndex)
@@ -1327,54 +1203,17 @@ class ReviewOrder extends Component {
                     }}
                     resizeMode="contain"
                   />
-                  <Text
-                    style={{
-                      color: '#793422',
-                      fontSize: 24,
-                      fontFamily: 'OpenSans-Bold',
-                      fontWeight: 'bold',
-                      marginLeft: 15,
-                    }}>
+                  <Text style={styles.EmptyCartText}>
                     Start your next order
                   </Text>
-                  <Text
-                    style={{
-                      color: '#262A29',
-                      fontSize: 14,
-                      fontFamily: 'OpenSans-SemiBold',
-                      marginLeft: 15,
-                      marginTop: 10,
-                    }}>
+                  <Text style={styles.EmptyCartSubText}>
                     {`As you add menu items, they'll appear here.\nYou'll have a chance to review before placing your order.`}
                   </Text>
                   <TouchableOpacity
-                    style={{
-                      height: 50,
-                      width: 150,
-                      backgroundColor: '#793422',
-                      borderRadius: 25,
-                      marginLeft: 15,
-                      marginTop: 15,
-                      justifyContent: 'center',
-                    }}
+                    style={styles.EmptyCartBtnTouch}
                     onPress={() => this.props.navigation.navigate('topNav')}>
-                    <View
-                      style={{
-                        height: 50,
-                        width: 150,
-                        backgroundColor: '#793422',
-                        borderRadius: 25,
-                        justifyContent: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          fontSize: 22,
-                          fontFamily: 'OpenSans-SemiBold',
-                          color: '#FFF',
-                        }}>
-                        Add Item
-                      </Text>
+                    <View style={styles.EmptyCartBtnView}>
+                      <Text style={styles.EmptyCartBtnText}>Add Item</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -1384,26 +1223,11 @@ class ReviewOrder extends Component {
         ) : null}
 
         {this.state.userCartData.length > 0 ? (
-          <View
-            style={{
-              position: 'absolute',
-              right: 10,
-              left: 10,
-              right: 10,
-              bottom: 10,
-            }}>
+          <View style={styles.checkoutButtonView}>
             <TouchableOpacity
               onPress={() => this.Show_Custom_Alert()}
               disabled={this.state.userCartData.length < 1}
-              style={{
-                backgroundColor: '#793422',
-                justifyContent: 'center',
-                borderRadius: 50,
-                height: 46,
-                width: '30%',
-                alignSelf: 'flex-end',
-                marginLeft: 30,
-              }}>
+              style={styles.checkoutButtonTouch}>
               <Text style={styles.checkoutButton}>Checkout</Text>
             </TouchableOpacity>
           </View>
@@ -1446,15 +1270,160 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     textAlign: 'center',
   },
+  checkoutButtonView: {
+    position: 'absolute',
+    right: 10,
+    left: 10,
+    right: 10,
+    bottom: 10,
+  },
+  checkoutButtonTouch: {
+    backgroundColor: '#793422',
+    justifyContent: 'center',
+    borderRadius: 50,
+    height: 46,
+    width: '30%',
+    alignSelf: 'flex-end',
+    marginLeft: 30,
+  },
   changeItem: {
     fontSize: 14,
     fontWeight: '800',
     lineHeight: 19,
     color: '#793422',
   },
+  DropDownText: {
+    color: '#ADA7A5',
+    fontSize: 16,
+    fontFamily: 'OpenSans-SemiBold',
+  },
+  DropDownStyle: {
+    backgroundColor: '#2D2926',
+    borderColor: '#2D2926',
+  },
+  DropDownView: {
+    width: '40%',
+    height: 250,
+    position: 'absolute',
+    zIndex: 5000,
+    right: 15,
+    top: 88,
+  },
+  RewardText: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontFamily: 'OpenSans-Bold',
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  snowPic: {
+    height: 15,
+    width: 15,
+    marginTop: 16,
+    marginEnd: 20,
+    marginLeft: -5,
+  },
+  HeadingText: {
+    fontSize: 27,
+    fontFamily: 'OpenSans-Bold',
+    fontWeight: '700',
+    color: '#FFFFFF',
+    alignSelf: 'flex-start',
+    marginStart: 20,
+  },
+  HeaderSeperator: {
+    borderColor: '#666461',
+    borderWidth: 0.5,
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 5,
+  },
+  TextView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '94%',
+    marginStart: 10,
+  },
+  TextInputStyle: {
+    color: '#ADA7A5',
+    fontSize: 16,
+    fontFamily: 'OpenSans-SemiBold',
+    marginTop: Platform.OS === 'ios' ? 10 : -5,
+    borderColor: '#ADA7A5',
+  },
+  cardView: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  cardSubView: {
+    flexDirection: 'row',
+    width: '97%',
+    margin: 10,
+    borderBottomColor: '#DDDDDD',
+    borderBottomWidth: 1,
+    justifyContent: 'space-around',
+  },
+  categoryText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: 'OpenSans-Bold',
+    color: '#414040',
+  },
+  RewardPointText: {
+    fontSize: 14,
+    fontFamily: 'OpenSans-Bold',
+    color: '#505755',
+  },
+  RewardImg: {
+    height: 10,
+    width: 10,
+    alignSelf: 'center',
+    marginLeft: 3,
+    marginRight: 5,
+    marginTop: 2,
+  },
+  EmptyCartText: {
+    color: '#793422',
+    fontSize: 24,
+    fontFamily: 'OpenSans-Bold',
+    fontWeight: 'bold',
+    marginLeft: 15,
+  },
+  EmptyCartSubText: {
+    color: '#262A29',
+    fontSize: 14,
+    fontFamily: 'OpenSans-SemiBold',
+    marginLeft: 15,
+    marginTop: 10,
+  },
+  EmptyCartBtnTouch: {
+    height: 50,
+    width: 150,
+    backgroundColor: '#793422',
+    borderRadius: 25,
+    marginLeft: 15,
+    marginTop: 15,
+    justifyContent: 'center',
+  },
+  EmptyCartBtnView: {
+    height: 50,
+    width: 150,
+    backgroundColor: '#793422',
+    borderRadius: 25,
+    justifyContent: 'center',
+  },
+  EmptyCartBtnText: {
+    textAlign: 'center',
+    fontSize: 22,
+    fontFamily: 'OpenSans-SemiBold',
+    color: '#FFF',
+  },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     reduxState: state,
     productstore: state.productstore,
@@ -1464,13 +1433,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    fetchCartData: (cb) => {
+    fetchCartData: cb => {
       dispatch(fetchCartDataAsyncCreator(cb));
     },
-    setCurrentSelectedCategoryDispatch: (categoryData) => {
+    setCurrentSelectedCategoryDispatch: categoryData => {
       dispatch(setCurrentSelectedCategory(categoryData));
     },
   };
