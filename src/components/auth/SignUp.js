@@ -39,10 +39,9 @@ import eyePassword from '../../assets/icon/eyePassword.png';
 import FloatingLabel from 'react-native-floating-labels';
 
 import userLogo from '../../assets/icon/Successfully_Reset_Password.png';
+import { NotificationService } from '@service';
 
-import { createUser } from '@api';
-
-import firebase from 'react-native-firebase';
+import { createUser } from '@api'; 
 
 const HEADER_MAX_HEIGHT = 110;
 const HEADER_MIN_HEIGHT = 70;
@@ -83,54 +82,10 @@ class SignUp extends Component {
     this.setState({ showPassword: !this.state.showPassword });
   }
 
-  componentDidMount = async () => {
-    const fcmToken = await this.checkPermission();
-    if (fcmToken != '' || fcmToken != undefined || fcmToken != null) {
-      this.setState({ fcmToken })
-    }
-  }
+  componentDidMount = async () => { 
+  }    
 
-  checkPermission = async () => {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      const Token = this.getFcmToken();
-      return Token
-    } else {
-      this.requestPermission();
-    }
-  }
-
-  getFcmToken = async () => {
-    const fcmToken = await firebase.messaging().getToken();
-    if (fcmToken) {
-      console.log('FCM Token from signUp ========', fcmToken);
-    } else {
-      console.log('FCM Token ========', 'No token received');
-      return null
-    }
-    return fcmToken
-  }
-
-  requestPermission = async () => {
-    try {
-      await firebase.messaging().requestPermission();
-      // User has authorised
-    } catch (error) {
-      // User has rejected permissions
-    }
-  }
-
-  messageListener = async () => {
-    const notificationListener = firebase.notifications().onNotification((notification) => {
-      firebase.notifications().displayNotification(notification)
-    });
-
-    const messageListener = firebase.messaging().onMessage((message) => {
-      console.log(JSON.stringify(message));
-    });
-  }
-
-  UserRegistrationFunction = async () => {
+  UserRegistrationFunction = async () => { 
     this.setState({ spinner: true });
     const { FirstName, LastName, EmailId, Password, MobileNumber, fcmToken } = this.state;
     let Mobile = MobileNumber.split('-').join('');
@@ -140,9 +95,9 @@ class SignUp extends Component {
       EmailId,
       Password,
       MobileNumber: Mobile,
-      IsTokenAvailable: fcmToken === '' ? false : true,
+      IsTokenAvailable: NotificationService.hasToken && NotificationService.hasPermission,
       TokenUpdateTime: new Date().toISOString(),
-      DeviceToken: fcmToken,
+      DeviceToken: NotificationService.getToken(),
       IsInboxNotification: true,
       IsOrderNotification: true,
     });

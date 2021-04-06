@@ -31,9 +31,8 @@ import {connect} from 'react-redux';
 import {validateIsUserLoggedIn, getMessageData, updateUserOnEdit} from '@redux';
 import BottomNavigator from '../../router/BottomNavigator';
 import {GetSliderByUser, getCartDetails, HostURL} from '@api';
-import firebase from 'react-native-firebase';
-import FastImage from 'react-native-fast-image';
-import PushNotification from 'react-native-push-notification';
+import { NotificationService } from '@service';
+import FastImage from 'react-native-fast-image'; 
 import VersionCheck from 'react-native-version-check';
 
 const HEADER_MAX_HEIGHT = 200;
@@ -71,8 +70,9 @@ class Home extends Component {
   componentDidMount = async () => {
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
-    this.checkPermission();
-    this.messageListener();
+    // this.checkPermission();
+    // this.messageListener();
+    NotificationService.init();
     const {isUserLoggedIn} = this.props.userstore;
 
     setTimeout(() => {
@@ -158,53 +158,11 @@ class Home extends Component {
     }
   };
 
-  checkPermission = async () => {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      const Token = this.getFcmToken();
-      return Token;
-    } else {
-      this.requestPermission();
-    }
-  };
+  
 
-  getFcmToken = async () => {
-    const fcmToken = await firebase.messaging().getToken();
-    if (fcmToken) {
-      console.log('FCM Token from Home ========', fcmToken);
-    } else {
-      console.log('FCM Token ========', 'No token received');
-      return null;
-    }
-    return fcmToken;
-  };
+  
 
-  requestPermission = async () => {
-    try {
-      await firebase.messaging().requestPermission();
-      // User has authorised
-    } catch (error) {
-      // User has rejected permissions
-    }
-  };
-
-  messageListener = async () => {
-    if (Platform.OS === 'ios') {
-      const forgraoundNotificationListener = firebase
-        .notifications()
-        .onNotification((notification) => {
-          console.log('Notification forground----- ', notification);
-          new firebase.notifications().displayNotification(notification);
-        });
-    } else {
-      const messageListener = firebase.messaging().onMessage((message) => {
-        PushNotification.localNotification({
-          smallIcon: 'ic_notification',
-          message,
-        });
-      });
-    }
-  };
+  
 
   fetchGetCategory = async () => {
     this.props.fetchCategoryData();

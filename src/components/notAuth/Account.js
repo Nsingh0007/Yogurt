@@ -17,8 +17,7 @@ import rightArrow from '../../assets/icon/order/icons8-forward-26.png'
 import { userLogoutSucess, updateUserOnEdit } from '@redux';
 import { UpdateNotificationData, addToken } from '@api'
 import { connect } from 'react-redux';
-import FastImage from 'react-native-fast-image';
-import firebase from 'react-native-firebase';
+import FastImage from 'react-native-fast-image'; 
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -36,50 +35,18 @@ class Account extends Component {
     };
   }
 
-  componentDidMount = async () => {
-    const fcmToken = await this.checkPermission();
-    if (fcmToken != '' || fcmToken != undefined || fcmToken != null) {
-      this.setState({ fcmToken })
-    }
-  };
-
-  checkPermission = async () => {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      const Token = this.getFcmToken();
-      return Token
-    } else {
-      this.requestPermission();
-    }
-  }
-
-  getFcmToken = async () => {
-    const fcmToken = await firebase.messaging().getToken();
-    if (fcmToken) {
-      console.log('FCM Token from Login ========', fcmToken);
-    } else {
-      console.log('FCM Token ========', 'No token received');
-      return null
-    }
-    return fcmToken
-  }
-
-  requestPermission = async () => {
-    try {
-      await firebase.messaging().requestPermission();
-      // User has authorised
-    } catch (error) {
-      // User has rejected permissions
-    }
-  }
+  componentDidMount = async () => { 
+  };   
 
   addFcmToken = async () => {
-    let body = {
-      IsTokenAvailable: false,
-      TokenUpdateTime: new Date().toISOString(),
-      DeviceToken: this.state.fcmToken,
-    }
-    const FcmTokenUpdate = await addToken(body)
+    if (NotificationService.hasToken && NotificationService.hasPermission) {
+      let body = {
+        IsTokenAvailable: true,
+        TokenUpdateTime: new Date().toISOString(),
+        DeviceToken: NotificationService.getToken()
+      }
+      const FcmTokenUpdate = await addToken(body); 
+    } 
   }
 
   handleNotificationToggle = (ToggleOf) => {

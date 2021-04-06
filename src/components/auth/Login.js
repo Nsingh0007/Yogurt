@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,14 @@ LogBox.ignoreAllLogs()
 import Spinner from 'react-native-loading-spinner-overlay';
 import eyePassword from '../../assets/icon/eyePassword.png';
 import eyePassword1 from '../../assets/icon/eyePassword1.png';
-import {connect} from 'react-redux';
-import {updateUserTree} from '@redux';
+import { connect } from 'react-redux';
+import { updateUserTree } from '@redux';
 import FloatingLabel from 'react-native-floating-labels';
-import {loginUser,addToken} from '@api';
-import firebase from 'react-native-firebase';
-
-Text.defaultProps={
-  allowFontScaling:false,
-  fontScale:1
+import { loginUser, addToken } from '@api'; 
+import { NotificationService } from '@service';
+Text.defaultProps = {
+  allowFontScaling: false,
+  fontScale: 1
 }
 
 class Login extends Component {
@@ -36,82 +35,40 @@ class Login extends Component {
       showPassword: true,
       spinner: false,
       Alert_Visibility: false,
-      invalidCredentials: null,
-      fcmToken:''
+      invalidCredentials: null, 
     };
     this.toggleSwitch = this.toggleSwitch.bind(this);
   }
   toggleSwitch() {
-    this.setState({showPassword: !this.state.showPassword});
+    this.setState({ showPassword: !this.state.showPassword });
   }
 
-  componentDidMount = async () => {
-    const fcmToken = await this.checkPermission();
-    if(fcmToken != '' || fcmToken != undefined || fcmToken != null){
-      this.setState({fcmToken})
+  componentDidMount = async () => { 
+  }    
+
+  addFcmToken = async () => {
+    if (NotificationService.hasToken && NotificationService.hasPermission) {
+      let body = {
+        IsTokenAvailable: true,
+        TokenUpdateTime: new Date().toISOString(),
+        DeviceToken: NotificationService.getToken()
+      }
+      const FcmTokenUpdate = await addToken(body)
+      console.log('FCM Token Response Login ---- ', FcmTokenUpdate)
     }
-  }
-
-  checkPermission = async () => {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      const Token = this.getFcmToken();
-      return Token
-    } else {
-      this.requestPermission();
-    }
-  }
-
-  getFcmToken = async () => {
-    const fcmToken = await firebase.messaging().getToken();
-    if (fcmToken) {
-      console.log('FCM Token from Login ========', fcmToken);
-    } else {
-      console.log('FCM Token ========', 'No token received');
-      return null
-    }
-    return fcmToken
-  }
-
-  requestPermission = async () => {
-    try {
-      await firebase.messaging().requestPermission();
-      // User has authorised
-    } catch (error) {
-      // User has rejected permissions
-    }
-  }
-
-  messageListener = async () => {
-    const notificationListener = firebase.notifications().onNotification((notification) => {
-      firebase.notifications().displayNotification(notification)
-    });
-
-    const messageListener = firebase.messaging().onMessage((message) => {
-      console.log(JSON.stringify(message));
-    });
-  }
-
-  addFcmToken = async ()=>{
-    let body={
-      IsTokenAvailable: true,
-      TokenUpdateTime: new Date().toISOString(),
-      DeviceToken: this.state.fcmToken,
-    }
-    const FcmTokenUpdate = await addToken(body)
-    console.log('FCM Token Response Login ---- ', FcmTokenUpdate)
   }
 
   userLoginFunction = async () => {
     try {
-      this.setState({spinner: true});
-      const {Email, Password} = this.state;
+       
+      this.setState({ spinner: true });
+      const { Email, Password } = this.state;
       const loginUserResponse = await loginUser(Email, Password);
-      
+
       if (loginUserResponse.result === true) {
         // check for send the data to the profile screen........
         this.props.updateUserTreeOnLogin(loginUserResponse.response);
-        
+
         setTimeout(() => {
           this.setState({
             spinner: !this.state.spinner,
@@ -121,23 +78,24 @@ class Login extends Component {
         }, 300);
       } else {
         if (loginUserResponse.result == '122') {
-          Alert.alert('Message', 'Invalid Credentials', [{text: 'Okay'}]);
+          Alert.alert('Message', 'Invalid Credentials', [{ text: 'Okay' }]);
         } else {
           Alert.alert('Error', 'Try Again');
           console.log('getting error here on else-------------');
         }
       }
     } catch (error) {
-      this.setState({invalidCredentials: true, spinner: false});
+      this.setState({ invalidCredentials: true, spinner: false });
     }
   };
 
   myAlert = (title = '', message = '') => {
     Alert.alert(title, message);
   };
-  
+
   validateUser = () => {
-    const {Email, Password} = this.state;
+    console.log("NOTIICATION_PERMISSION_GIVEN - ", NotificationService.hasPermission);
+    const { Email, Password } = this.state;
 
     if (Email.length === 0) {
       this.myAlert('Message', 'Please enter your email');
@@ -154,7 +112,7 @@ class Login extends Component {
   };
 
   Show_Custom_Alert(visible) {
-    this.setState({Alert_Visibility: visible});
+    this.setState({ Alert_Visibility: visible });
   }
 
 
@@ -180,24 +138,24 @@ class Login extends Component {
   };
 
   render() {
-    const {invalidCredentials} = this.state;
+    const { invalidCredentials } = this.state;
     return (
       <View style={styles.container}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.spinner}
           color="#793422"
-          //Text with the Spinner
+        //Text with the Spinner
         />
         <View>
           <View style={styles.header}>
             <View style={styles.headerView}>
               <TouchableOpacity
-                style={{width:30,marginStart:15}}
-                  onPress={() => this.props.navigation.navigate('Home')}>
+                style={{ width: 30, marginStart: 15 }}
+                onPress={() => this.props.navigation.navigate('Home')}>
                 <FastImage
                   source={cross}
-                  style={{width: 30, height: 30,}}
+                  style={{ width: 30, height: 30, }}
                 />
               </TouchableOpacity>
 
@@ -217,20 +175,20 @@ class Login extends Component {
                     marginStart: 15,
                     width: '95%',
                     borderColor: '#F9F9F9',
-                    fontWeight:'700',
+                    fontWeight: '700',
                     borderBottomColor:
                       invalidCredentials && invalidCredentials
                         ? 'red'
                         : '#E5E5E5',
-                    borderWidth: Platform.OS === 'ios'?2:0,
+                    borderWidth: Platform.OS === 'ios' ? 2 : 0,
                   }}
 
                   value={this.state.Email}
                   onChangeText={(Email) => {
                     if (invalidCredentials) {
-                      this.setState({invalidCredentials: false});
+                      this.setState({ invalidCredentials: false });
                     }
-                    this.setState({Email});
+                    this.setState({ Email });
                   }}
                   style={styles.formInput}>
                   Email
@@ -245,7 +203,7 @@ class Login extends Component {
                     padding: 4,
                     borderColor: 'blue',
                   }}>
-                  <View style={{width: '98%', marginStart: 10}}>
+                  <View style={{ width: '98%', marginStart: 10 }}>
                     <FloatingLabel
                       labelStyle={{
                         color: '#505755',
@@ -255,47 +213,47 @@ class Login extends Component {
                       inputStyle={{
                         fontSize: 15,
                         width: '100%',
-                        fontWeight:'700',
+                        fontWeight: '700',
                         borderColor: '#F9F9F9',
                         borderBottomColor:
                           invalidCredentials && invalidCredentials
                             ? 'red'
                             : '#E5E5E5',
-                        borderWidth: Platform.OS === 'ios'?2:0,
+                        borderWidth: Platform.OS === 'ios' ? 2 : 0,
                       }}
                       value={this.state.Password}
                       password={this.state.showPassword}
                       onChangeText={(Password) => {
                         if (invalidCredentials) {
-                          this.setState({invalidCredentials: false});
+                          this.setState({ invalidCredentials: false });
                         }
-                        this.setState({Password});
+                        this.setState({ Password });
                       }}>
                       Password
                     </FloatingLabel>
                   </View>
                   <TouchableOpacity
-                    style={{ height:30, width:30, marginLeft:-40, marginTop:17}}
+                    style={{ height: 30, width: 30, marginLeft: -40, marginTop: 17 }}
                     onPress={this.toggleSwitch}
                     value={!this.state.showPassword}>
                     {
-                      !this.state.showPassword?
-                      <FastImage
-                        source={eyePassword}
-                        style={{width: 30, height: 30, resizeMode:'contain'}}
-                      />:
-                      <FastImage
-                        source={eyePassword1}
-                        style={{width: 30, height: 30, resizeMode:'contain'}}
-                      />
+                      !this.state.showPassword ?
+                        <FastImage
+                          source={eyePassword}
+                          style={{ width: 30, height: 30, resizeMode: 'contain' }}
+                        /> :
+                        <FastImage
+                          source={eyePassword1}
+                          style={{ width: 30, height: 30, resizeMode: 'contain' }}
+                        />
                     }
                   </TouchableOpacity>
                 </View>
               </View>
               {invalidCredentials && invalidCredentials === true ? (
-              <this.displayErrorMessage />
+                <this.displayErrorMessage />
               )
-              :null
+                : null
               }
             </View>
 
@@ -316,7 +274,7 @@ class Login extends Component {
 
             <View>
               <TouchableOpacity
-                style={{borderColor:'red',borderWidth:0,width:150,marginStart:25,}}
+                style={{ borderColor: 'red', borderWidth: 0, width: 150, marginStart: 25, }}
                 onPress={() =>
                   this.props.navigation.navigate('forgotpassword')
                 }>
@@ -329,42 +287,42 @@ class Login extends Component {
                   Forgot Password?
                 </Text>
               </TouchableOpacity>
-              
+
             </View>
-            
+
           </View>
         </ScrollView>
 
         <View
-            style={{              
-              position: 'absolute',
-              right: 10,
-              left: 10,            
-              right: 10,
-              bottom: 70,
+          style={{
+            position: 'absolute',
+            right: 10,
+            left: 10,
+            right: 10,
+            bottom: 70,
+          }}>
+          <TouchableOpacity
+            onPress={this.validateUser}
+            style={{
+              backgroundColor: '#793422',
+              borderRadius: 50,
+              width: 100,
+              height: 35,
+              alignSelf: 'flex-end',
+              margin: 10,
+              justifyContent: 'center'
             }}>
-            <TouchableOpacity
-                onPress={this.validateUser}
-                style={{
-                  backgroundColor: '#793422',
-                  borderRadius: 50,
-                  width: 100,
-                  height: 35,
-                  alignSelf: 'flex-end',
-                  margin: 10,
-                  justifyContent:'center'
-                }}>
-                <Text
-                  style={{
-                    color: '#FFF',
-                    textAlign:'center',                   
-                    fontFamily: 'OpenSans-SemiBold',
-                    fontSize: 14,
-                  }}>
-                  Sign in
+            <Text
+              style={{
+                color: '#FFF',
+                textAlign: 'center',
+                fontFamily: 'OpenSans-SemiBold',
+                fontSize: 14,
+              }}>
+              Sign in
                 </Text>
-              </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
+        </View>
 
 
 
@@ -380,8 +338,8 @@ class Login extends Component {
               // backgroundColor:'#FFF',
               backgroundColor: 'rgba(0,0,0,0.5)',
               flex: 1,
-              justifyContent:'center',
-              alignItems:'center'
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
             <View
               style={{
@@ -390,10 +348,10 @@ class Login extends Component {
                 backgroundColor: '#ffffff',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: 10,             
-                borderRadius: 10,                
+                margin: 10,
+                borderRadius: 10,
               }}>
-              <View style={{justifyContent:'center',alignItems:'center'}}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -420,12 +378,12 @@ class Login extends Component {
                 style={{
                   flex: 1,
                   flexDirection: 'row',
-                  alignSelf:'center',
+                  alignSelf: 'center',
                   margin: 10,
                   marginStart: 30,
                   marginEnd: 10,
                 }}>
-                
+
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Home')}
                   style={{
@@ -435,15 +393,15 @@ class Login extends Component {
                     backgroundColor: '#793422',
                     margin: 20,
                     width: '20%',
-                    justifyContent:'center'
+                    justifyContent: 'center'
                   }}>
                   <Text
                     style={{
                       color: '#FFF',
                       fontSize: 14,
                       fontWeight: '700',
-                     textAlign:'center'
-                    
+                      textAlign: 'center'
+
                     }}>
                     Yes
                   </Text>
@@ -466,9 +424,9 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#fff',
     height: 100,
-    borderBottomColor:'#414040',
-    borderWidth:0.5,
-    borderColor:'#FFFFFF',
+    borderBottomColor: '#414040',
+    borderWidth: 0.5,
+    borderColor: '#FFFFFF',
   },
   headerView: {
     flexDirection: 'column',
@@ -476,8 +434,8 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontFamily: 'OpenSans-SemiBold',
-    marginTop:20,
-    marginStart:20,
+    marginTop: 20,
+    marginStart: 20,
     color: '#000',
   },
   headerImageView: {
