@@ -134,12 +134,7 @@ export default class Contact extends Component {
             </View>
 
           </View>
-        </View>
-        <BottomNavigator
-          currentRoute={"Contact"}
-          navigation={this.props.navigation}
-        >
-        </BottomNavigator>
+        </View> 
       </View>
     );
   }

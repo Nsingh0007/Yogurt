@@ -14,7 +14,7 @@ import cart2 from '../../../assets/icon/order/cart2.png';
 import PreviousIcon from '../../../assets/icon/PreviousIcon.png';
 import {getCartDetails, FeaturePageByUser, HostURL} from '@api';
 import {NavigationActions} from 'react-navigation';
-import {navigateTabRef} from '@navigation/refs';
+import {navigateTopTabRef} from '@navigation/topTabRef';
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
@@ -138,7 +138,7 @@ class Featured extends Component {
                         <TouchableOpacity
                           onPress={() => {
                             console.log('Featured');
-                            navigateTabRef('Menu');
+                            navigateTopTabRef('Menu');
                           }}
                           style={{
                             backgroundColor: '#793422',
@@ -200,69 +200,7 @@ class Featured extends Component {
             </View> */
           )}
         </ScrollView>
-        <View
-          style={{
-            height: 65,
-            backgroundColor: '#262A29',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-          }}>
-          <View style={{width: '80%'}}>
-            <Text
-              style={[styles.subContent, {color: '#bfbfbf', marginStart: 0}]}>
-              Pickup Store
-            </Text>
-            <View
-              style={{borderBottomWidth: 0.3, borderBottomColor: '#666666'}}>
-              <Text
-                style={[
-                  styles.subContent,
-                  {color: '#FFF', margin: 0, marginStart: 0},
-                ]}>
-                Greenvale, NY 11548
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity onPress={() => topLevelNavigate('revieworder')}>
-            <View style={{marginTop: -18}}>
-              <View
-                style={{
-                  zIndex: 10,
-                  height: 28,
-                  width: 27,
-                  top: 40,
-                  right: -9,
-                }}>
-                <Text
-                  style={{
-                    color: '#FFF',
-                    fontSize: 18,
-                    fontFamily: 'OpenSans-SemiBold',
-                    textAlign: 'center',
-                  }}>
-                  {cartData.TotalQuantity}
-                </Text>
-              </View>
-              {cartData.TotalQuantity > 0 ? (
-                <FastImage
-                  source={cart2}
-                  style={{width: 45, height: 45}}
-                  resizeMode="contain"
-                />
-              ) : (
-                <FastImage
-                  source={cart1}
-                  style={{width: 45, height: 45}}
-                  resizeMode="contain"
-                />
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
-        <BottomNavigator
-          currentRoute={'Order'}
-          navigation={this.props.navigation}
-        />
+        
       </View>
     );
   }

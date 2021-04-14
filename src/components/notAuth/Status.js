@@ -591,10 +591,7 @@ class Status extends Component {
               </Text>
             </View>
           </View>
-        )}
-        <BottomNavigator
-          currentRoute={'Status'}
-          navigation={this.props.navigation}></BottomNavigator>
+        )} 
       </View>
     );
   }

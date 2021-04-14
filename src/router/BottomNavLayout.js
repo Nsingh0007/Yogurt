@@ -8,12 +8,13 @@ class BottomNavLayout extends Component {
   }
   
   render() {
-    let { currentRoute } = this.props;
+    let { currentRoute, rootLevelNavigate } = this.props;
     return (
       <React.Fragment>
-        <ScrollView bounces={false} style={{ backgroundColor: '#f1f3f5' }}>{this.props.children}</ScrollView>
+        {/* <ScrollView bounces={false} style={{ backgroundColor: '#f1f3f5' }}>{this.props.children}</ScrollView> */}
         <BottomNavigator currentRoute={currentRoute}
-          navigation={this.props.navigation} />
+          navigation={this.props.navigation} 
+          rootLevelNavigate = {rootLevelNavigate} />
       </React.Fragment>
     );
   }
