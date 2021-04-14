@@ -18,6 +18,7 @@ LogBox.ignoreAllLogs()
 import Spinner from 'react-native-loading-spinner-overlay';
 import FloatingLabel from 'react-native-floating-labels';
 import {UserForgotPassword} from '@api';
+import { topLevelNavigate } from '@navigation/topLevelRef';
 
 Text.defaultProps={
   allowFontScaling:false,
@@ -110,7 +111,7 @@ export default class ForgotPassword extends Component {
             <View style={styles.headerView}>
               <TouchableOpacity
                 style={{borderColor:'red',borderWidth:0,width:30,marginStart:13}}
-                onPress={() => this.props.navigation.navigate('Home')}>
+                onPress={() => this.props.navigation.goBack()}>
                 <FastImage
                   source={cross}
                   style={{width: 30, height: 30}}

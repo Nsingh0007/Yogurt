@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,
+  BackHandler,
   Animated,
   TouchableOpacity,
   Alert,
@@ -40,19 +40,25 @@ class Status extends Component {
     this.statusDataCall = React.createRef();
   }
 
+  backAction = () => {
+    console.log('Status');
+    return true;
+  };
+
   stateListener = (state) => {
-    console.log('State Status --> ', state);
     if (state == 'active') {
       console.log('state listener Status Call');
       this.triggerProgressDataCall();
     }
   };
+  
   triggerProgressDataCall = () => {
     this.statusDataCall.current = this.fetchOrderStatusByUser();
   };
 
   componentDidMount = async () => {
     const {userDetails, authToken} = this.props.userstore;
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
     this.setState({userDetails: userDetails, authToken: authToken});
     this.setState({
       loader: true,
@@ -69,6 +75,7 @@ class Status extends Component {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.stateListener);
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   fetchOrderStatusByUser = async () => {

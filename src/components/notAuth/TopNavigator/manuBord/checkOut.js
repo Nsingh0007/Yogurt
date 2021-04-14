@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  TextInput,
+  BackHandler,
   Platform,
   Vibration,
 } from 'react-native';
@@ -33,6 +33,7 @@ const Checkout = (props) => {
   const [RouteData, SetRouteData] = useState(
     props.navigation.getParam('param'),
   );
+
 
   const onStartCardEntry = async () => {
     await SQIPCore.setSquareApplicationId('sq0idp-FOIi2iZHSgSn12_cbm_8yQ');

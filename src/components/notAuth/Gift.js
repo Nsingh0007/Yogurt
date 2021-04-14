@@ -7,6 +7,7 @@ import {
   Image,
   Animated,
   TouchableOpacity,
+  BackHandler,
   LogBox
 } from 'react-native';
 LogBox.ignoreAllLogs()
@@ -34,6 +35,20 @@ export default class Gift extends Component {
     super(props);
     this.state = {};
   }
+  
+  backAction = () => {
+    console.log('Gift');
+    return true;
+  };
+
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  }
+
   render() {
     return (
       <View style={styles.container}>

@@ -103,7 +103,7 @@ class inbox extends Component {
             <View style={styles.headerView}>
               <View style={{width: 35, height: 35,}}>
                 <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Home')}>
+                onPress={() => this.props.navigation.goBack()}>
                   <FastImage
                   source={cross}
                   style={{width: 35, height: 35, }}
