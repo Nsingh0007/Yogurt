@@ -1,5 +1,5 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 // Auth component...
 import Login from '../components/auth/Login';
@@ -9,6 +9,7 @@ import EditProfile from '../components/notAuth/EditProfile';
 import Splash from '../components/auth/Splash';
 
 // Not Auth Component....
+import RootHome from '../components/notAuth/RootHome';
 import Home from '../components/notAuth/Home';
 import Contact from '../components/notAuth/Contact';
 import Gift from '../components/notAuth/Gift';
@@ -103,43 +104,22 @@ const AppNavigator = createStackNavigator(
         headerShown: false,
       },
     },
-    Home: {
-      screen: Home,
+    RootHome: {
+      screen: RootHome,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Contact: {
-      screen: Contact,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-    Gift: {
-      screen: Gift,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
+    
+    
+
     Order: {
       screen: Order,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Status: {
-      screen: Status,
-      navigationOptions: {
-        headerShown: false,
-        gestureEnabled: false
-      },
-    },
-    topNav: {
-      screen: TopNav,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
+    
     menuIndex: {
       screen: orderMenuIndex,
       navigationOptions: {

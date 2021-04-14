@@ -140,13 +140,7 @@ export default class Order extends Component {
           </View>
 
 
-        </ScrollView>
-                  
-            <BottomNavigator 
-              currentRoute={"Order"}
-              navigation={this.props.navigation}
-            >             
-            </BottomNavigator>
+        </ScrollView> 
       </View>
     );
   }

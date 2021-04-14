@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Linking,
   Alert,
   BackHandler,
+  Button
 } from 'react-native';
 import {
   getCategoryData,
@@ -19,22 +20,23 @@ import {
 } from '@redux';
 LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
-import {Badge} from 'react-native-elements';
+import { Badge } from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
 import SignIn from '../../assets/icon/SignIn.png';
 import Inbox from '../../assets/icon/Inbox.png';
 import User_Profile from '../../assets/icon/User_Profile.png';
 import iceCreamCorn from '../../assets/icon/Ice-Cream_Cone.png';
 import rewards from '../../assets/icon/snow.png';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {connect} from 'react-redux';
-import {validateIsUserLoggedIn, getMessageData, updateUserOnEdit} from '@redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { validateIsUserLoggedIn, getMessageData, updateUserOnEdit } from '@redux';
 import BottomNavigator from '../../router/BottomNavigator';
-import {GetSliderByUser, getCartDetails, HostURL} from '@api';
+import { GetSliderByUser, getCartDetails, HostURL } from '@api';
 import { NotificationService } from '@service';
-import FastImage from 'react-native-fast-image'; 
+import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
-
+import TestComponent from '../../custom/TestComponent';
+import Socket from '@socket'
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 
@@ -68,12 +70,13 @@ class Home extends Component {
   }
 
   componentDidMount = async () => {
+    Socket.initialize();
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
     // this.checkPermission();
     // this.messageListener();
-    NotificationService.init();
-    const {isUserLoggedIn} = this.props.userstore;
+    //NotificationService.init();
+    const { isUserLoggedIn } = this.props.userstore;
 
     setTimeout(() => {
       this.checkVersion();
@@ -124,10 +127,10 @@ class Home extends Component {
               },
             },
           ],
-          {cancelable: false},
+          { cancelable: false },
         );
       }
-    } catch (e) {}
+    } catch (e) { }
   };
 
   allData() {
@@ -158,19 +161,19 @@ class Home extends Component {
     }
   };
 
-  
 
-  
 
-  
+
+
+
 
   fetchGetCategory = async () => {
     this.props.fetchCategoryData();
   };
 
   addRedeem = () => {
-    const {categoryStore} = this.props;
-    const {categoryData, loader} = categoryStore;
+    const { categoryStore } = this.props;
+    const { categoryData, loader } = categoryStore;
 
     categoryData.map((singleMenu, categoryIndex) => {
       if (
@@ -204,7 +207,7 @@ class Home extends Component {
     const GetSlideByUserResponse = await GetSliderByUser();
     if (GetSlideByUserResponse.result === true) {
       var slideByUserData = GetSlideByUserResponse.response;
-      this.setState({slideByUserData});
+      this.setState({ slideByUserData });
     } else {
       this.fetchSlideByUser();
       //Alert.alert('Warning', "Oops something went wrong, please try again later.")
@@ -212,9 +215,9 @@ class Home extends Component {
   };
 
   progressBarData() {
-    const {userDetails} = this.props.userstore;
-    const {LeftRewardPoints} = userDetails;
-    
+    const { userDetails } = this.props.userstore;
+    const { LeftRewardPoints } = userDetails;
+
     if (LeftRewardPoints <= 75) {
       //First Bar
       if (LeftRewardPoints == 75) {
@@ -320,9 +323,9 @@ class Home extends Component {
   }
 
   render() {
-    const {messageStore} = this.props;
-    const {inboxData, loader, messageCount} = messageStore;
-    const {isUserLoggedIn, loading, userDetails} = this.props.userstore;
+    const { messageStore } = this.props;
+    const { inboxData, loader, messageCount } = messageStore;
+    const { isUserLoggedIn, loading, userDetails } = this.props.userstore;
     const {
       IsRedeem,
       spinner,
@@ -353,9 +356,9 @@ class Home extends Component {
       outputRange: [0, 1],
       extrapolate: 'clamp',
     });
-
     return (
-      <View style={styles.container}>
+      <View style={{...styles.container}}>
+
         <Spinner visible={spinner} size="large" color="#793422" />
         <Animated.View
           useNativeDriver={true}
@@ -370,7 +373,7 @@ class Home extends Component {
             borderBottomColor: '#414040',
             borderBottomWidth: 0.3,
           }}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <View
               style={{
                 borderColor: '#EAEAEA',
@@ -386,15 +389,15 @@ class Home extends Component {
                 width: '90%',
                 bottom: headreTitleBottom,
               }}>
-              <View style={{flexDirection: 'column', marginTop: 60}}>
+              <View style={{ flexDirection: 'column', marginTop: 60 }}>
                 <Text style={styles.headerText}>Hungry meets</Text>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={[styles.headerText, {marginTop: -5}]}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={[styles.headerText, { marginTop: -5 }]}>
                     happy
                   </Text>
                   <FastImage
                     source={iceCreamCorn}
-                    style={{width: 32, height: 32}}
+                    style={{ width: 32, height: 32 }}
                   />
                 </View>
               </View>
@@ -405,17 +408,17 @@ class Home extends Component {
                   width: '100%',
                   justifyContent: 'space-between',
                 }}>
-                <View style={{flexDirection: 'row', marginTop: 15}}>
+                <View style={{ flexDirection: 'row', marginTop: 15 }}>
                   {isUserLoggedIn != null && isUserLoggedIn == false ? (
                     <TouchableOpacity
-                      style={{flexDirection: 'row'}}
+                      style={{ flexDirection: 'row' }}
                       onPress={() => this.props.navigation.navigate('login')}>
                       <FastImage
                         source={SignIn}
-                        style={{width: 30, height: 20}}
+                        style={{ width: 30, height: 20 }}
                         resizeMode="contain"
                       />
-                      <View style={{justifyContent: 'center'}}>
+                      <View style={{ justifyContent: 'center' }}>
                         <Text
                           style={{
                             marginLeft: 3,
@@ -428,14 +431,14 @@ class Home extends Component {
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity
-                      style={{flexDirection: 'row'}}
+                      style={{ flexDirection: 'row' }}
                       onPress={() => this.props.navigation.navigate('account')}>
                       <FastImage
                         source={User_Profile}
-                        style={{width: 18, height: 18, alignSelf: 'center'}}
+                        style={{ width: 18, height: 18, alignSelf: 'center' }}
                         resizeMode="contain"
                       />
-                      <View style={{justifyContent: 'center'}}>
+                      <View style={{ justifyContent: 'center' }}>
                         <Text
                           style={{
                             marginLeft: 5,
@@ -456,11 +459,11 @@ class Home extends Component {
                     }}>
                     <FastImage
                       source={Inbox}
-                      style={{width: 25, height: 20}}
+                      style={{ width: 25, height: 20 }}
                       resizeMode="contain"
                     />
-                    <View style={{justifyContent: 'center'}}>
-                      <Text style={{marginLeft: 5, fontSize: 15}}>Inbox</Text>
+                    <View style={{ justifyContent: 'center' }}>
+                      <Text style={{ marginLeft: 5, fontSize: 15 }}>Inbox</Text>
                     </View>
                     {messageCount > 0 ? (
                       <Badge
@@ -481,14 +484,14 @@ class Home extends Component {
         </Animated.View>
 
         <Animated.ScrollView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           bounces={true}
           scrollEventThrottle={16}
           useNativeDriver={true}
           scrollsToTop={true}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],
-            {useNativeDriver: false},
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            { useNativeDriver: false },
           )}
           showsVerticalScrollIndicator={false}>
           {/* <View style={{ flexDirection: 'column', marginTop: 65 }}>
@@ -502,7 +505,7 @@ class Home extends Component {
             </View>
           </View> */}
 
-          <View style={{marginTop: 10, marginBottom: 5, marginTop: 200}}>
+          <View style={{ marginTop: 10, marginBottom: 5, marginTop: 200 }}>
             {/* code here for the rewards points */}
 
             {isUserLoggedIn != null && isUserLoggedIn == true && !spinner ? (
@@ -550,8 +553,8 @@ class Home extends Component {
                         margin: 15,
                       }}>
                       {isUserLoggedIn != null &&
-                      isUserLoggedIn == true &&
-                      singleslide.ButtonName === 'Order Now' ? (
+                        isUserLoggedIn == true &&
+                        singleslide.ButtonName === 'Order Now' ? (
                         <TouchableOpacity
                           onPress={() => {
                             singleslide.ButtonName == 'Order Now'
@@ -569,7 +572,7 @@ class Home extends Component {
                         <TouchableOpacity
                           onPress={() => {
                             singleslide.ButtonName == 'Login' ||
-                            singleslide.ButtonName == 'Order Now'
+                              singleslide.ButtonName == 'Order Now'
                               ? this.props.navigation.navigate('login')
                               : this.props.navigation.navigate('singup');
                           }}
@@ -598,7 +601,9 @@ class Home extends Component {
                 width: 120,
               }}>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('singup')}
+                onPress={() => {
+                  this.props.navigation.navigate('singup');
+                }}
                 style={{
                   backgroundColor: '#793422',
                   borderRadius: 25,
@@ -626,12 +631,7 @@ class Home extends Component {
               </TouchableOpacity>
             </View>
           ) : null}
-        </>
-
-        <BottomNavigator
-          currentRoute={'Home'}
-          navigation={this.props.navigation}
-        />
+        </> 
       </View>
     );
   }
@@ -743,7 +743,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#F9F9F9',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 2,

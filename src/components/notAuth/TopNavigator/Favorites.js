@@ -446,11 +446,7 @@ class Favorites extends Component {
               )}
             </View>
           </TouchableOpacity>
-        </View>
-        <BottomNavigator
-          currentRoute={'Order'}
-          navigation={this.props.navigation}
-        />
+        </View> 
       </View>
     );
   }

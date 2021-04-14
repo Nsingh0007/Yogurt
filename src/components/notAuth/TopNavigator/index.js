@@ -1,5 +1,5 @@
 //This is an example of React Native Tab
-import React from 'react';
+import React, {Fragment} from 'react';
 //import react in our code.
 import {View,Text, Platform} from 'react-native';
 
@@ -63,7 +63,7 @@ const TabScreen = createMaterialTopTabNavigator(
 
 //making a StackNavigator to export as default
 const App = createStackNavigator({
-
+  
   TabScreen: {
     screen: TabScreen,
     navigationOptions: {
@@ -85,7 +85,9 @@ const App = createStackNavigator({
 let AppWithCreateAppContainer = createAppContainer(App);
 const MapScreen = () => {
   return(
-    <AppWithCreateAppContainer ref={setTabRef} />
+    <Fragment>
+      <AppWithCreateAppContainer ref={setTabRef} /> 
+    </Fragment>
   );
 }
 export default MapScreen;

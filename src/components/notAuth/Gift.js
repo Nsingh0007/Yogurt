@@ -131,11 +131,7 @@ export default class Gift extends Component {
                 <FastImage resizeMethod="scale" resizeMode="cover" source ={Coming_Soon} style={{width:'100%',height:300}} />
               </View>
 
-        </ScrollView>
-
-        <BottomNavigator
-          currentRoute={'Gift'}
-          navigation={this.props.navigation}></BottomNavigator>
+        </ScrollView> 
       </View>
     );
   }
