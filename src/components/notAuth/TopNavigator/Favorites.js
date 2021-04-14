@@ -499,65 +499,6 @@ class Favorites extends Component {
             </Text>
           </View>
         ) : null}
-        <View
-          style={{
-            height: 65,
-            backgroundColor: '#262A29',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-          }}>
-          <View style={{width: '80%'}}>
-            <Text
-              style={[styles.subContent, {color: '#bfbfbf', marginStart: 0}]}>
-              Pickup Store
-            </Text>
-            <View
-              style={{borderBottomWidth: 0.3, borderBottomColor: '#666666'}}>
-              <Text
-                style={[
-                  styles.subContent,
-                  {color: '#FFF', margin: 0, marginStart: 0},
-                ]}>
-                Greenvale, NY 11548
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity onPress={() => topLevelNavigate('revieworder')}>
-            <View style={{marginTop: -18}}>
-              <View
-                style={{
-                  zIndex: 10,
-                  height: 28,
-                  width: 27,
-                  top: 40,
-                  right: -9,
-                }}>
-                <Text
-                  style={{
-                    color: '#FFF',
-                    fontSize: 18,
-                    fontFamily: 'OpenSans-SemiBold',
-                    textAlign: 'center',
-                  }}>
-                  {cartData.TotalQuantity}
-                </Text>
-              </View>
-              {cartData.TotalQuantity > 0 ? (
-                <FastImage
-                  source={cart2}
-                  style={{width: 45, height: 45}}
-                  resizeMode="contain"
-                />
-              ) : (
-                <FastImage
-                  source={cart1}
-                  style={{width: 45, height: 45}}
-                  resizeMode="contain"
-                />
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
         {adding ? (
           <View
             style={{
@@ -566,7 +507,7 @@ class Favorites extends Component {
               justifyContent: 'center',
               width: 45,
               height: 45,
-              bottom: 130,
+              bottom: 10,
               right: 12,
               borderTopLeftRadius: 25,
               borderTopRightRadius: 25,
@@ -587,10 +528,6 @@ class Favorites extends Component {
             />
           </View>
         ) : null}
-        <BottomNavigator
-          currentRoute={'Order'}
-          navigation={this.props.navigation}
-        />
       </View>
     );
   }

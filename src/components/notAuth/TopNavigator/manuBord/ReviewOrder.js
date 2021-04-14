@@ -9,6 +9,7 @@ import {
   TextInput,
   Platform,
   Vibration,
+  BackHandler
 } from 'react-native';
 import leftArrow from '../../../../assets/icon/order/leftArrow.png';
 import snow from '../../../../assets/icon/order/snow.png';
@@ -75,6 +76,16 @@ class ReviewOrder extends Component {
       paymentId: '',
     };
   }
+  backAction = () => {
+    const isFocused = this.props.navigation.isFocused();
+    if (isFocused) {
+      this.props.navigation.goBack();
+      return true;
+    } else {
+      console.log('reviewOrder false');
+      return false;
+    }
+  };
 
   Show_Custom_AlertForTime(visible) {
     this.showTimeSlot();
@@ -137,6 +148,7 @@ class ReviewOrder extends Component {
   componentDidMount = async () => {
     const {userDetails, authToken} = this.props.userstore;
     const isFocused = this.props.navigation.isFocused();
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
     this.setState({
       userDetails: userDetails,
       authToken: authToken,
@@ -146,6 +158,7 @@ class ReviewOrder extends Component {
     this.time = setInterval(() => {
       if (!isFocused) {
         clearInterval(this.time);
+        BackHandler.removeEventListener('hardwareBackPress', this.backAction);
       }
       this.showTimeSlot();
     }, 2000);
@@ -158,6 +171,7 @@ class ReviewOrder extends Component {
 
   componentWillUnmount() {
     clearInterval(this.time);
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   assignmentData = (rootObject, cartData) => {

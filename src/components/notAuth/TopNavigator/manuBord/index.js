@@ -22,6 +22,7 @@ import cart1 from '../../../../assets/icon/order/cart1.png';
 import cart2 from '../../../../assets/icon/order/cart2.png';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import {GetCategorySize, addCart, HostURL, editCart} from '@api';
+import { topLevelNavigate } from '@navigation/topLevelRef';
 import index from '../../giftCard';
 import FastImage from 'react-native-fast-image';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -1772,11 +1773,11 @@ class SelectProduct extends Component {
               style={{width: 30, margin: 10}}
               onPress={() =>
                 IsRedeem == true && !isEditMode
-                  ? this.props.navigation.navigate('Home')
+                  ? this.props.navigation.navigate('RootHome')
                   : isEditMode
                   ? (this.handleResetReciepe(),
                     this.props.navigation.navigate('revieworder'))
-                  : this.props.navigation.navigate('topNav')
+                  : this.props.navigation.goBack()
               }>
               <FastImage source={cross} style={{width: 30, height: 30}} />
             </TouchableOpacity>

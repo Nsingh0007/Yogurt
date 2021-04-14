@@ -40,7 +40,7 @@ import FloatingLabel from 'react-native-floating-labels';
 
 import userLogo from '../../assets/icon/Successfully_Reset_Password.png';
 import { NotificationService } from '@service';
-
+import { topLevelNavigate } from '@navigation/topLevelRef';
 import { createUser } from '@api'; 
 
 const HEADER_MAX_HEIGHT = 110;
@@ -131,7 +131,7 @@ class SignUp extends Component {
   };
 
   Show_Custom_Alert(visible) {
-    this.setState({ Alert_Visibility: visible }, () => { this.props.navigation.navigate('topNav') });
+    this.setState({ Alert_Visibility: visible }, () => { topLevelNavigate('topNav') });
   };
 
   ok_Button = () => {
@@ -382,7 +382,7 @@ class SignUp extends Component {
             <View style={styles.headerView}>
               <View style={{ height: 40, width: 40 }}>
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Home')}>
+                  onPress={() => this.props.navigation.goBack()}>
                   <FastImage
                     source={cross}
                     style={{ width: 30, height: 30, marginStart: 15 }}

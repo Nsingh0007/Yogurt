@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  BackHandler,
 } from 'react-native';
 import {connect} from 'react-redux';
 import BottomNavigator from '../../../router/BottomNavigator';
@@ -35,8 +35,19 @@ class Featured extends Component {
     };
   }
 
+  backAction = () => {
+    const isFocused = this.props.navigation.isFocused();
+    if (isFocused) {
+      console.log('Featured true');
+      return true;
+    } else {
+      console.log('Featured false');
+      return false;
+    }
+  };
+
   componentWillUnmount() {
-    //console.log("TEST HERE FOR THE UNMOUNTING");
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   fetchGetCategory = async () => {
@@ -48,11 +59,12 @@ class Featured extends Component {
   };
 
   componentDidMount = async () => {
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
     this.fetchGetCategory();
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
       this.fetchGetCategory();
     });
-  }; 
+  };
 
   handle_Navigate() {
     const navigateAction = NavigationActions.navigate({
@@ -69,106 +81,105 @@ class Featured extends Component {
     return (
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {featureData.length > 0 ? (
-            featureData?.map((singleslide) => {
-              return (
-                <View
-                  style={{
-                    height: 350,
-                    width: '97%',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    marginTop: 9,
-                    alignSelf: 'center',
-                    backgroundColor: '#F9F9F9',
-                    shadowColor: '#000',
-                    shadowOffset: {width: 0, height: 2},
-                    shadowOpacity: 0.2,
-                    shadowRadius: 2,
-                    elevation: 2,
-                    borderRadius: 7,
-                  }}>
-                  <View>
-                    <FastImage
-                      resizeMode="stretch"
-                      source={{
-                        uri: `${HostURL}${singleslide.Pic}`,
-                      }}
-                      style={{
-                        width: '100%',
-                        alignSelf: 'center',
-                        height: 200,
-                        borderTopLeftRadius: 7,
-                        borderTopRightRadius: 7,
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        fontSize: 19,
-                        color: '#222624',
-                        marginTop: 15,
-                        marginStart: 15,
-                        marginEnd: 8,
-                        fontFamily: 'OpenSans-Bold',
-                      }}>
-                      {singleslide.SliderTitle}
-                    </Text>
-                    <Text
-                      numberOfLines={2}
-                      style={{
-                        fontSize: 13,
-                        fontFamily: 'OpenSans-SemiBold',
-                        color: '#262A29',
-                        marginTop: 8,
-                        marginStart: 15,
-                        marginEnd: 8,
-                      }}>
-                      {singleslide.Description}
-                    </Text>
-                    <View
-                      style={{
-                        width: 77,
-                        height: 30,
-                        margin: 15,
-                      }}>
-                      {
-                        <TouchableOpacity
-                          onPress={() => {
-                            console.log('Featured');
-                            navigateTopTabRef('Menu');
-                          }}
-                          style={{
-                            backgroundColor: '#793422',
-                            borderRadius: 50,
-                            width: 77,
-                            height: 30,
-                            borderColor: '#000',
-                            borderWidth: 0,
-                            justifyContent: 'center',
-                          }}>
-                          <Text
+          {featureData.length > 0
+            ? featureData?.map(singleslide => {
+                return (
+                  <View
+                    style={{
+                      height: 350,
+                      width: '97%',
+                      borderColor: 'red',
+                      borderWidth: 0,
+                      marginTop: 9,
+                      alignSelf: 'center',
+                      backgroundColor: '#F9F9F9',
+                      shadowColor: '#000',
+                      shadowOffset: {width: 0, height: 2},
+                      shadowOpacity: 0.2,
+                      shadowRadius: 2,
+                      elevation: 2,
+                      borderRadius: 7,
+                    }}>
+                    <View>
+                      <FastImage
+                        resizeMode="stretch"
+                        source={{
+                          uri: `${HostURL}${singleslide.Pic}`,
+                        }}
+                        style={{
+                          width: '100%',
+                          alignSelf: 'center',
+                          height: 200,
+                          borderTopLeftRadius: 7,
+                          borderTopRightRadius: 7,
+                        }}
+                      />
+                    </View>
+                    <View>
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          fontSize: 19,
+                          color: '#222624',
+                          marginTop: 15,
+                          marginStart: 15,
+                          marginEnd: 8,
+                          fontFamily: 'OpenSans-Bold',
+                        }}>
+                        {singleslide.SliderTitle}
+                      </Text>
+                      <Text
+                        numberOfLines={2}
+                        style={{
+                          fontSize: 13,
+                          fontFamily: 'OpenSans-SemiBold',
+                          color: '#262A29',
+                          marginTop: 8,
+                          marginStart: 15,
+                          marginEnd: 8,
+                        }}>
+                        {singleslide.Description}
+                      </Text>
+                      <View
+                        style={{
+                          width: 77,
+                          height: 30,
+                          margin: 15,
+                        }}>
+                        {
+                          <TouchableOpacity
+                            onPress={() => {
+                              console.log('Featured');
+                              navigateTopTabRef('Menu');
+                            }}
                             style={{
-                              color: '#F9F9F9',
-                              textAlign: 'center',
-                              alignSelf: 'center',
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 15,
+                              backgroundColor: '#793422',
+                              borderRadius: 50,
+                              width: 77,
+                              height: 30,
+                              borderColor: '#000',
+                              borderWidth: 0,
+                              justifyContent: 'center',
                             }}>
-                            {singleslide.ButtonName.split(' ')[0]}
-                          </Text>
-                        </TouchableOpacity>
-                      }
+                            <Text
+                              style={{
+                                color: '#F9F9F9',
+                                textAlign: 'center',
+                                alignSelf: 'center',
+                                fontFamily: 'OpenSans-SemiBold',
+                                fontSize: 15,
+                              }}>
+                              {singleslide.ButtonName.split(' ')[0]}
+                            </Text>
+                          </TouchableOpacity>
+                        }
+                      </View>
                     </View>
                   </View>
-                </View>
-              );
-            })
-          ) : (
-            null
-            /* <View style={{justifyContent: 'center'}}>
+                );
+              })
+            : null
+              /* <View style={{justifyContent: 'center'}}>
               <FastImage
                 resizeMode="contain"
                 source={PreviousIcon}
@@ -198,9 +209,8 @@ class Featured extends Component {
                 here to order again.
               </Text>
             </View> */
-          )}
+          }
         </ScrollView>
-        
       </View>
     );
   }
@@ -232,13 +242,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     getCartStore: state.getCartStore,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchCartData: () => {
       dispatch(fetchCartDataAsyncCreator());

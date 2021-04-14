@@ -3,14 +3,14 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
+  BackHandler,
   Linking,
   Platform,
   Alert,
   LogBox
 } from 'react-native';
 LogBox.ignoreAllLogs()
-import MapView, { Marker, PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_DEFAULT, MAP_TYPES } from 'react-native-maps';
 import Telephone from '../../assets/icon/Telephone.png';
 import iceCreamCorn from '../../assets/icon/Ice-Cream_Cone.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -29,6 +29,11 @@ export default class Contact extends Component {
 
     };
   }
+
+  backAction = () => {
+    console.log('Contact');
+    return true;
+  };
 
   openCall = async () => {
     const IsCanOpenUrl = await Linking.canOpenURL("tel: 5164841822");
@@ -59,6 +64,14 @@ export default class Contact extends Component {
     }
   }
 
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  }
+
   render() {
 
     return (
@@ -73,19 +86,20 @@ export default class Contact extends Component {
             />
           </View>
           <MapView
-            provider={Platform.OS == 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
+            provider={PROVIDER_DEFAULT}
+            mapType="none"
             style={{ flex: 2 }}
             region={{
               latitude: 40.807501,
               longitude: -73.626794,
-              latitudeDelta: 0.0001,
-              longitudeDelta: 0.0001,
+              latitudeDelta: 0.0010,
+              longitudeDelta: 0.0010,
             }}
           >
             <Marker
               coordinate={{
-                latitude: 40.807501,
-                longitude: -73.626794,
+                latitude: 40.807551,
+                longitude: -73.6266945,
               }}
               title={'YOGURT & SUCH'}
               image={require('../../assets/icon/MapPin.png')}

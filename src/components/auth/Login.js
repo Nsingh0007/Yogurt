@@ -60,7 +60,6 @@ class Login extends Component {
 
   userLoginFunction = async () => {
     try {
-       
       this.setState({ spinner: true });
       const { Email, Password } = this.state;
       const loginUserResponse = await loginUser(Email, Password);
@@ -74,7 +73,7 @@ class Login extends Component {
             spinner: !this.state.spinner,
           });
           this.addFcmToken();
-          this.props.navigation.navigate('Home')
+          this.props.navigation.navigate('RootHome')
         }, 300);
       } else {
         if (loginUserResponse.result == '122') {
@@ -152,7 +151,7 @@ class Login extends Component {
             <View style={styles.headerView}>
               <TouchableOpacity
                 style={{ width: 30, marginStart: 15 }}
-                onPress={() => this.props.navigation.navigate('Home')}>
+                onPress={() => this.props.navigation.navigate('RootHome')}>
                 <FastImage
                   source={cross}
                   style={{ width: 30, height: 30, }}

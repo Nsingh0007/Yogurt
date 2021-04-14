@@ -16,6 +16,7 @@ import cross from '../../assets/icon/Wrong.png';
 import rightArrow from '../../assets/icon/order/icons8-forward-26.png'
 import { userLogoutSucess, updateUserOnEdit } from '@redux';
 import { UpdateNotificationData, addToken } from '@api'
+import { topLevelNavigate } from '@navigation/topLevelRef';
 import { connect } from 'react-redux';
 import FastImage from 'react-native-fast-image'; 
 
@@ -100,7 +101,7 @@ class Account extends Component {
       <View style={styles.container}>
         <View style={styles.headerView}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => this.props.navigation.goBack()}
             style={{ marginStart: 15, width: 30, margin: 4, borderColor: 'red', borderWidth: 0 }}>
             <FastImage source={cross} style={{ width: 30, height: 30 }} />
           </TouchableOpacity>
@@ -206,7 +207,7 @@ class Account extends Component {
                             'userLoggedInToken',
                           ];
                           await AsyncStorage.multiRemove(keys, (err) => { });
-                          this.props.navigation.navigate('Home');
+                          this.props.navigation.navigate('RootHome');
                         },
                       },
                     ],
