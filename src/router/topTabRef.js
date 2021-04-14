@@ -2,11 +2,11 @@ import { NavigationActions } from 'react-navigation';
 
 let navigationRef = null;
 
-export const setTabRef = (nav) => {
+export const setTopTabRef = (nav) => {
     navigationRef = nav;
 }
 
-export const navigateTabRef = (routeName, params = {}) => {
+export const navigateTopTabRef = (routeName, params = {}) => {
 
     navigationRef.dispatch(
         NavigationActions.navigate({

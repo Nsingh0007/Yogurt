@@ -36,6 +36,8 @@ import { NotificationService } from '@service';
 import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
 import TestComponent from '../../custom/TestComponent';
+import { topLevelNavigate } from '@navigation/topLevelRef';
+
 import Socket from '@socket'
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
@@ -432,7 +434,7 @@ class Home extends Component {
                   ) : (
                     <TouchableOpacity
                       style={{ flexDirection: 'row' }}
-                      onPress={() => this.props.navigation.navigate('account')}>
+                      onPress={() => topLevelNavigate('account')}>
                       <FastImage
                         source={User_Profile}
                         style={{ width: 18, height: 18, alignSelf: 'center' }}
@@ -451,7 +453,7 @@ class Home extends Component {
                     </TouchableOpacity>
                   )}
                   <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('inbox')}
+                    onPress={() => topLevelNavigate('inbox')}
                     style={{
                       flexDirection: 'row',
                       position: 'relative',

@@ -7,8 +7,8 @@ import Gift from '../Gift';
 import Status from '../Status';
 import TopNav from '../TopNavigator';
 import Contact from '../Contact';
-
-import { createAppContainer, NavigationActions } from 'react-navigation';
+import { setRootBottomTabRef, navigateRootBottomTab } from '../../../router/rootBottomTabRef';
+import { createAppContainer } from 'react-navigation';
 const RootHomeNavigator = createStackNavigator({
     Home: {
         screen: Home,
@@ -47,25 +47,16 @@ const RootHomeNavigator = createStackNavigator({
     },
 });
 const RootHomeNavigatorR = createAppContainer(RootHomeNavigator);
-const RootHome = (props) => {
-    const rootHomeNavRef = useRef();
+const RootHome = (props) => { 
     const [routeName, setRouteName] = useState('Home');
     const rootLevelNavigate = (routeName, params = {}) => {
         setRouteName(routeName);
-        rootHomeNavRef.current.dispatch(
-            NavigationActions.navigate({
-                routeName, params
-            })
-        );
-    }
-    if (rootHomeNavRef.current?.state) {
-
-        console.log("TEST_NAME_CHECK5 - ", [...Object.keys(rootHomeNavRef?.current?.state.nav.routes)]);
-    }
+        navigateRootBottomTab(routeName);
+    } 
     return (
         <Fragment>
 
-            <RootHomeNavigatorR ref={rootHomeNavRef} />
+            <RootHomeNavigatorR ref={setRootBottomTabRef} />
 
             <BottomNavigator
                 currentRoute={routeName}

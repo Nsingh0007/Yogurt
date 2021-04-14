@@ -14,7 +14,7 @@ import cart2 from '../../../assets/icon/order/cart2.png';
 import PreviousIcon from '../../../assets/icon/PreviousIcon.png';
 import {getCartDetails, FeaturePageByUser, HostURL} from '@api';
 import {NavigationActions} from 'react-navigation';
-import {navigateTabRef} from '@navigation/refs';
+import {navigateTopTabRef} from '@navigation/topTabRef';
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
@@ -138,7 +138,7 @@ class Featured extends Component {
                         <TouchableOpacity
                           onPress={() => {
                             console.log('Featured');
-                            navigateTabRef('Menu');
+                            navigateTopTabRef('Menu');
                           }}
                           style={{
                             backgroundColor: '#793422',

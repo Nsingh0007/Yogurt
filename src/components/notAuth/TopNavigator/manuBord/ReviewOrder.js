@@ -21,8 +21,7 @@ import EmptyCart from '../../../../assets/icon/order/EmptyCart.png';
 import {connect} from 'react-redux';
 import {deleteCart, updateCart, HostURL} from '@api';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
-import {setCurrentSelectedCategory} from '@redux';
-import {navigateTabRef} from '@navigation/refs';
+import {setCurrentSelectedCategory} from '@redux'; 
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import FastImage from 'react-native-fast-image';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -777,7 +776,7 @@ class ReviewOrder extends Component {
                 width: 30,
                 margin: 10,
               }}
-              onPress={() => this.props.navigation.navigate('topNav')}>
+              onPress={() => this.props.navigation.navigate('RootHome')}>
               <FastImage source={leftArrow} style={{width: 25, height: 25}} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>

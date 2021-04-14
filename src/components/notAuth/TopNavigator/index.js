@@ -1,23 +1,19 @@
-//This is an example of React Native Tab
+ 
 import React, { Fragment } from 'react';
-//import react in our code.
+ 
 import { View, Text, Platform, TouchableOpacity } from 'react-native';
-
-//Import React Navigation
+ 
 import { createAppContainer } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-
-//Import External Files
-// import FirstPage from './pages/FirstPage';
-// import SecondPage from './pages/SecondPage';
+ 
 
 import Menu from './Menu';
 import Featured from './Flavours';
 import Previous from './Previous';
 import Favorites from './Favorites'
 
-import { setTabRef } from '../../../router/refs';
+import { setTopTabRef } from '../../../router/topTabRef';
 import BottomCartCountView from './BotomCartCountView';
 
 const TabScreen = createMaterialTopTabNavigator(
@@ -60,7 +56,7 @@ class CustomTabScreen extends React.Component {
   render() {
     return (
       <Fragment>
-        <TabScreenNavigator />
+        <TabScreenNavigator ref={setTopTabRef} />
 
         <BottomCartCountView />
       </Fragment>
@@ -92,7 +88,7 @@ let AppWithCreateAppContainer = createAppContainer(App);
 const MapScreen = () => {
   return (
     <Fragment>
-      <AppWithCreateAppContainer ref={setTabRef} />
+      <AppWithCreateAppContainer />
     </Fragment>
   );
 }
