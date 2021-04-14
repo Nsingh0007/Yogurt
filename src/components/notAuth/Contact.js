@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  BackHandler,
+  StyleSheet, 
   Linking,
   Platform,
   Alert,
@@ -16,13 +15,13 @@ import iceCreamCorn from '../../assets/icon/Ice-Cream_Cone.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import BottomNavigator from '../../router/BottomNavigator';
 import FastImage from 'react-native-fast-image';
-
+import { withBackHandler } from '@appHoc';
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1
 }
 
-export default class Contact extends Component {
+class Contact extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,10 +29,10 @@ export default class Contact extends Component {
     };
   }
 
-  backAction = () => {
-    console.log('Contact');
-    return true;
-  };
+  // backAction = () => {
+  //   console.log('Contact');
+  //   return true;
+  // };
 
   openCall = async () => {
     const IsCanOpenUrl = await Linking.canOpenURL("tel: 5164841822");
@@ -65,11 +64,11 @@ export default class Contact extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+   // BackHandler.addEventListener("hardwareBackPress", this.backAction);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    //BackHandler.removeEventListener("hardwareBackPress", this.backAction);
   }
 
   render() {
@@ -209,3 +208,5 @@ const styles = StyleSheet.create({
     lineHeight: 22
   },
 });
+
+export default withBackHandler(Contact);

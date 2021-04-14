@@ -24,30 +24,18 @@ import Coming_Soon from '../../assets/icon/Coming_Soon.png'
 import BottomNavigator from '../../router/BottomNavigator';
 import BottomNavLayout from '../../router/BottomNavLayout';
 import FastImage from 'react-native-fast-image';
+import { withBackHandler } from '@appHoc';
 
 Text.defaultProps={
   allowFontScaling:false,
   fontScale:1
 }
 
-export default class Gift extends Component {
+class Gift extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-  
-  backAction = () => {
-    console.log('Gift');
-    return true;
-  };
-
-  componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.backAction);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-  }
+  } 
 
   render() {
     return (
@@ -151,7 +139,7 @@ export default class Gift extends Component {
     );
   }
 }
-
+export default withBackHandler(Gift);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

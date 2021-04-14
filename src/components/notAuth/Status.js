@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,8 @@ import {
   LogBox,
 } from 'react-native';
 LogBox.ignoreAllLogs();
-import {connect} from 'react-redux';
-import {GetOrderStatus} from '@api';
+import { connect } from 'react-redux';
+import { GetOrderStatus } from '@api';
 import BottomNavigator from '../../router/BottomNavigator';
 import Subtract from '../../assets/icon/order/Subtract.png';
 import circularCheck from '../../assets/icon/order/circularCheck.png';
@@ -22,7 +22,7 @@ import NoOrder from '../../assets/icon/order/noOrderStatus.png';
 import rightArrow from '../../assets/icon/order/icons8-forward-26.png';
 import FastImage from 'react-native-fast-image';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import { withBackHandler } from '@appHoc';
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1,
@@ -40,10 +40,10 @@ class Status extends Component {
     this.statusDataCall = React.createRef();
   }
 
-  backAction = () => {
-    console.log('Status');
-    return true;
-  };
+  // backAction = () => {
+  //   console.log('Status');
+  //   return true;
+  // };
 
   stateListener = (state) => {
     if (state == 'active') {
@@ -51,15 +51,15 @@ class Status extends Component {
       this.triggerProgressDataCall();
     }
   };
-  
+
   triggerProgressDataCall = () => {
     this.statusDataCall.current = this.fetchOrderStatusByUser();
   };
 
   componentDidMount = async () => {
-    const {userDetails, authToken} = this.props.userstore;
-    BackHandler.addEventListener('hardwareBackPress', this.backAction);
-    this.setState({userDetails: userDetails, authToken: authToken});
+    const { userDetails, authToken } = this.props.userstore;
+    //BackHandler.addEventListener('hardwareBackPress', this.backAction);
+    this.setState({ userDetails: userDetails, authToken: authToken });
     this.setState({
       loader: true,
     });
@@ -75,7 +75,7 @@ class Status extends Component {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.stateListener);
-    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
+    //BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   fetchOrderStatusByUser = async () => {
@@ -90,7 +90,7 @@ class Status extends Component {
           OrderData.push(singleOrderStatus);
         }
       });
-      this.setState({orderStatus: OrderData, loader: false});
+      this.setState({ orderStatus: OrderData, loader: false });
       setTimeout(() => {
         if (focused) {
           this.fetchOrderStatusByUser();
@@ -114,7 +114,7 @@ class Status extends Component {
   }
 
   render() {
-    const {orderStatus, loader} = this.state;
+    const { orderStatus, loader } = this.state;
     return (
       <View style={styles.container}>
         <Spinner visible={loader} size="large" color="#793422" />
@@ -130,7 +130,7 @@ class Status extends Component {
             //   />
             // }
             showsVerticalScrollIndicator={false}
-            style={{borderColor: 'blue', borderWidth: 0, width: '98%'}}>
+            style={{ borderColor: 'blue', borderWidth: 0, width: '98%' }}>
             {/* <View>
               <Text style={{textAlign: 'center', color: '#696969'}}>
                 Pull down to refresh
@@ -160,7 +160,7 @@ class Status extends Component {
                       {singleOrderStatus.OrderTime}
                     </Text>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <View
                       style={{
                         borderColor: '#DDDDDD',
@@ -172,11 +172,11 @@ class Status extends Component {
                       }}>
                       <FastImage
                         source={Subtract}
-                        style={{width: 40, height: 40, margin: 7}}
+                        style={{ width: 40, height: 40, margin: 7 }}
                         resizeMode={'contain'}
                       />
                     </View>
-                    <View style={{flexDirection: 'column', width: '66%'}}>
+                    <View style={{ flexDirection: 'column', width: '66%' }}>
                       <View>
                         <Text numberOfLines={1} style={styles.txtdata}>
                           Order Name: {singleOrderStatus.CustomerName}
@@ -202,12 +202,12 @@ class Status extends Component {
                       <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate('orderstatusdetails', {
-                            OrderNumber: {...singleOrderStatus},
+                            OrderNumber: { ...singleOrderStatus },
                           })
                         }>
                         <FastImage
                           source={rightArrow}
-                          style={{width: 20, height: 20}}
+                          style={{ width: 20, height: 20 }}
                         />
                       </TouchableOpacity>
                     </View>
@@ -220,11 +220,11 @@ class Status extends Component {
                           justifyContent: 'space-between',
                           marginLeft: 10,
                         }}>
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -248,8 +248,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -281,8 +281,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -314,8 +314,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '27%', marginEnd: -38}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '27%', marginEnd: -38 }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -343,11 +343,11 @@ class Status extends Component {
                           justifyContent: 'space-between',
                           marginLeft: 10,
                         }}>
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -371,11 +371,11 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -399,8 +399,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -432,8 +432,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%', marginEnd: -38}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%', marginEnd: -38 }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -461,11 +461,11 @@ class Status extends Component {
                           justifyContent: 'space-between',
                           marginLeft: 10,
                         }}>
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -489,11 +489,11 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -517,11 +517,11 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%'}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%' }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <FastImage
                               source={circularCheck}
-                              style={{width: 20, height: 20}}
+                              style={{ width: 20, height: 20 }}
                             />
                             <View
                               style={{
@@ -545,8 +545,8 @@ class Status extends Component {
                           </Text>
                         </View>
 
-                        <View style={{width: '28%', marginEnd: -38}}>
-                          <View style={{flexDirection: 'row'}}>
+                        <View style={{ width: '28%', marginEnd: -38 }}>
+                          <View style={{ flexDirection: 'row' }}>
                             <View
                               style={{
                                 width: 20,
@@ -574,7 +574,7 @@ class Status extends Component {
             })}
           </ScrollView>
         ) : (
-          <View style={{flex: 2}}>
+          <View style={{ flex: 2 }}>
             <View
               style={{
                 justifyContent: 'center',
@@ -585,7 +585,7 @@ class Status extends Component {
               <FastImage
                 resizeMode="contain"
                 source={NoOrder}
-                style={{width: 80, height: 80}}
+                style={{ width: 80, height: 80 }}
               />
               <Text
                 style={{
@@ -598,7 +598,7 @@ class Status extends Component {
               </Text>
             </View>
           </View>
-        )} 
+        )}
       </View>
     );
   }
@@ -633,7 +633,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 2,
@@ -690,4 +690,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Status);
+export default connect(mapStateToProps, mapDispatchToProps)(withBackHandler(Status));

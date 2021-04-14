@@ -15,6 +15,7 @@ import Favorites from './Favorites';
 
 import { setTopTabRef } from '../../../router/topTabRef';
 import BottomCartCountView from './BotomCartCountView';
+import { withBackHandler } from '@appHoc';
 
 const TabScreen = createMaterialTopTabNavigator(
   {
@@ -67,7 +68,7 @@ class CustomTabScreen extends React.Component {
 const App = createStackNavigator({
 
   TabScreen: {
-    screen: CustomTabScreen,
+    screen: withBackHandler(CustomTabScreen),
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#FFF',

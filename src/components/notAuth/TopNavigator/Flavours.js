@@ -35,8 +35,9 @@ class Featured extends Component {
     };
   }
 
-  backAction = () => {
+  backAction = () => { 
     const isFocused = this.props.navigation.isFocused();
+    console.log('FOCUS_TESTED - ', isFocused);
     if (isFocused) {
       console.log('Featured true');
       return true;
