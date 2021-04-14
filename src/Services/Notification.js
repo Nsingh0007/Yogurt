@@ -41,6 +41,7 @@ class NotificationService {
     getFcmToken = async () => {
         const fcmToken = await firebase.messaging().getToken();
         if (fcmToken) {
+            console.log('FCM Token --> ',fcmToken)
             return fcmToken;
         } else {
             return null;

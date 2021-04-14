@@ -33,6 +33,7 @@ export class ViewPrevious extends Component {
       userDetails: {},
       cartId: 0,
       cartDataLength: 0,
+      adding: false,
     };
   }
 
@@ -47,7 +48,7 @@ export class ViewPrevious extends Component {
     // })
   };
 
-  fetchPreviousOrders = async (OrderNumber) => {
+  fetchPreviousOrders = async OrderNumber => {
     const GetPreviousOrderItemsRespone = await GetPreviousOrderItemsByNumber(
       OrderNumber,
     );
@@ -61,13 +62,13 @@ export class ViewPrevious extends Component {
     }
   };
 
-  addToCart = async (CartId) => {
+  addToCart = async CartId => {
     const {userDetails, authToken} = this.state;
     const sendBody = [];
     let body = {};
     body.CustomerId = userDetails.CustomerId;
     body.Email = userDetails.Email;
-    this.state.previousOrderItemsData.map((singlePreviousItem) => {
+    this.state.previousOrderItemsData.map(singlePreviousItem => {
       if (singlePreviousItem.CartIdId === CartId) {
         body = {...singlePreviousItem};
         sendBody.push(body);
@@ -76,15 +77,25 @@ export class ViewPrevious extends Component {
     if (sendBody.length > 0) {
       const addCartResponse = await addCart(sendBody, authToken);
       if (addCartResponse.result) {
+        this.setState({
+          adding: true,
+        });
         this.props.fetchCartData();
         Vibration.vibrate();
+        setTimeout(() => {
+          this.setState({
+            adding: false,
+          });
+        }, 2000);
       }
     }
   };
 
   render() {
-    const {previousOrderItemsData} = this.state;
+    const {previousOrderItemsData, adding} = this.state;
     const {cartData} = this.props.getCartStore;
+    let image = '';
+    let CategoryName = '';
     return (
       <View style={styles.continer}>
         <View style={styles.header}>
@@ -137,10 +148,12 @@ export class ViewPrevious extends Component {
           </View>
         </View>
         <ScrollView>
-          {previousOrderItemsData.map((singlePreviousItem) => {
+          {previousOrderItemsData.map(singlePreviousItem => {
             let sixpackFlavor = [];
             let sixpackTopping = [];
             let IsTopping = true;
+            image = singlePreviousItem.CategoryImage;
+            CategoryName = singlePreviousItem.CategoryName;
             if (singlePreviousItem.IsSixPack === true) {
               sixpackFlavor = JSON.parse(singlePreviousItem.FlavorName);
               if (singlePreviousItem.ToppingName != '') {
@@ -423,9 +436,11 @@ export class ViewPrevious extends Component {
                   {singlePreviousItem.IsRedeem != true ? (
                     <View>
                       <TouchableOpacity
-                        onPress={() =>
-                          this.addToCart(singlePreviousItem.CartIdId)
-                        }
+                        onPress={() => {
+                          image = singlePreviousItem.CategoryImage;
+                          CategoryName = singlePreviousItem.CategoryName;
+                          this.addToCart(singlePreviousItem.CartIdId);
+                        }}
                         style={{
                           margin: 20,
                           marginLeft: -5,
@@ -443,6 +458,24 @@ export class ViewPrevious extends Component {
             );
           })}
         </ScrollView>
+        {adding ? (
+          <View
+            style={{
+              backgroundColor: 'grey',
+              height: 50,
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: '#FFF',
+                fontSize: 14,
+                fontFamily: 'OpenSans-SemiBold',
+                paddingLeft: 10,
+              }}>
+              {CategoryName} added in your cart
+            </Text>
+          </View>
+        ) : null}
         <View
           style={{
             height: 65,
@@ -503,6 +536,35 @@ export class ViewPrevious extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        {adding ? (
+          <View
+            style={{
+              position: 'absolute',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 45,
+              height: 45,
+              bottom: 65,
+              right: 12,
+              borderTopLeftRadius: 25,
+              borderTopRightRadius: 25,
+              borderBottomLeftRadius: 25,
+              backgroundColor: '#FFF',
+              transform: [{rotateZ: '45deg'}],
+            }}>
+            <FastImage
+              source={{
+                uri: `${HostURL}${image}`,
+              }}
+              style={{
+                height: 37,
+                width: 37,
+                borderRadius: 20,
+                transform: [{rotateZ: '-45deg'}],
+              }}
+            />
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -585,14 +647,14 @@ const styles = StyleSheet.create({
     color: '#414040',
   },
 });
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userstore: state.userstore,
     getCartStore: state.getCartStore,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchCartData: () => {
       dispatch(fetchCartDataAsyncCreator());

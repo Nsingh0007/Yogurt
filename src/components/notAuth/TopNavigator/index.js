@@ -15,7 +15,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Menu from './Menu';
 import Featured from './Flavours';
 import Previous from './Previous';
-import Favorites from './Favorites'
+import Favorites from './Favorites';
 
 
 import BottomNavigator from '../../../router/BottomNavigator';

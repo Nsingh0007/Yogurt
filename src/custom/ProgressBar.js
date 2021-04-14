@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 // create a component
 const ProgressBar = (props) => {
-   const {userDetails} = useSelector((state)=>state.userstore);
+   const {userDetails} = useSelector((state)=>state?.userstore);
 
   return (
     <Fragment>
@@ -24,9 +24,9 @@ const ProgressBar = (props) => {
                 fontFamily: 'OpenSans-Bold',
                 marginStart: 6,
               }}>
-              {userDetails.LeftRewardPoints == null
+              {userDetails?.LeftRewardPoints == null
                 ? 0
-                : userDetails.LeftRewardPoints}
+                : userDetails?.LeftRewardPoints}
             </Text>
             <FastImage
               source={rewards}

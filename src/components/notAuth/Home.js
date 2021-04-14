@@ -9,7 +9,7 @@ import {
   Platform,
   Linking,
   Alert,
-  BackHandler,
+  BackHandler,  
 } from 'react-native';
 import {
   getCategoryData,
@@ -17,6 +17,7 @@ import {
   readyProduct,
   setCurrentSelectedCategory,
 } from '@redux';
+import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
@@ -31,8 +32,8 @@ import {connect} from 'react-redux';
 import {validateIsUserLoggedIn, getMessageData, updateUserOnEdit} from '@redux';
 import BottomNavigator from '../../router/BottomNavigator';
 import {GetSliderByUser, getCartDetails, HostURL} from '@api';
-import { NotificationService } from '@service';
-import FastImage from 'react-native-fast-image'; 
+import {NotificationService} from '@service';
+import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
 
 const HEADER_MAX_HEIGHT = 200;
@@ -70,6 +71,7 @@ class Home extends Component {
   componentDidMount = async () => {
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
+    this.props.fetchCartData();
     // this.checkPermission();
     // this.messageListener();
     NotificationService.init();
@@ -97,7 +99,6 @@ class Home extends Component {
     // }, 15000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      console.log('DID_FOCUS_EXECUTED');
       this.setState({
         spinner: true,
       });
@@ -131,6 +132,7 @@ class Home extends Component {
   };
 
   allData() {
+    this.props.fetchCartData();
     this.fetchSlideByUser();
     this.getCardData();
     this.progressBarData();
@@ -142,27 +144,23 @@ class Home extends Component {
   }
 
   getCardData = async () => {
-    const GetCartDataResponse = await getCartDetails();
-    if (GetCartDataResponse.result === true) {
-      let IsRedeem = false;
-      GetCartDataResponse.response.map((cartData, CartIndex) => {
-        if (cartData.IsRedeem && IsRedeem == false) {
-          IsRedeem = true;
-        }
-      });
-      this.setState({
-        IsRedeem,
-      });
-    } else {
-      console.log('getting Error on the get cart details --------------- ');
-    }
+    //const GetCartDataResponse = await getCartDetails();
+    this.props.fetchCartData(GetCartDataResponse => {
+      if (GetCartDataResponse.result === true) {
+        let IsRedeem = false;
+        GetCartDataResponse?.response?.map((cartData, CartIndex) => {
+          if (cartData.IsRedeem && IsRedeem == false) {
+            IsRedeem = true;
+          }
+        });
+        this.setState({
+          IsRedeem,
+        });
+      } else {
+        console.log('getting Error on the get cart details --------------- ');
+      }
+    });
   };
-
-  
-
-  
-
-  
 
   fetchGetCategory = async () => {
     this.props.fetchCategoryData();
@@ -214,7 +212,7 @@ class Home extends Component {
   progressBarData() {
     const {userDetails} = this.props.userstore;
     const {LeftRewardPoints} = userDetails;
-    
+
     if (LeftRewardPoints <= 75) {
       //First Bar
       if (LeftRewardPoints == 75) {
@@ -521,9 +519,9 @@ class Home extends Component {
               />
             ) : null}
 
-            {slideByUserData?.map((singleslide) => {
+            {slideByUserData.length > 0 ? slideByUserData?.map((singleslide, index) => {
               return (
-                <View style={styles.bannerView}>
+                <View style={styles.bannerView} key={index}>
                   <View>
                     <FastImage
                       resizeMode="stretch"
@@ -534,13 +532,10 @@ class Home extends Component {
                     />
                   </View>
                   <View>
-                    <Text
-                      style={styles.bannerTitle}>
+                    <Text style={styles.bannerTitle}>
                       {singleslide.SliderTitle}
                     </Text>
-                    <Text
-                      numberOfLines={2}
-                      style={styles.bannerSubTitle}>
+                    <Text numberOfLines={2} style={styles.bannerSubTitle}>
                       {singleslide.Description}
                     </Text>
                     <View
@@ -559,8 +554,7 @@ class Home extends Component {
                               : this.props.navigation.navigate('login');
                           }}
                           style={styles.bannerButton}>
-                          <Text
-                            style={styles.bannerButtonText}>
+                          <Text style={styles.bannerButtonText}>
                             {singleslide.ButtonName.split(' ')[0]}
                           </Text>
                         </TouchableOpacity>
@@ -574,8 +568,7 @@ class Home extends Component {
                               : this.props.navigation.navigate('singup');
                           }}
                           style={styles.bannerButton}>
-                          <Text
-                            style={styles.bannerButtonText}>
+                          <Text style={styles.bannerButtonText}>
                             {singleslide.ButtonName.split(' ')[0]}
                           </Text>
                         </TouchableOpacity>
@@ -584,7 +577,9 @@ class Home extends Component {
                   </View>
                 </View>
               );
-            })}
+            })
+            : null
+            }
           </View>
         </Animated.ScrollView>
         <>
@@ -787,18 +782,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: 'OpenSans-SemiBold',
     fontSize: 15,
-  }
+  },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userstore: state.userstore,
     messageStore: state.messageStore,
     categoryStore: state.categoryStore,
+    getCartStore: state.getCartStore,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     isUserLoggedIn: () => {
       dispatch(validateIsUserLoggedIn());
@@ -812,14 +808,18 @@ const mapDispatchToProps = (dispatch) => {
     fetchCategoryData: () => {
       dispatch(getCategoryData());
     },
-    categoryCollapse: (id) => {
+    categoryCollapse: id => {
       dispatch(handleCollapse(id));
     },
     readyProductDispatch: () => {
       dispatch(readyProduct());
     },
-    setCurrentSelectedCategoryDispatch: (categoryData) => {
+    setCurrentSelectedCategoryDispatch: categoryData => {
       dispatch(setCurrentSelectedCategory(categoryData));
+    },
+    dispatch,
+    fetchCartData: cb => {
+      dispatch(fetchCartDataAsyncCreator(cb));
     },
   };
 };
