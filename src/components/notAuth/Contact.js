@@ -209,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withBackHandler(Contact);
+export default Contact;

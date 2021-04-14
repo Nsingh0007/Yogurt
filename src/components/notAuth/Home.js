@@ -826,4 +826,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withBackHandler(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

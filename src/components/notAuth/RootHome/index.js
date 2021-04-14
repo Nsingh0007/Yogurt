@@ -9,6 +9,7 @@ import TopNav from '../TopNavigator';
 import Contact from '../Contact';
 import { setRootBottomTabRef, navigateRootBottomTab } from '../../../router/rootBottomTabRef';
 import { createAppContainer } from 'react-navigation';
+import {withBackHandler} from '@appHoc';
 const RootHomeNavigator = createStackNavigator({
     Home: {
         screen: Home,
@@ -69,4 +70,4 @@ const RootHome = (props) => {
     );
 }
 
-export default RootHome;
+export default withBackHandler(RootHome, true, 'RootHome');

@@ -68,7 +68,8 @@ class CustomTabScreen extends React.Component {
 const App = createStackNavigator({
 
   TabScreen: {
-    screen: withBackHandler(CustomTabScreen),
+    screen: withBackHandler(CustomTabScreen, true, 'RootHome'),
+    //screen: CustomTabScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#FFF',

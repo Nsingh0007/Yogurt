@@ -139,7 +139,7 @@ class Gift extends Component {
     );
   }
 }
-export default withBackHandler(Gift);
+export default Gift;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

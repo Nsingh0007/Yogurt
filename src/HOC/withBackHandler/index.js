@@ -1,12 +1,22 @@
 import React, { Fragment, Component } from 'react';
 import { Platform, BackHandler } from 'react-native';
+import {topLevelNavigate} from '@navigation/topLevelRef.js';
 
-
-const withBackHandler = (Component) => {
-
-
+const withBackHandler = (EncComponent, shouldCheckisFocus = false, routePName = '') => {
     class WithBackHandlerImplementation extends Component {
+
+         
         backAction = () => {
+            if(shouldCheckisFocus) {
+                console.log('TEST_HOC_COC - ',this.props.navigation.isFocused());
+                let isFocued = this.props.navigation.isFocused();
+                if(isFocued) {
+                    topLevelNavigate(routePName);
+                    return true;
+                }else {
+                    return false;
+                }
+            }
             return true;
         };
 
@@ -23,7 +33,7 @@ const withBackHandler = (Component) => {
         };
         render() {
             return (
-                <Component {...this.props} />
+                <EncComponent {...this.props} />
             );
         }
     }

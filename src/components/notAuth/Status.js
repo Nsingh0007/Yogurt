@@ -690,4 +690,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withBackHandler(Status));
+export default connect(mapStateToProps, mapDispatchToProps)(Status);
