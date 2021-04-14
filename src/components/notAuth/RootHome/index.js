@@ -14,12 +14,14 @@ const RootHomeNavigator = createStackNavigator({
         screen: Home,
         navigationOptions: {
             headerShown: false,
+            gestureEnabled: false
         },
     },
     Gift: {
         screen: Gift,
         navigationOptions: {
             headerShown: false,
+            gestureEnabled: false
         },
     },
     Status: {
@@ -33,12 +35,14 @@ const RootHomeNavigator = createStackNavigator({
         screen: TopNav,
         navigationOptions: {
             headerShown: false,
+            gestureEnabled: false
         },
     },
     Contact: {
         screen: Contact,
         navigationOptions: {
             headerShown: false,
+            gestureEnabled: false
         },
     },
 });
