@@ -110,7 +110,7 @@ export const handleCollapse = (id) => (dispatch) => {
 };
 
 export const setCurrentSelectedCategory = (categoryData) => {
-  console.log('here - ', categoryData);
+  //console.log('here - ', categoryData);
   return {
     type: SET_CURRENT_CATEGORY,
     payload: categoryData,

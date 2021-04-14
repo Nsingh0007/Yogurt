@@ -151,6 +151,7 @@ class ReviewOrder extends Component {
     }, 2000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      console.log('Review Order Focused --')
       this.getCardData();
     });
   };
@@ -186,6 +187,12 @@ class ReviewOrder extends Component {
         mapKey: 'FlavorId',
       },
       {
+        cartDataKey: 'Topping',
+        rootObjectKey: 'toppings',
+        containerKey: 'toppingsData',
+        mapKey: 'ToppingId',
+      },
+      {
         cartDataKey: 'BottomTopping',
         rootObjectKey: 'bottomTopping',
         containerKey: 'toppingsData',
@@ -212,6 +219,7 @@ class ReviewOrder extends Component {
     ];
 
     extractKeysFromCartData.map((singleOperation, index) => {
+
       rootObject[singleOperation.rootObjectKey] = [];
       let extractIdsFromCartString = cartData[
         singleOperation.cartDataKey
@@ -743,7 +751,7 @@ class ReviewOrder extends Component {
     return (
       <View style={styles.container}>
         <Spinner visible={spinner} size="large" color="#793422" />
-        <View style={styles.DropDownView}>
+        <View style={Platform.OS == 'android' ? styles.DropDownView_A : styles.DropDownView_I }>
           <DropDownPicker
             items={dateArray}
             scrollViewProps={{
@@ -756,7 +764,7 @@ class ReviewOrder extends Component {
             itemStyle={styles.DropDownText}
             labelStyle={styles.DropDownText}
             containerStyle={{height: Platform.OS === 'ios' ? 38 : 38}}
-            dropDownMaxHeight={270}
+            dropDownMaxHeight={250}
             style={styles.DropDownStyle}
             dropDownStyle={styles.DropDownStyle}
             onChangeItem={item => this.setState({pickupTime: item.value})}
@@ -1300,9 +1308,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#2D2926',
     borderColor: '#2D2926',
   },
-  DropDownView: {
+  DropDownView_A: {
     width: '40%',
-    height: 250,
+    height: 270,
+    position: 'absolute',
+    zIndex: 5000,
+    right: 15,
+    top: 88,
+  },
+  DropDownView_I: {
+    width: '40%',
     position: 'absolute',
     zIndex: 5000,
     right: 15,

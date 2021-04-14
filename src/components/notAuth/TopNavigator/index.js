@@ -11,7 +11,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Menu from './Menu';
 import Featured from './Flavours';
 import Previous from './Previous';
-import Favorites from './Favorites'
+import Favorites from './Favorites';
 
 import { setTopTabRef } from '../../../router/topTabRef';
 import BottomCartCountView from './BotomCartCountView';

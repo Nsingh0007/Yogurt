@@ -5,8 +5,8 @@ const NETWORKINSTANCE = {
 }
 
 export const APIENDPOINT = {
-    //endPoint: NETWORKINSTANCE.local
-    endPoint: NETWORKINSTANCE.server
+    endPoint: NETWORKINSTANCE.local
+    //endPoint: NETWORKINSTANCE.server
 }
 
 export const commonHeader = {
@@ -15,6 +15,7 @@ export const commonHeader = {
 }
 
 export const endPoints = {
+    
     createUserAPI: APIENDPOINT.endPoint + 'api/Account/PutRegistrationConsumer',
 
     loginAPI: APIENDPOINT.endPoint + 'Token',
