@@ -82,7 +82,6 @@ class Home extends Component {
     this.fetchSlideByUser();
     this.props.fetchCartData();
     const {isUserLoggedIn} = this.props.userstore;
-
     setTimeout(() => {
       this.checkVersion();
     }, 1500);

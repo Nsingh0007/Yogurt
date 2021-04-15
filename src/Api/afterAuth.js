@@ -411,7 +411,7 @@ export async function GetCustomerPreviousOrder() {
 
     const Authorization = await AsyncStorage.getItem('userLoggedInToken');
     GetCustomerPreviousOrderResponse = await Axios.get(
-      endPoints.prviousListAPI,
+      endPoints.previousListAPI,
       {
         headers: { ...commonHeader, Authorization: `Bearer ${Authorization}` },
       },
