@@ -4,6 +4,8 @@ import nextArrow from "../../../../assets/icon/order/icons8-forward-26.png";
 import Vector2 from "../../../../assets/icon/order/Vector2.png";
 import { connect } from "react-redux";
 import FastImage from "react-native-fast-image";
+import BackHoc from './BackHoc';
+
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1,
@@ -206,4 +208,4 @@ const mapStateToProps = (state) => {
     sixPackStore: state.sixPackStore,
   };
 };
-export default connect(mapStateToProps, null)(SixPack);
+export default connect(mapStateToProps, null)(BackHoc(SixPack));

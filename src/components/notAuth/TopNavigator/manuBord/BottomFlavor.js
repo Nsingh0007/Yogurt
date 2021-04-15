@@ -11,6 +11,7 @@ import Vector2 from "../../../../assets/icon/order/Vector2.png";
 import { connect } from "react-redux";
 import { mutateProducts } from "@redux";
 import FastImage from "react-native-fast-image";
+import BackHoc from './BackHoc';
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -617,4 +618,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(BottomFlavors);
+export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(BottomFlavors));
