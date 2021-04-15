@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SafeAreaView, Text, Alert, View, Button } from 'react-native';
+import { SafeAreaView, Text, Alert, View, Button, BackHandler } from 'react-native';
 import { ReduxStore } from '@redux';
 import { Provider } from 'react-redux';
 import Appcontainer from './src/router/index';
@@ -52,5 +52,4 @@ class App extends React.Component {
     );
   }
 }
-export default App;
- 
+export default App; 

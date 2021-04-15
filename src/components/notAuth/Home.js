@@ -40,6 +40,7 @@ import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
 import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
+import { withBackHandler } from '@appHoc';
 
 import Socket from '@socket';
 const HEADER_MAX_HEIGHT = 200;
@@ -81,7 +82,6 @@ class Home extends Component {
     this.fetchSlideByUser();
     this.props.fetchCartData();
     const {isUserLoggedIn} = this.props.userstore;
-
     setTimeout(() => {
       this.checkVersion();
     }, 1500);

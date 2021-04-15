@@ -35,20 +35,20 @@ class Featured extends Component {
     };
   }
 
-  backAction = () => {
-    const isFocused = this.props.navigation.isFocused();
-    if (isFocused) {
-      console.log('Featured true');
-      return true;
-    } else {
-      console.log('Featured false');
-      return false;
-    }
-  };
+  // backAction = () => {
+  //   const isFocused = this.props.navigation.isFocused();
+  //   if (isFocused) {
+  //     console.log('Featured true');
+  //     return true;
+  //   } else {
+  //     console.log('Featured false');
+  //     return false;
+  //   }
+  // };
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
-  }
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener('hardwareBackPress', this.backAction);
+  // }
 
   fetchGetCategory = async () => {
     const FeatureResponse = await FeaturePageByUser();
@@ -59,7 +59,7 @@ class Featured extends Component {
   };
 
   componentDidMount = async () => {
-    BackHandler.addEventListener('hardwareBackPress', this.backAction);
+    //BackHandler.addEventListener('hardwareBackPress', this.backAction);
     this.fetchGetCategory();
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
       this.fetchGetCategory();

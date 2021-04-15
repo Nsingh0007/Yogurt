@@ -10,8 +10,8 @@ import {
 import Vector2 from "../../../../assets/icon/order/Vector2.png";
 import { connect } from "react-redux";
 import { mutateProducts } from "@redux";
-import FastImage from "react-native-fast-image";
-
+import FastImage from "react-native-fast-image"; 
+import BackHoc from './BackHoc';
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1,
@@ -100,8 +100,7 @@ class Flavors extends Component {
       ready: true,
       sixPackData,
     });
-  };
-
+  }; 
   render() {
     const { selectedProductData, flavorData } = this.props?.productstore;
     const { selectedCategory } = this.props?.categorystore;
@@ -622,4 +621,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Flavors);
+export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(Flavors));

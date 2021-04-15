@@ -35,7 +35,9 @@ class BottomCartCountView extends Component {
               </Text>
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => topLevelNavigate('revieworder')}>
+                <TouchableOpacity onPress={() => topLevelNavigate('revieworder', {
+                    toRoute: this.props.toRoute
+                })}>
                     <View style={{ marginTop: -18 }}>
                         <View
                             style={{

@@ -5,8 +5,8 @@ const NETWORKINSTANCE = {
 }
 
 export const APIENDPOINT = {
-    endPoint: NETWORKINSTANCE.local
-    //endPoint: NETWORKINSTANCE.server
+    //endPoint: NETWORKINSTANCE.local
+    endPoint: NETWORKINSTANCE.server
 }
 
 export const commonHeader = {
@@ -60,7 +60,7 @@ export const endPoints = {
 
     favoriteListAPI: APIENDPOINT.endPoint + 'api/OrderMaster/GetCustomerFavoriteItemList',
 
-    prviousListAPI: APIENDPOINT.endPoint + 'api/OrderMaster/GetCustomerPreviousOrderList',
+    previousListAPI: APIENDPOINT.endPoint + 'api/OrderMaster/GetCustomerPreviousOrderList',
 
     orderListAPI: APIENDPOINT.endPoint + 'api/OrderMaster/GetCustomerOrderList',
 

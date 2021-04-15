@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import SearchInput, { createFilter } from "react-native-search-filter";
 import { mutateProducts } from "@redux";
 import FastImage from "react-native-fast-image";
+import BackHoc from './BackHoc';
 
 const KEYS_TO_FILTERS = ["ToppingName"];
 
@@ -758,4 +759,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SideToppings);
+export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(SideToppings));
