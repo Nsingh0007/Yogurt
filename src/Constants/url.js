@@ -5,8 +5,8 @@ const NETWORKINSTANCE = {
 }
 
 export const APIENDPOINT = {
-    endPoint: NETWORKINSTANCE.local
-    //endPoint: NETWORKINSTANCE.server
+    //endPoint: NETWORKINSTANCE.local
+    endPoint: NETWORKINSTANCE.server
 }
 
 export const commonHeader = {

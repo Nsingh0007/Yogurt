@@ -1,5 +1,6 @@
-import withBackHandler from './withBackHandler';
+import withBackHandler,{rootLevelBackFunction} from './withBackHandler';
 
 export {
-    withBackHandler
+    withBackHandler,
+    rootLevelBackFunction
 }

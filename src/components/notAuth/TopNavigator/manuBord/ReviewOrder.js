@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -19,15 +19,16 @@ import Heart_Like1 from '../../../../assets/icon/order/heart.png';
 import Add_Item from '../../../../assets/icon/order/Add_Item.png';
 import Minus_Item from '../../../../assets/icon/order/Minus_Item.png';
 import EmptyCart from '../../../../assets/icon/order/EmptyCart.png';
-import {connect} from 'react-redux';
-import {deleteCart, updateCart, HostURL} from '@api';
-import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
-import {setCurrentSelectedCategory} from '@redux'; 
-import {topLevelNavigate} from '@navigation/topLevelRef.js';
+import { connect } from 'react-redux';
+import { deleteCart, updateCart, HostURL } from '@api';
+import { fetchCartDataAsyncCreator } from '@redux/getcart.js';
+import { setCurrentSelectedCategory } from '@redux';
+import { topLevelNavigate } from '@navigation/topLevelRef.js';
 import FastImage from 'react-native-fast-image';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { rootLevelBackFunction } from '@appHoc';
 
 MaterialIcons.loadFont();
 
@@ -89,11 +90,11 @@ class ReviewOrder extends Component {
 
   Show_Custom_AlertForTime(visible) {
     this.showTimeSlot();
-    this.setState({Model_Visibility: visible});
+    this.setState({ Model_Visibility: visible });
   }
 
   Hide_Custom_AlertForTime() {
-    this.setState({Model_Visibility: false});
+    this.setState({ Model_Visibility: false });
   }
 
   Show_Custom_Alert(visible) {
@@ -137,16 +138,17 @@ class ReviewOrder extends Component {
   }
 
   Hide_Custom_Alert() {
-    this.setState({Alert_Visibility: false});
+    this.setState({ Alert_Visibility: false });
   }
 
   toggleExpanded = () => {
     //Toggling the state of single Collapsible
-    this.setState({collapsed: !this.state.collapsed});
+    this.setState({ collapsed: !this.state.collapsed });
   };
 
   componentDidMount = async () => {
-    const {userDetails, authToken} = this.props.userstore;
+    let navigateOnBackParam = this.props.navigation.getParam('toRoute');
+    const { userDetails, authToken } = this.props.userstore;
     const isFocused = this.props.navigation.isFocused();
     //BackHandler.addEventListener('hardwareBackPress', this.backAction);
     this.setState({
@@ -164,12 +166,17 @@ class ReviewOrder extends Component {
     }, 2000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      rootLevelBackFunction.func = () => {
+        //topLevelNavigate(navigateOnBackParam);
+        this.props.navigation.goBack();
+      }
       console.log('Review Order Focused --')
       this.getCardData();
     });
   };
 
   componentWillUnmount() {
+    console.log('UNMOUNT_RE_ORDER');
     clearInterval(this.time);
     //BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
@@ -266,16 +273,16 @@ class ReviewOrder extends Component {
     let returnData = {};
     productStore[outerKey].map(i => {
       if (i[innerKey] == id) {
-        returnData = {...i};
+        returnData = { ...i };
       }
     });
     return returnData;
   };
 
   handleSixPackEdit = (singleCartData, cartIndex) => {
-    const {categoryStore, getCartStore} = this.props;
-    const {categoryData, loader} = categoryStore;
-    let newSixPackStore = {...this.props.reduxState.sixPackStore};
+    const { categoryStore, getCartStore } = this.props;
+    const { categoryData, loader } = categoryStore;
+    let newSixPackStore = { ...this.props.reduxState.sixPackStore };
     let executeSixPackIndex = -1;
     let executeSixPackRootObject = {};
     newSixPackStore.sixPackData.map((rootSixPack, index) => {
@@ -284,7 +291,7 @@ class ReviewOrder extends Component {
         rootSixPack.SubCategory.SubCategoryId == singleCartData.SubCategoryId
       ) {
         executeSixPackIndex = index;
-        executeSixPackRootObject = {...rootSixPack};
+        executeSixPackRootObject = { ...rootSixPack };
       }
     });
     if (
@@ -295,7 +302,7 @@ class ReviewOrder extends Component {
     }
     executeSixPackRootObject.isEditMode = true;
     const assignSixPackDataToStore = Products => {
-      let rootProducts = {...Products};
+      let rootProducts = { ...Products };
       let bindObj = [
         {
           inCartKey: 'Flavor',
@@ -322,13 +329,13 @@ class ReviewOrder extends Component {
             );
             if (!findProductsFromCart) {
               productTypesData.products = [];
-              return {...productTypesData};
+              return { ...productTypesData };
             }
             let products = [];
             let mapProducts = findProductsFromCart.products.split(',');
             if (mapProducts.length == 0) {
               productTypesData.products = [];
-              return {...productTypesData};
+              return { ...productTypesData };
             }
             mapProducts.map(productInCart => {
               let returnObj = {
@@ -342,7 +349,7 @@ class ReviewOrder extends Component {
                 products.push(returnObj);
               }
             });
-            let newProductReturnData = {...productTypesData};
+            let newProductReturnData = { ...productTypesData };
             newProductReturnData.products = products;
             return newProductReturnData;
           });
@@ -358,7 +365,7 @@ class ReviewOrder extends Component {
     newSixPackStore.sixPackData[executeSixPackIndex] = {
       ...executeSixPackRootObject,
     };
-    this.props.dispatch({type: 'MUTATE', data: newSixPackStore});
+    this.props.dispatch({ type: 'MUTATE', data: newSixPackStore });
     categoryData?.map((singleMenu, categoryIndex) => {
       if (
         singleCartData.CategoryId == singleMenu.CategoryId &&
@@ -394,18 +401,18 @@ class ReviewOrder extends Component {
   };
 
   handleCartEdit = (singleCartData, cartIndex) => {
-    const {categoryStore, getCartStore} = this.props;
-    const {categoryData, loader} = categoryStore;
+    const { categoryStore, getCartStore } = this.props;
+    const { categoryData, loader } = categoryStore;
     console.log('Single Cart Data ---> ', singleCartData);
     if (singleCartData.IsSixPack) {
       return this.handleSixPackEdit(singleCartData, cartIndex);
     }
 
-    let newProductStore = {...this.props.productstore};
+    let newProductStore = { ...this.props.productstore };
     let selectedProductData = [];
     newProductStore.selectedProductData.map((productData, index) => {
       if (productData.CategoryId == singleCartData.CategoryId) {
-        let newProductData = {...productData};
+        let newProductData = { ...productData };
         if (productData.isSubCategory) {
           let newSubCategoryData = [];
           productData.subCategoryData.map((subCategoryDataL, subCatIndex) => {
@@ -413,18 +420,18 @@ class ReviewOrder extends Component {
               subCategoryDataL.SubCategoryId == singleCartData.SubCategoryId
             ) {
               let newSubCategoryDataL = this.assignmentData(
-                {...subCategoryDataL},
+                { ...subCategoryDataL },
                 singleCartData,
               );
-              newSubCategoryData.push({...newSubCategoryDataL});
+              newSubCategoryData.push({ ...newSubCategoryDataL });
             } else {
-              newSubCategoryData.push({...subCategoryDataL});
+              newSubCategoryData.push({ ...subCategoryDataL });
             }
           });
           newProductData.subCategoryData = [...newSubCategoryData];
         } else {
           let newProductAssignmentData = this.assignmentData(
-            {...productData},
+            { ...productData },
             singleCartData,
           );
           newProductData = {
@@ -432,9 +439,9 @@ class ReviewOrder extends Component {
             ...newProductAssignmentData,
           };
         }
-        selectedProductData.push({...newProductData});
+        selectedProductData.push({ ...newProductData });
       } else {
-        selectedProductData.push({...productData});
+        selectedProductData.push({ ...productData });
       }
     });
     newProductStore.selectedProductData = [...selectedProductData];
@@ -502,9 +509,9 @@ class ReviewOrder extends Component {
   };
 
   getCardData = () => {
-    const {userDetails} = this.props.userstore;
+    const { userDetails } = this.props.userstore;
     this.props.fetchCartData(GetCartDataResponse => {
-      this.setState({spinner: true}, async () => {
+      this.setState({ spinner: true }, async () => {
         if (GetCartDataResponse.result === true) {
           let SubTotalprice = 0;
           let cartId = 0;
@@ -558,7 +565,7 @@ class ReviewOrder extends Component {
             spinner: false,
           });
         } else {
-          this.setState({spinner: false});
+          this.setState({ spinner: false });
         }
       });
     });
@@ -566,7 +573,7 @@ class ReviewOrder extends Component {
 
   deleteCartById = async cartId => {
     this.Is5hourOrder = false;
-    this.setState({pickupTime: 'Pickup Time'});
+    this.setState({ pickupTime: 'Pickup Time' });
     const deleteCartResponse = await deleteCart(cartId);
     if (deleteCartResponse.result === true) {
       this.getCardData();
@@ -578,8 +585,8 @@ class ReviewOrder extends Component {
   };
 
   updateCartForFavoriteItems = async cartId => {
-    const {userDetails, authToken} = this.props.userstore;
-    this.setState({userDetails: userDetails, authToken: authToken});
+    const { userDetails, authToken } = this.props.userstore;
+    this.setState({ userDetails: userDetails, authToken: authToken });
     let body = {};
 
     this.state.userCartData.map(singleCartData => {
@@ -588,7 +595,7 @@ class ReviewOrder extends Component {
         body.IsFavourite = !singleCartData.IsFavourite;
         body.Quantity = singleCartData.Quantity;
         body.OrderPrice = singleCartData.OrderPrice;
-        this.setState({IsFavourite: !this.state.IsFavourite});
+        this.setState({ IsFavourite: !this.state.IsFavourite });
       }
     });
     const updateCartResponse = await updateCart(body, authToken);
@@ -601,8 +608,8 @@ class ReviewOrder extends Component {
   };
 
   updateCartForIncreaseQuantity = async cartId => {
-    const {userDetails, authToken} = this.props.userstore;
-    this.setState({userDetails: userDetails, authToken: authToken});
+    const { userDetails, authToken } = this.props.userstore;
+    this.setState({ userDetails: userDetails, authToken: authToken });
 
     let body = {};
 
@@ -626,8 +633,8 @@ class ReviewOrder extends Component {
   };
 
   updateCartForDecreaseQuantity = async cartId => {
-    const {userDetails, authToken} = this.props.userstore;
-    this.setState({userDetails: userDetails, authToken: authToken});
+    const { userDetails, authToken } = this.props.userstore;
+    this.setState({ userDetails: userDetails, authToken: authToken });
 
     let body = {};
     let currentQuantity = 0;
@@ -714,23 +721,21 @@ class ReviewOrder extends Component {
     }
 
     dateArray.map((singleDate, index) => {
-      let extracted = `${
-        singleDate.getHours() > 12
-          ? singleDate.getHours() - 12
-          : singleDate.getHours() == 0
+      let extracted = `${singleDate.getHours() > 12
+        ? singleDate.getHours() - 12
+        : singleDate.getHours() == 0
           ? 12
           : singleDate.getHours()
-      } : ${
-        singleDate.getMinutes() < 10
+        } : ${singleDate.getMinutes() < 10
           ? '0' + singleDate.getMinutes()
           : singleDate.getMinutes()
-      } ${singleDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+        } ${singleDate.getHours() >= 12 ? 'PM' : 'AM'}`;
       ShowDate.push({
         label: extracted,
         value: extracted,
       });
     });
-    this.setState({dateArray: [...ShowDate]});
+    this.setState({ dateArray: [...ShowDate] });
   };
 
   phoneNoWithDash = phoneNo => {
@@ -760,16 +765,16 @@ class ReviewOrder extends Component {
   };
 
   render() {
-    const {userDetails, isUserLoggedIn} = this.props.userstore;
-    const {dateArray, spinner} = this.state;
+    const { userDetails, isUserLoggedIn } = this.props.userstore;
+    const { dateArray, spinner } = this.state;
     return (
       <View style={styles.container}>
         <Spinner visible={spinner} size="large" color="#793422" />
-        <View style={Platform.OS == 'android' ? styles.DropDownView_A : styles.DropDownView_I }>
+        <View style={Platform.OS == 'android' ? styles.DropDownView_A : styles.DropDownView_I}>
           <DropDownPicker
             items={dateArray}
             scrollViewProps={{
-              style: {zIndex: 5000},
+              style: { zIndex: 5000 },
               showsVerticalScrollIndicator: false,
             }}
             placeholder="Pickup Time"
@@ -777,11 +782,11 @@ class ReviewOrder extends Component {
             placeholderStyle={styles.DropDownText}
             itemStyle={styles.DropDownText}
             labelStyle={styles.DropDownText}
-            containerStyle={{height: Platform.OS === 'ios' ? 38 : 38}}
+            containerStyle={{ height: Platform.OS === 'ios' ? 38 : 38 }}
             dropDownMaxHeight={250}
             style={styles.DropDownStyle}
             dropDownStyle={styles.DropDownStyle}
-            onChangeItem={item => this.setState({pickupTime: item.value})}
+            onChangeItem={item => this.setState({ pickupTime: item.value })}
           />
           <View
             style={{
@@ -792,17 +797,17 @@ class ReviewOrder extends Component {
           />
         </View>
         <View style={styles.header}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <TouchableOpacity
               style={{
                 width: 30,
                 margin: 10,
               }}
               onPress={() => this.props.navigation.navigate('RootHome')}>
-              <FastImage source={leftArrow} style={{width: 25, height: 25}} />
+              <FastImage source={leftArrow} style={{ width: 25, height: 25 }} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{justifyContent: 'center', marginEnd: 10}}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ justifyContent: 'center', marginEnd: 10 }}>
                 <Text style={styles.RewardText}>
                   {userDetails.LeftRewardPoints == null
                     ? 0
@@ -819,7 +824,7 @@ class ReviewOrder extends Component {
           </View>
           <View style={styles.HeaderSeperator} />
           <View style={styles.TextView}>
-            <View style={{marginStart: 10, width: '50%'}}>
+            <View style={{ marginStart: 10, width: '50%' }}>
               <TextInput
                 style={styles.TextInputStyle}
                 placeholder={'Pickup name'}
@@ -842,7 +847,7 @@ class ReviewOrder extends Component {
               />
             </View>
           </View>
-          <View style={{marginStart: 20, width: '50%'}}>
+          <View style={{ marginStart: 20, width: '50%' }}>
             <TextInput
               style={styles.TextInputStyle}
               placeholder={'Pickup number'}
@@ -850,7 +855,7 @@ class ReviewOrder extends Component {
               underlineColorAndroid={'#ADA7A5'}
               value={this.phoneNoWithDash(this.state.pickupNumber)}
               onChangeText={number => {
-                this.setState({pickupNumber: this.phoneNoWithDash(number)});
+                this.setState({ pickupNumber: this.phoneNoWithDash(number) });
               }}
               maxLength={12}
               keyboardType={'numeric'}
@@ -900,7 +905,7 @@ class ReviewOrder extends Component {
                       <View style={styles.cardSubView}>
                         <View>
                           <FastImage
-                            style={{height: 40, width: 40, marginTop: 5}}
+                            style={{ height: 40, width: 40, marginTop: 5 }}
                             source={{
                               uri: `${HostURL}${singleCartData.LogoUrl}`,
                             }}
@@ -913,12 +918,12 @@ class ReviewOrder extends Component {
                           }}>
                           <Text style={styles.categoryText}>
                             {singleCartData.CategoryName ==
-                            singleCartData.SubCategoryName
+                              singleCartData.SubCategoryName
                               ? `${singleCartData.CategoryName}`
                               : `${singleCartData.CategoryName} (${singleCartData.SubCategoryName})`}
                           </Text>
                           {singleCartData.SizeName != '' &&
-                          singleCartData.SizeName != null ? (
+                            singleCartData.SizeName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Size:
                               <Text style={styles.subHeadingText}>
@@ -927,7 +932,7 @@ class ReviewOrder extends Component {
                             </Text>
                           ) : null}
                           {singleCartData.Comment != '' &&
-                          singleCartData.Comment != null ? (
+                            singleCartData.Comment != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Special Instruction:
                               <Text style={styles.subHeadingText}>
@@ -937,7 +942,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.FlavorName != '' &&
-                          singleCartData.FlavorName != null ? (
+                            singleCartData.FlavorName != null ? (
                             <Text
                               numberOfLines={singleCartData.IsSixPack ? 25 : 2}
                               style={styles.subHeading}>
@@ -961,7 +966,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.TopFlavorName != '' &&
-                          singleCartData.TopFlavorName != null ? (
+                            singleCartData.TopFlavorName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Top Flavors:
                               <Text style={styles.subHeadingText}>
@@ -971,7 +976,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.MiddleFlavorName != '' &&
-                          singleCartData.MiddleFlavorName != null ? (
+                            singleCartData.MiddleFlavorName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Middle Flavors:
                               <Text style={styles.subHeadingText}>
@@ -981,7 +986,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.BottomFlavorName != '' &&
-                          singleCartData.BottomFlavorName != null ? (
+                            singleCartData.BottomFlavorName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Bottom Flavors:
                               <Text style={styles.subHeadingText}>
@@ -991,8 +996,8 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.ToppingName != '' &&
-                          singleCartData.ToppingName != null &&
-                          singleCartData.IsSixPack == false ? (
+                            singleCartData.ToppingName != null &&
+                            singleCartData.IsSixPack == false ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1006,9 +1011,9 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.ToppingName != '' &&
-                          singleCartData.ToppingName != null &&
-                          singleCartData.IsSixPack == true &&
-                          IsTopping == true ? (
+                            singleCartData.ToppingName != null &&
+                            singleCartData.IsSixPack == true &&
+                            IsTopping == true ? (
                             <Text numberOfLines={25} style={styles.subHeading}>
                               Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1024,7 +1029,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.TopToppingName != '' &&
-                          singleCartData.TopToppingName != null ? (
+                            singleCartData.TopToppingName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Top Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1034,7 +1039,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.MiddleToppingName != '' &&
-                          singleCartData.MiddleToppingName != null ? (
+                            singleCartData.MiddleToppingName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Middle Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1044,7 +1049,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.BottomToppingName != '' &&
-                          singleCartData.BottomToppingName != null ? (
+                            singleCartData.BottomToppingName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Bottom Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1054,7 +1059,7 @@ class ReviewOrder extends Component {
                           ) : null}
 
                           {singleCartData.SideToppingName != '' &&
-                          singleCartData.SideToppingName != null ? (
+                            singleCartData.SideToppingName != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Side Toppings:
                               <Text style={styles.subHeadingText}>
@@ -1063,7 +1068,7 @@ class ReviewOrder extends Component {
                             </Text>
                           ) : null}
                           {singleCartData.CustomDate != '' &&
-                          singleCartData.CustomDate != null ? (
+                            singleCartData.CustomDate != null ? (
                             <Text numberOfLines={2} style={styles.subHeading}>
                               Pickup Date:
                               <Text style={styles.subHeadingText}>
@@ -1158,7 +1163,7 @@ class ReviewOrder extends Component {
                                     }>
                                     <FastImage
                                       source={Add_Item}
-                                      style={{height: 30, width: 30}}
+                                      style={{ height: 30, width: 30 }}
                                     />
                                   </TouchableOpacity>
                                 </>
@@ -1198,7 +1203,7 @@ class ReviewOrder extends Component {
                             </View>
                           }
                         </View>
-                        <View style={{width: 65}}>
+                        <View style={{ width: 65 }}>
                           <Text
                             style={{
                               color: '#793422',

@@ -2,6 +2,9 @@ import React, { Fragment, Component } from 'react';
 import { Platform, BackHandler } from 'react-native';
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 
+export const rootLevelBackFunction = {
+    func: () => { }
+}
 const withBackHandler = (EncComponent, shouldCheckisFocus = false, routePName = '') => {
     class WithBackHandlerImplementation extends Component {
 
@@ -11,7 +14,8 @@ const withBackHandler = (EncComponent, shouldCheckisFocus = false, routePName = 
                 console.log('TEST_HOC_COC - ',this.props.navigation.isFocused());
                 let isFocued = this.props.navigation.isFocused();
                 if(isFocued) {
-                    topLevelNavigate(routePName);
+                    rootLevelBackFunction.func();
+                    //topLevelNavigate(routePName);
                     return true;
                 }else {
                     return false;

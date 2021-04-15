@@ -59,7 +59,7 @@ class CustomTabScreen extends React.Component {
       <Fragment>
         <TabScreenNavigator ref={setTopTabRef} />
 
-        <BottomCartCountView />
+        <BottomCartCountView toRoute={'RootHome'} />
       </Fragment>
     );
   };
