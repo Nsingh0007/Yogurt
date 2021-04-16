@@ -61,7 +61,7 @@ export default class ForgotPassword extends Component {
       setTimeout(() => {
         this.myAlert('Message', 'this email is not registered');
       }, 100);
-      console.log('getting error here-------------');
+      console.log('getting error here-------------',userForgotPasswordResponse);
     }
     return;
   };

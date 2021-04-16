@@ -17,6 +17,8 @@ import cart2 from '../../../assets/icon/order/cart2.png';
 import {connect} from 'react-redux';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
+import BackHoc from './manuBord/BackHoc';
+import {withBackHandler} from '@appHoc';
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -662,4 +664,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewPrevious);
+export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(ViewPrevious))
+//export default connect(mapStateToProps, mapDispatchToProps)(ViewPrevious);
