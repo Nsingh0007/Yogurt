@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from 'react';
 import {
   View,
   Text,
@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-} from "react-native";
-import Vector2 from "../../../../assets/icon/order/Vector2.png";
-import { connect } from "react-redux";
-import { mutateProducts } from "@redux";
-import FastImage from "react-native-fast-image"; 
+  SafeAreaView,
+  SectionList,
+} from 'react-native';
+import Vector2 from '../../../../assets/icon/order/Vector2.png';
+import {connect} from 'react-redux';
+import {mutateProducts} from '@redux';
+import FastImage from 'react-native-fast-image';
 import BackHoc from './BackHoc';
 Text.defaultProps = {
   allowFontScaling: false,
@@ -20,7 +22,9 @@ Text.defaultProps = {
 class Flavors extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      Data: [],
+    };
   }
 
   handleMutate = (subCategoryData, currentTopTopingArray) => {
@@ -29,26 +33,26 @@ class Flavors extends Component {
       return true;
     } else {
       Alert.alert(
-        "Message",
+        'Message',
         `Oops! Please select only ${subCategoryData.FlavorCount} Flavors`,
         [
           {
-            text: "Okay",
+            text: 'Okay',
           },
-        ]
+        ],
       );
       return false;
     }
   };
-  
+
   readyRender = () => {
-    const { getParam } = this.props.navigation;
-    const CategoryId = getParam("CategoryId");
-    const SubCategoryId = getParam("SubCategoryId");
-    const type = getParam("type");
-    const sixPackDataIndex = getParam("sixPackDataIndex");
-    const productIndex = getParam("productIndex");
-    const isSixPackLogic = getParam("isSixPackLogic", false);
+    const {getParam} = this.props.navigation;
+    const CategoryId = getParam('CategoryId');
+    const SubCategoryId = getParam('SubCategoryId');
+    const type = getParam('type');
+    const sixPackDataIndex = getParam('sixPackDataIndex');
+    const productIndex = getParam('productIndex');
+    const isSixPackLogic = getParam('isSixPackLogic', false);
     return {
       CategoryId,
       SubCategoryId,
@@ -60,8 +64,8 @@ class Flavors extends Component {
   };
 
   addFlavor = (selectedCategory, singleflavor) => {
-    let { sixPackStore } = this.props;
-    let { sixPackData } = sixPackStore;
+    let {sixPackStore} = this.props;
+    let {sixPackData} = sixPackStore;
     const {
       sixPackDataIndex,
       productIndex,
@@ -70,9 +74,9 @@ class Flavors extends Component {
     } = this.readyRender();
     if (isSixPackLogic) {
       sixPackData[sixPackDataIndex].Products[type][productIndex].products.push(
-        singleflavor
+        singleflavor,
       );
-      return this.props.mutateSixPackStore("MUTATE", {
+      return this.props.mutateSixPackStore('MUTATE', {
         ready: true,
         sixPackData,
       });
@@ -80,32 +84,68 @@ class Flavors extends Component {
     this.props.mutateProductsDispatch(
       selectedCategory,
       singleflavor,
-      "FLAVORS",
-      "ADD"
+      'FLAVORS',
+      'ADD',
     );
   };
 
-  removeSixPackFlavor = (mutateIndex) => {
-    let { sixPackStore } = this.props;
-    let { sixPackData } = sixPackStore;
-    const { sixPackDataIndex, productIndex, type } = this.readyRender();
+  removeSixPackFlavor = mutateIndex => {
+    let {sixPackStore} = this.props;
+    let {sixPackData} = sixPackStore;
+    const {sixPackDataIndex, productIndex, type} = this.readyRender();
     let updatedProduct = sixPackData[sixPackDataIndex].Products[type][
       productIndex
-    ].products.filter((itr) => itr.FlavorId != mutateIndex);
+    ].products.filter(itr => itr.FlavorId != mutateIndex);
 
     sixPackData[sixPackDataIndex].Products[type][
       productIndex
     ].products = updatedProduct;
-    return this.props.mutateSixPackStore("MUTATE", {
+    return this.props.mutateSixPackStore('MUTATE', {
       ready: true,
       sixPackData,
     });
   };
 
+  componentDidMount = () => {
+    const {flavorData} = this.props?.productstore;
+    let Yogurt = {
+      title: 'YOGURT',
+      data: [],
+    };
+    let Glace = {
+      title: 'GLACE',
+      data: [],
+    };
+    let NoSugarAdded = {
+      title: 'NO SUGAR ADDED',
+      data: [],
+    };
+    let DairyFree = {
+      title: 'DAIRY FREE',
+      data: [],
+    };
+    flavorData.map((singleflavor, singleFlavorIndex) => {
+      if (singleflavor.FlavorTypeName === 'Yogurt') {
+        Yogurt.data.push(singleflavor);
+      }
+      if (singleflavor.FlavorTypeName === 'Glace') {
+        Glace.data.push(singleflavor);
+      }
+      if (singleflavor.FlavorTypeName === 'No Sugar Added') {
+        NoSugarAdded.data.push(singleflavor);
+      }
+      if (singleflavor.FlavorTypeName === 'Dairy Free Sorbet') {
+        DairyFree.data.push(singleflavor);
+      }
+    });
+    let Data = [Yogurt, Glace, NoSugarAdded, DairyFree];
+    this.setState({Data});
+  };
+
   render() {
-    const { selectedProductData, flavorData } = this.props?.productstore;
-    const { selectedCategory } = this.props?.categorystore;
-    const { sixPackStore } = this.props;
+    const {selectedProductData, flavorData} = this.props?.productstore;
+    const {selectedCategory} = this.props?.categorystore;
+    const {sixPackStore} = this.props;
     const {
       CategoryId,
       SubCategoryId,
@@ -119,7 +159,7 @@ class Flavors extends Component {
 
     if (!isSixPackLogic) {
       if (!selectedCategory.isSubCategory) {
-        let updatedDemo = selectedProductData.find((singleCategory) => {
+        let updatedDemo = selectedProductData.find(singleCategory => {
           if (
             selectedCategory.category.CategoryId === singleCategory.CategoryId
           ) {
@@ -132,9 +172,9 @@ class Flavors extends Component {
       } else {
         let updatedDemo = [];
 
-        selectedProductData.map((singleMap) => {
+        selectedProductData.map(singleMap => {
           if (singleMap.CategoryId === selectedCategory.category.CategoryId) {
-            singleMap.subCategoryData.map((singleSubCategory) => {
+            singleMap.subCategoryData.map(singleSubCategory => {
               if (
                 singleSubCategory.SubCategoryId ===
                 selectedCategory.subCategory.SubCategoryId
@@ -159,379 +199,78 @@ class Flavors extends Component {
             onPress={() => {
               isSixPackLogic
                 ? this.props.navigation.goBack()
-                : this.props.navigation.navigate("menuIndex");
-            }}
-          >
+                : this.props.navigation.navigate('menuIndex');
+            }}>
             <FastImage
               source={Vector2}
-              style={{ height: 25, width: 25, margin: 6 }}
+              style={{height: 25, width: 25, margin: 6}}
             />
           </TouchableOpacity>
-          <View style={{ justifyContent: "center" }}>
+          <View style={{justifyContent: 'center'}}>
             <Text style={styles.headerText}>FLAVORS</Text>
           </View>
           <Text style={styles.headerText}> </Text>
         </View>
         <ScrollView>
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              YOGURT
-            </Text>
-          </View>
-          {flavorData.map((singleflavor, singleFlavorIndex) => {
-            return (
-              <Fragment key={singleFlavorIndex}>
-                <ScrollView>
-                  <View>
-                    {singleflavor.FlavorTypeName === "Yogurt" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.subContent}>
-                              {singleflavor.FlavorName}
-                            </Text>
-                            <Text style={styles.subTextContent}>
-                              {singleflavor.Description}
-                            </Text>
-                          </View>
-                          {selectFlavorsForSpecificCategory.some(
-                            (item) => item.FlavorId == singleflavor.FlavorId
-                          ) ? (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (isSixPackLogic) {
-                                  return this.removeSixPackFlavor(
-                                    singleflavor.FlavorId
-                                  );
-                                }
-                                this.props.mutateProductsDispatch(
-                                  selectedCategory,
-                                  singleflavor,
-                                  "FLAVORS",
-                                  "REMOVE"
-                                );
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Remove</Text>
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (
-                                  this.handleMutate(
-                                    selectedCategory.subCategory,
-                                    selectFlavorsForSpecificCategory
-                                  )
-                                ) {
-                                  this.addFlavor(
-                                    selectedCategory,
-                                    singleflavor
-                                  );
-                                }
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Add</Text>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
+          <SectionList
+            sections={this.state.Data}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({item}) => (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    margin: 10,
+                  }}>
+                  <View style={{flexDirection: 'column'}}>
+                    <Text style={styles.subContent}>{item.FlavorName}</Text>
+                    <Text style={styles.subTextContent}>
+                      {item.Description}
+                    </Text>
                   </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              GLACÉ
-            </Text>
-          </View>
-          {flavorData.map((singleflavor, singleFlavorIndex) => {
-            return (
-              <Fragment key={singleFlavorIndex}>
-                <ScrollView>
-                  <View>
-                    {singleflavor.FlavorTypeName === "Glace" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.subContent}>
-                              {singleflavor.FlavorName}
-                            </Text>
-                            <Text style={styles.subTextContent}>
-                              {singleflavor.Description}
-                            </Text>
-                          </View>
-                          {selectFlavorsForSpecificCategory.some(
-                            (item) => item.FlavorId == singleflavor.FlavorId
-                          ) ? (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (isSixPackLogic) {
-                                  return this.removeSixPackFlavor(
-                                    singleflavor.FlavorId
-                                  );
-                                }
-                                this.props.mutateProductsDispatch(
-                                  selectedCategory,
-                                  singleflavor,
-                                  "FLAVORS",
-                                  "REMOVE"
-                                );
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Remove</Text>
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (
-                                  this.handleMutate(
-                                    selectedCategory.subCategory,
-                                    selectFlavorsForSpecificCategory
-                                  )
-                                ) {
-                                  this.addFlavor(
-                                    selectedCategory,
-                                    singleflavor
-                                  );
-                                }
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Add</Text>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              NO SUGAR ADDED
-            </Text>
-          </View>
-          {flavorData.map((singleflavor, singleFlavorIndex) => {
-            return (
-              <Fragment key={singleFlavorIndex}>
-                <ScrollView>
-                  <View>
-                    {singleflavor.FlavorTypeName === "No Sugar Added" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.subContent}>
-                              {singleflavor.FlavorName}
-                            </Text>
-                            <Text style={styles.subTextContent}>
-                              {singleflavor.Description}
-                            </Text>
-                          </View>
-                          {selectFlavorsForSpecificCategory.some(
-                            (item) => item.FlavorId == singleflavor.FlavorId
-                          ) ? (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (isSixPackLogic) {
-                                  return this.removeSixPackFlavor(
-                                    singleflavor.FlavorId
-                                  );
-                                }
-                                this.props.mutateProductsDispatch(
-                                  selectedCategory,
-                                  singleflavor,
-                                  "FLAVORS",
-                                  "REMOVE"
-                                );
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Remove</Text>
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (
-                                  this.handleMutate(
-                                    selectedCategory.subCategory,
-                                    selectFlavorsForSpecificCategory
-                                  )
-                                ) {
-                                  this.addFlavor(
-                                    selectedCategory,
-                                    singleflavor
-                                  );
-                                }
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Add</Text>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              DAIRY FREE
-            </Text>
-          </View>
-          {flavorData.map((singleflavor, singleFlavorIndex) => {
-            return (
-              <Fragment key={singleFlavorIndex}>
-                <ScrollView>
-                  <View>
-                    {singleflavor.FlavorTypeName === "Dairy Free Sorbet" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.subContent}>
-                              {singleflavor.FlavorName}
-                            </Text>
-                            <Text style={styles.subTextContent}>
-                              {singleflavor.Description}
-                            </Text>
-                          </View>
-                          {selectFlavorsForSpecificCategory.some(
-                            (item) => item.FlavorId == singleflavor.FlavorId
-                          ) ? (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (isSixPackLogic) {
-                                  return this.removeSixPackFlavor(
-                                    singleflavor.FlavorId
-                                  );
-                                }
-                                this.props.mutateProductsDispatch(
-                                  selectedCategory,
-                                  singleflavor,
-                                  "FLAVORS",
-                                  "REMOVE"
-                                );
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Remove</Text>
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => {
-                                if (
-                                  this.handleMutate(
-                                    selectedCategory.subCategory,
-                                    selectFlavorsForSpecificCategory
-                                  )
-                                ) {
-                                  this.addFlavor(
-                                    selectedCategory,
-                                    singleflavor
-                                  );
-                                }
-                              }}
-                            >
-                              <Text style={styles.addRemoveButton}>Add</Text>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
+                  {selectFlavorsForSpecificCategory.some(
+                    item2 => item2.FlavorId == item.FlavorId,
+                  ) ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (isSixPackLogic) {
+                          return this.removeSixPackFlavor(item.FlavorId);
+                        }
+                        this.props.mutateProductsDispatch(
+                          selectedCategory,
+                          item,
+                          'FLAVORS',
+                          'REMOVE',
+                        );
+                      }}>
+                      <Text style={styles.addRemoveButton}>Remove</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (
+                          this.handleMutate(
+                            selectedCategory.subCategory,
+                            selectFlavorsForSpecificCategory,
+                          )
+                        ) {
+                          this.addFlavor(selectedCategory, item);
+                        }
+                      }}>
+                      <Text style={styles.addRemoveButton}>Add</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <View style={styles.borderLine} />
+              </>
+            )}
+            renderSectionHeader={({section}) => (
+              <View style={styles.SectionHeaderView}>
+                <Text style={styles.SectionHeaderText}>{section.title}</Text>
+              </View>
+            )}
+          />
         </ScrollView>
       </View>
     );
@@ -540,86 +279,99 @@ class Flavors extends Component {
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     marginBottom: 20,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: '#F9F9F9',
   },
   header: {
-    backgroundColor: "#2D2926",
-    width: "100%",
+    backgroundColor: '#2D2926',
+    width: '100%',
     height: 60,
     padding: 13,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   headerText: {
     fontSize: 20,
-    fontFamily: "OpenSans-ExtraBold",
-    fontWeight: "700",
-    color: "#FFFFFF",
+    fontFamily: 'OpenSans-ExtraBold',
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   subheaderView: {
-    backgroundColor: "#DBDDDE",
+    backgroundColor: '#DBDDDE',
     height: 50,
-    width: "100%",
+    width: '100%',
   },
   borderLine: {
     borderWidth: 0.5,
-    borderColor: "#E6E6E6",
-    width: "90%",
-    alignSelf: "center",
+    borderColor: '#E6E6E6',
+    width: '90%',
+    alignSelf: 'center',
     margin: 0,
   },
   subContent: {
     fontSize: 16,
-    fontFamily: "OpenSans-SemiBold",
+    fontFamily: 'OpenSans-SemiBold',
     margin: 0,
     marginStart: 20,
   },
   subTextContent: {
     fontSize: 14,
-    fontFamily: "OpenSans-SemiBold",
-    color: "#793422",
+    fontFamily: 'OpenSans-SemiBold',
+    color: '#793422',
     marginStart: 20,
     marginEnd: 20,
   },
   addRemoveButton: {
     fontSize: 16,
-    fontFamily: "OpenSans-Bold",
-    color: "#793422",
-    fontWeight: "700",
+    fontFamily: 'OpenSans-Bold',
+    color: '#793422',
+    fontWeight: '700',
     marginTop: 5,
     marginEnd: 10,
   },
+  SectionHeaderView: {
+    backgroundColor: '#DBDDDE',
+    height: 50,
+    justifyContent: 'center',
+  },
+  SectionHeaderText: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 18,
+    fontWeight: '700',
+    margin: 0,
+    marginStart: 20,
+  },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     productstore: state.productstore,
     categorystore: state.categoryStore,
     sixPackStore: state.sixPackStore,
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     mutateProductsDispatch: (
       currentSelectedCategory,
       productData,
       productType,
-      productAction
+      productAction,
     ) => {
       dispatch(
         mutateProducts(
           currentSelectedCategory,
           productData,
           productType,
-          productAction
-        )
+          productAction,
+        ),
       );
     },
     mutateSixPackStore: (type, data) => {
-      dispatch({ type, data });
+      dispatch({type, data});
     },
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(Flavors));
