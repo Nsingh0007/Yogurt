@@ -3,32 +3,29 @@ import { SOCKETURL } from '../Constants';
 import chalk from 'chalk';
 import BRHub from './BRHub';
 class Socket {
-
     //socket level variables
     connection;
     BRHub; 
-
     constructor() {
         this.BRHub = new BRHub(this); 
     }
     init = () => {
         this.connection = signalr.hubConnection(SOCKETURL.endPoint);
         this.connection.logging = true;
+        // Creating Hubs
+        this.createBRHub();
 
-        // Creating BRHubs
-        const BRHubProxy = this.connection.createHubProxy(this.BRHub.hubName);
-        this.BRHub.setHubProxy(BRHubProxy);
-        this.BRHub.listen();
-
-        
         this.connection.start().done(() => {
             console.log(chalk.bgGreen('SOCKET_CONNECTED - '), this.connection.id);
         }).fail(() => {
             console.log(chalk.bold.bgRed('SOCKET_ERROR - '));
         });
-
-
         this.connectionHandling();
+    }
+    createBRHub = () => {
+        const BRHubProxy = this.connection.createHubProxy(this.BRHub.hubName);
+        this.BRHub.setHubProxy(BRHubProxy);
+        this.BRHub.listen();
     }
     connectionHandling = () => {
         //connection-handling

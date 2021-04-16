@@ -18,6 +18,9 @@ const MUTATE_MIDDLE_TOPINGS = "MUTATE_MIDDLE_TOPINGS";
 const MUTATE_SIDE_TOPINGS = "MUTATE_SIDE_TOPINGS";
 const READY_SELECTED_PRODUCT_DATA = "READY_SELECTED_PRODUCT_DATA";
 const RESET_PRODUCT_RECIEPE = "RESET_PRODUCT_RECIEPE";
+
+const UPDATE_FLAVOR = "UPDATE_FLAVOR";
+const UPDATE_TOPPING = "UPDATE_TOPPING";
 const intialState = {
   loader: false,
   flavorData: [],
@@ -56,10 +59,14 @@ export const resetProductReciepe = (selectedProductData) => {
 };
 const productReducer = (state = intialState, action) => {
   switch (action.type) {
-    case "MUTATE_PRODUCTSTORE_ROOT" :
-      return {...state, ...action.payload};
+    case UPDATE_FLAVOR:
+      return { ...state, flavorData: action.payload }
+    case UPDATE_TOPPING:
+      return { ...state, toppingsData: action.payload }
+    case "MUTATE_PRODUCTSTORE_ROOT":
+      return { ...state, ...action.payload };
     case "CUPAUTOPOPULATE":
-      return { ...state,...action.data };
+      return { ...state, ...action.data };
     case RESET_PRODUCT_RECIEPE:
       return { ...state, ...action.data };
     case FETCH_PRODUCT_REQUEST:
@@ -1012,4 +1019,17 @@ export const initialSelectedProductData = (categoryData) => (dispatch) => {
   dispatch({ type: READY_SELECTED_PRODUCT_DATA, payload: updatedCategoryData });
 };
 
+
+export const updateFlavorTree = (newFlavor) => {
+  return {
+    type: UPDATE_FLAVOR,
+    payload: newFlavor
+  }
+}
+export const updateToppingTree = (newTopping) => {
+  return {
+    type: UPDATE_TOPPING,
+    payload: newTopping
+  }
+}
 export default productReducer;

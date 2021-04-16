@@ -106,8 +106,7 @@ class Menu extends Component {
               return null;
             }
             let showSubCategory =
-              singleMenu.SubCategoryInfolst != null &&
-              singleMenu.SubCategoryInfolst.length > 1 &&
+              singleMenu.SubCategoryInfolst != null && 
               singleMenu.IsSubCategory === true;
             return (
               <View key={categoryIndex}>
@@ -210,6 +209,9 @@ class Menu extends Component {
                             singleSubCategory.SubCategoryName !==
                             singleMenu.CategoryName
                           ) {
+                            if (singleSubCategory.Status == "Inactive") {
+                              return null;
+                            }
                             return (
                               <View key={subCategoryIndex}>
                                 <TouchableOpacity
