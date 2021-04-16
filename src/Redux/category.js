@@ -27,7 +27,7 @@ const categoryRequestFail = () => {
   };
 };
 
-const categoryRequestSuccess = (payload) => {
+export const categoryRequestSuccess = (payload) => {
   return {
     type: FETCH_CATEGORY_SUCCESS,
     payload,

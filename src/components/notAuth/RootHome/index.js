@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import BottomNavigator from '../../../router/BottomNavLayout';
 import Home from '../Home';
@@ -10,6 +10,10 @@ import Contact from '../Contact';
 import { setRootBottomTabRef, navigateRootBottomTab } from '../../../router/rootBottomTabRef';
 import { createAppContainer } from 'react-navigation';
 import {withBackHandler} from '@appHoc';
+import { connect } from 'react-redux';
+import Store from '../../../Redux/store';
+import socket from '../../../socket';
+
 const RootHomeNavigator = createStackNavigator({
     Home: {
         screen: Home,
@@ -53,21 +57,20 @@ const RootHome = (props) => {
     const rootLevelNavigate = (routeName, params = {}) => {
         setRouteName(routeName);
         navigateRootBottomTab(routeName);
-    } 
+    }  
+    useEffect(()=>{
+        socket.init();
+    }, []);
+    console.log('TEST_STORE_6 ', JSON.stringify(Store.getState()));
     return (
         <Fragment>
-
-            <RootHomeNavigatorR ref={setRootBottomTabRef} />
-
+            <RootHomeNavigatorR ref={setRootBottomTabRef} /> 
             <BottomNavigator
                 currentRoute={routeName}
                 navigation={props.navigation}
-                rootLevelNavigate={rootLevelNavigate}
-            >
-
-            </BottomNavigator>
+                rootLevelNavigate={rootLevelNavigate} />
         </Fragment>
     );
 }
 
-export default withBackHandler(RootHome, true, 'RootHome');
+export default connect()(withBackHandler(RootHome, true, 'RootHome'));

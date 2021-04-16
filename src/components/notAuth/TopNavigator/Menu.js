@@ -102,6 +102,9 @@ class Menu extends Component {
         <Spinner visible={loader} size="large" color="#793422" />
         <ScrollView showsVerticalScrollIndicator={false}>
           {categoryData?.map((singleMenu, categoryIndex) => {
+            if (singleMenu.Status == "Inactive") {
+              return null;
+            }
             let showSubCategory =
               singleMenu.SubCategoryInfolst != null &&
               singleMenu.SubCategoryInfolst.length > 1 &&

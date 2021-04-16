@@ -15,4 +15,5 @@ export default combineReducers({
   sixPackStore: SixPackReducer,
   getCartStore: getCartReducer,
   getPrevStore: getPrevReducer,
+
 });

@@ -1,14 +1,17 @@
 
 const NETWORKINSTANCE = {
     local: 'https://yogurtapp.moreyeahs.in/',
-    server: 'http://ec2-54-145-253-240.compute-1.amazonaws.com/'
+    server: 'http://ec2-54-145-253-240.compute-1.amazonaws.com/', 
+    socket: `https://yogurtapp.moreyeahs.in`
 }
 
 export const APIENDPOINT = {
-    //endPoint: NETWORKINSTANCE.local
-    endPoint: NETWORKINSTANCE.server
+    endPoint: NETWORKINSTANCE.local
+    //endPoint: NETWORKINSTANCE.server
 }
-
+export const SOCKETURL = {
+    endPoint: NETWORKINSTANCE.socket
+}
 export const commonHeader = {
     'Accept': '*/*',
     'Content-Type': 'application/json',
