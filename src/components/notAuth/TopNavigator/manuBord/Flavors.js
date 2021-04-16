@@ -192,6 +192,9 @@ class Flavors extends Component {
             </Text>
           </View>
           {flavorData.map((singleflavor) => {
+            if (singleflavor.Status == 'Inactive') {
+              return null;
+            }
             return (
               <Fragment>
                 <ScrollView>

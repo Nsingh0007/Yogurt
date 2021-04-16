@@ -211,6 +211,9 @@ class Menu extends Component {
                             singleSubCategory.SubCategoryName !==
                             singleMenu.CategoryName
                           ) {
+                            if (singleSubCategory.Status == "Inactive") {
+                              return null;
+                            }
                             return (
                               <View>
                                 <TouchableOpacity

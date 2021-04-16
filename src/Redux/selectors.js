@@ -8,6 +8,9 @@ class Selectors {
     getCategoryData = () => {
         return [...this.store.getState().categoryStore.categoryData];
     }
+    getFlavourData = () => {
+        return [...this.store.getState().productstore.flavorData];
+    }
 }
 
 export default new Selectors();

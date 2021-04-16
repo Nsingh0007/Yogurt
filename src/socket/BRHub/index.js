@@ -53,6 +53,22 @@ class BRHub extends BRHandlers {
             {
                 name: EventsList.SubCategory.BrSubCategoryAdd,
                 handler: this.BrSubCategoryAdd
+            },
+            {
+                name: EventsList.Flavor.BrFlavorAdd,
+                handler: this.BrFlavorAdd
+            },
+            {
+                name: EventsList.Flavor.BrFlavorUpdate,
+                handler: this.BrFlavorUpdate
+            },
+            {
+                name: EventsList.Flavor.BrFlavorStatus,
+                handler: this.BrFlavorStatus
+            },
+            {
+                name: EventsList.Flavor.BrFlavorDelete,
+                handler: this.BrFlavorDelete
             }
         );
     }
