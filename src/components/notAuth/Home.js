@@ -42,7 +42,7 @@ import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
 import { withBackHandler } from '@appHoc';
 
-import Socket from '@socket';
+import Socket from '@YSocket';
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 
@@ -77,7 +77,7 @@ class Home extends Component {
 
 
   componentDidMount = async () => {
-    Socket.initialize();
+    
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
     this.props.fetchCartData();
