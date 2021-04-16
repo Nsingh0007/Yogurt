@@ -82,6 +82,7 @@ class BRHubHandler {
     }
     BrToppingDelete = (msg, deletedTopping) => {
         this.eventRecieved('BrToppingDelete', msg, deletedTopping); 
+        SocketMutations.topping.onToppingDelete(JSON.parse(deletedTopping));
     }
     
 }

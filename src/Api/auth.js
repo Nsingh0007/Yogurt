@@ -61,6 +61,7 @@ export async function loginUser(email, password) {
 }
 
 export async function UserForgotPassword(body = {}) {
+  console.log('Forget Password Body -->', body)
   try {
     const forgotPasswordResponse = await Axios.post(
       endPoints.forgotPasswordAPI,

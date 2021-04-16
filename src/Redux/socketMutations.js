@@ -101,12 +101,12 @@ class ToppingMutations {
         nextFlavor.push(newFlavor);
         this.setFlavor(nextFlavor);
     }
-    onFlavorDelete = (deletedFlavor) => {
-        let deletedFlavorId = deletedFlavor.FlavorId;
-        console.log("FLAVOR_DELETE_SOCKET - ", deletedFlavorId);
-        let previousFlavor = this.selectors.getFlavourData();
-        let nextFlavor = previousFlavor.filter(f => f.FlavorId != deletedFlavorId);
-        return this.setFlavor(nextFlavor);
+    onToppingDelete = (deletedTopping) => {
+        let deletedToppingId = deletedTopping.ToppingId;
+        console.log("TOPPING_DELETE_SOCKET - ", deletedToppingId);
+        let previousTopping = this.selectors.getToppingdata();
+        let nextTopping = previousTopping.filter(t => t.ToppingId != deletedToppingId);
+        return this.setTopping(nextTopping);
     }
 }
 class SubCategoryMutations {

@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
-import UserReducer from "./user";
-import CategoryReducer from "./category";
-import ProductReducer from "./products";
-import MessageReducer from "./inbox";
-import { SixPackReducer } from "./sixPack";
-import { getCartReducer } from './getcart';
-import TestReducer from './testReducer';
+import {combineReducers} from 'redux';
+import UserReducer from './user';
+import CategoryReducer from './category';
+import ProductReducer from './products';
+import MessageReducer from './inbox';
+import {SixPackReducer} from './sixPack';
+import {getCartReducer} from './getcart';
+import {getPrevReducer} from './previousOrder';
 
 export default combineReducers({
   userstore: UserReducer,
@@ -14,5 +14,6 @@ export default combineReducers({
   messageStore: MessageReducer,
   sixPackStore: SixPackReducer,
   getCartStore: getCartReducer,
-  testStore: TestReducer
+  getPrevStore: getPrevReducer,
+
 });

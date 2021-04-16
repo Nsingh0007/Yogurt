@@ -11,7 +11,6 @@ import {
   Linking
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import BottomNavigator from "../../../router/BottomNavigator";
 import Spinner from "react-native-loading-spinner-overlay";
 import { connect } from "react-redux";
 import cart1 from "../../../assets/icon/order/cart1.png";
@@ -110,7 +109,7 @@ class Menu extends Component {
               singleMenu.SubCategoryInfolst != null && 
               singleMenu.IsSubCategory === true;
             return (
-              <View>
+              <View key={categoryIndex}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -214,7 +213,7 @@ class Menu extends Component {
                               return null;
                             }
                             return (
-                              <View>
+                              <View key={subCategoryIndex}>
                                 <TouchableOpacity
                                   key={subCategoryIndex}
                                   onPress={() => {

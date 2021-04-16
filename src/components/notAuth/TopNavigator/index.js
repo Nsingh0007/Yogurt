@@ -38,7 +38,7 @@ const TabScreen = createMaterialTopTabNavigator(
       bounces: '#414040',
       allowFontScaling: false,
       labelStyle: {
-        scrollEnabled: true,
+        //scrollEnabled: true,
         textAlign: 'center',
         textTransform: 'capitalize',
         fontFamily: 'OpenSans-Bold',
@@ -80,8 +80,8 @@ const App = createStackNavigator({
       title: 'Order',
       headerTitleAlign: 'left',
       headerTitleAllowFontScaling: false,
-      headerTitleStyle: { color: '#222624', fontFamily: 'OpenSans-Bold', fontSize: 24, paddingStart: 5, marginTop: 20, fontScale: 1 },
-      headerLeft: null
+      headerTitleStyle: { color: '#222624', fontFamily: 'OpenSans-Bold', fontSize: 24, paddingStart: 5, marginTop: 20, },
+      headerLeft: () =>  null
     },
   },
 });
