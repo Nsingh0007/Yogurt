@@ -31,6 +31,7 @@ class SideToppings extends Component {
     super(props);
     this.state = { searchTerm: "" };
   }
+
   handleMutate = (subCategoryData, currentTopTopingArray) => {
     if (subCategoryData.SideToppingCount > currentTopTopingArray.length) {
       return true;
@@ -51,6 +52,7 @@ class SideToppings extends Component {
   searchUpdated(term) {
     this.setState({ searchTerm: term });
   }
+
   removeSixPackFlavor = (mutateIndex) => {
     let { sixPackStore } = this.props;
     let { sixPackData } = sixPackStore;
@@ -67,6 +69,7 @@ class SideToppings extends Component {
       sixPackData,
     });
   };
+
   readyRender = () => {
     const { getParam } = this.props.navigation;
     const CategoryId = getParam("CategoryId");
@@ -84,6 +87,7 @@ class SideToppings extends Component {
       isSixPackLogic,
     };
   };
+
   addSideTopping = (selectedCategory, singleSideTopping) => {
     let { sixPackStore } = this.props;
     let { sixPackData } = sixPackStore;
@@ -109,6 +113,7 @@ class SideToppings extends Component {
       "ADD"
     );
   };
+
   removeSixpackSidetopping = (ToppingId) => {
     let { sixPackStore } = this.props;
     let { sixPackData } = sixPackStore;
@@ -125,6 +130,7 @@ class SideToppings extends Component {
       sixPackData,
     });
   };
+
   render() {
     const toppingsData = this.props.productstore.toppingsData.filter(
       createFilter(this.state.searchTerm, KEYS_TO_FILTERS)
@@ -251,7 +257,7 @@ class SideToppings extends Component {
               POPULAR TOPPINGS
             </Text>
           </View>
-          {toppingsData.map((singleSideTopping) => {
+          {toppingsData.map((singleSideTopping, singleSideToppingIndex) => {
             return (
               <Fragment>
                 <ScrollView>
@@ -339,9 +345,9 @@ class SideToppings extends Component {
               NUTS & PEANUT TOPPINGS
             </Text>
           </View>
-          {toppingsData.map((singleSideTopping) => {
+          {toppingsData.map((singleSideTopping, singleSideToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleSideToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleSideTopping.ToppingTypeName ===
@@ -427,9 +433,9 @@ class SideToppings extends Component {
               CANDIES
             </Text>
           </View>
-          {toppingsData.map((singleSideTopping) => {
+          {toppingsData.map((singleSideTopping, singleSideToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleSideToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleSideTopping.ToppingTypeName === "Candies" ? (
@@ -514,9 +520,9 @@ class SideToppings extends Component {
               SAUCES
             </Text>
           </View>
-          {toppingsData.map((singleSideTopping) => {
+          {toppingsData.map((singleSideTopping, singleSideToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleSideToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleSideTopping.ToppingTypeName === "Sauces" ? (
@@ -602,9 +608,9 @@ class SideToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleSideTopping) => {
+          {toppingsData.map((singleSideTopping, singleSideToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleSideToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleSideTopping.ToppingTypeName === "Fruits" ? (
@@ -737,6 +743,7 @@ const mapStateToProps = (state) => {
     sixPackStore: state.sixPackStore,
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     mutateProductsDispatch: (
@@ -759,4 +766,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(SideToppings));

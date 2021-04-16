@@ -40,6 +40,7 @@ class BottomFlavors extends Component {
       return false;
     }
   };
+
   readyRender = () => {
     const { getParam } = this.props.navigation;
     const CategoryId = getParam("CategoryId");
@@ -83,6 +84,7 @@ class BottomFlavors extends Component {
       "ADD"
     );
   };
+
   removeSixPackFlavor = (mutateIndex) => {
     let { sixPackStore } = this.props;
     let { sixPackData } = sixPackStore;
@@ -99,6 +101,7 @@ class BottomFlavors extends Component {
       sixPackData,
     });
   };
+
   render() {
     const { selectedProductData, flavorData } = this.props?.productstore;
     const { selectedCategory } = this.props?.categorystore;
@@ -188,9 +191,9 @@ class BottomFlavors extends Component {
               YOGURT
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleflavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleflavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Yogurt" ? (
@@ -278,9 +281,9 @@ class BottomFlavors extends Component {
               GLACÉ
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleflavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleflavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Glace" ? (
@@ -368,9 +371,9 @@ class BottomFlavors extends Component {
               NO SUGAR ADDED
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleflavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleflavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "No Sugar Added" ? (
@@ -458,9 +461,9 @@ class BottomFlavors extends Component {
               DAIRY FREE
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleflavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleflavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Dairy Free Sorbet" ? (

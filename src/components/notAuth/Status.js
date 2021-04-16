@@ -136,11 +136,11 @@ class Status extends Component {
                 Pull down to refresh
               </Text>
             </View> */}
-            {orderStatus.map((singleOrderStatus) => {
+            {orderStatus.map((singleOrderStatus, singleOrderStatusIndex) => {
               let PickUpTimeNew = singleOrderStatus.PickUpTime.split(':');
               let TData = PickUpTimeNew[2].split(' ');
               return (
-                <View style={styles.cardParentView}>
+                <View key={singleOrderStatusIndex} style={styles.cardParentView}>
                   <View
                     style={{
                       flexDirection: 'row',

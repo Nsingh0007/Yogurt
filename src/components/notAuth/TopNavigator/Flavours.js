@@ -82,9 +82,10 @@ class Featured extends Component {
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {featureData.length > 0
-            ? featureData?.map(singleslide => {
+            ? featureData?.map((singleslide, singleSlideIndex) => {
                 return (
                   <View
+                    key={singleSlideIndex}
                     style={{
                       height: 350,
                       width: '97%',

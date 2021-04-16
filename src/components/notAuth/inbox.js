@@ -1,11 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import cross from '../../assets/icon/icons8-back-26.png';
 import {ScrollView} from 'react-native-gesture-handler';
 import No_Message_icon from '../../assets/icon/No_Message_icon.png';
@@ -15,7 +9,7 @@ import {
   RemoveAllMessage,
   RemoveSingleMessage,
   UpdateAllMessageStatus,
-  HostURL
+  HostURL,
 } from '@api';
 
 import {
@@ -28,10 +22,10 @@ import {
 
 import FastImage from 'react-native-fast-image';
 
-Text.defaultProps={
-  allowFontScaling:false,
-  fontScale:1
-}
+Text.defaultProps = {
+  allowFontScaling: false,
+  fontScale: 1,
+};
 
 class inbox extends Component {
   constructor(props) {
@@ -58,7 +52,7 @@ class inbox extends Component {
     }
   };
 
-  trigurRemoveSigleMessage = async (singleMessage) => {
+  trigurRemoveSigleMessage = async singleMessage => {
     const removeSingleMessageDetails = await RemoveSingleMessage(
       singleMessage.InboxNumber,
     );
@@ -101,159 +95,164 @@ class inbox extends Component {
         <View>
           <View style={styles.header}>
             <View style={styles.headerView}>
-              <View style={{width: 35, height: 35,}}>
+              <View style={{width: 35, height: 35}}>
                 <TouchableOpacity
-                onPress={() => this.props.navigation.goBack()}>
-                  <FastImage
-                  source={cross}
-                  style={{width: 35, height: 35, }}
-                />
-              </TouchableOpacity>
+                  onPress={() => this.props.navigation.goBack()}>
+                  <FastImage source={cross} style={{width: 35, height: 35}} />
+                </TouchableOpacity>
               </View>
-              
+
               <Text style={styles.headerText}>Inbox</Text>
             </View>
           </View>
           <View
-            style={{borderBottomWidth: 0.3, width: '100%', borderBottomColor: '#414040',}}
+            style={{
+              borderBottomWidth: 0.3,
+              width: '100%',
+              borderBottomColor: '#414040',
+            }}
           />
-         
-          <ScrollView style={{marginBottom:120}} showsVerticalScrollIndicator={false}>
-          <View style={{width:'97%', margin:5}}>
-            {isUserLoggedIn != null &&
-            isUserLoggedIn == true &&
-            inboxData.length > 0 ? (
-              <View >
-                {inboxData.map((singleMessage) => {
-                  return (                 
-                    <View
-                  style={{
-                    height: 350,
-                    width: '100%',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    marginTop: 9,
-                    alignSelf: 'center',
-                    backgroundColor: '#F9F9F9',
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 2,
-                    elevation: 2,
-                    borderRadius: 7
-                  }}>
-                  <View>
-                    <FastImage
-                      resizeMode="stretch"
-                      source={{
-                        uri: `${HostURL}${singleMessage.Pic}`,
-                      }}
-                      style={{
-                        width: '100%',
-                        alignSelf: 'center',
-                        height: 200,
-                        borderTopLeftRadius: 7,
-                        borderTopRightRadius: 7
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Text
-                    numberOfLines={1}
-                      style={{
-                        fontSize: 19,
-                        color: '#222624',
-                        marginTop: 15,
-                        marginStart: 15,
-                        marginEnd: 8,
-                        fontFamily: 'OpenSans-Bold'
-                      }}>
-                      {singleMessage.InboxTitle}
-                    </Text>
-                    <Text
-                      numberOfLines={2}
-                      style={{
-                        fontSize: 13,
-                        fontFamily: 'OpenSans-SemiBold',
-                        color: '#262A29',
-                        marginTop: 8,
-                        marginStart: 15,
-                        marginEnd: 8,
-                      }}>
-                      {singleMessage.Description}
-                    </Text>
-                    <TouchableOpacity
-                          onPress={() =>
-                            this.trigurRemoveSigleMessage(singleMessage)
-                          }
-                          style={{
-                            backgroundColor: '#ffffff',
-                            borderRadius: 20,
-                            height: 34,
-                            width: 90,
-                            alignSelf: 'flex-start',
-                            marginLeft:13,
-                            marginTop:18,
-                            borderColor: '#793422',
-                            borderWidth: 0.5,
-                            justifyContent:'center'
-                          }}>
-                          <Text
+
+          <ScrollView
+            style={{marginBottom: 120}}
+            showsVerticalScrollIndicator={false}>
+            <View style={{width: '97%', margin: 5}}>
+              {isUserLoggedIn != null &&
+              isUserLoggedIn == true &&
+              inboxData.length > 0 ? (
+                <View>
+                  {inboxData.map((singleMessage, singleMessageIndex) => {
+                    return (
+                      <View
+                        key={singleMessageIndex}
+                        style={{
+                          height: 350,
+                          width: '100%',
+                          borderColor: 'red',
+                          borderWidth: 0,
+                          marginTop: 9,
+                          alignSelf: 'center',
+                          backgroundColor: '#F9F9F9',
+                          shadowColor: '#000',
+                          shadowOffset: {width: 0, height: 2},
+                          shadowOpacity: 0.2,
+                          shadowRadius: 2,
+                          elevation: 2,
+                          borderRadius: 7,
+                        }}>
+                        <View>
+                          <FastImage
+                            resizeMode="stretch"
+                            source={{
+                              uri: `${HostURL}${singleMessage.Pic}`,
+                            }}
                             style={{
-                              color: '#793422',
-                              fontSize: 16,
-                              textAlign:'center',
-                              fontFamily:'OpenSans-Bold',
+                              width: '100%',
+                              alignSelf: 'center',
+                              height: 200,
+                              borderTopLeftRadius: 7,
+                              borderTopRightRadius: 7,
+                            }}
+                          />
+                        </View>
+                        <View>
+                          <Text
+                            numberOfLines={1}
+                            style={{
+                              fontSize: 19,
+                              color: '#222624',
+                              marginTop: 15,
+                              marginStart: 15,
+                              marginEnd: 8,
+                              fontFamily: 'OpenSans-Bold',
                             }}>
-                            Remove
+                            {singleMessage.InboxTitle}
                           </Text>
-                        </TouchableOpacity>
-                  </View>
-                </View> 
-                  );
-                })}
-              </View>
-            ) : (
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: 20,
-                  marginBottom: 50,
-                }}>
-                <FastImage
-                  source={No_Message_icon}
-                  style={{height: 100, width: 100}}
-                />
-                <View style={{alignSelf:'center',}}>
-                  <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 20,
-                    color: '#414040',
-                    fontFamily:'OpenSans-Bold',
-                    textAlign:'center'
-                  }}>
-                  No message right now
-                </Text>
+                          <Text
+                            numberOfLines={2}
+                            style={{
+                              fontSize: 13,
+                              fontFamily: 'OpenSans-SemiBold',
+                              color: '#262A29',
+                              marginTop: 8,
+                              marginStart: 15,
+                              marginEnd: 8,
+                            }}>
+                            {singleMessage.Description}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.trigurRemoveSigleMessage(singleMessage)
+                            }
+                            style={{
+                              backgroundColor: '#ffffff',
+                              borderRadius: 20,
+                              height: 34,
+                              width: 90,
+                              alignSelf: 'flex-start',
+                              marginLeft: 13,
+                              marginTop: 18,
+                              borderColor: '#793422',
+                              borderWidth: 0.5,
+                              justifyContent: 'center',
+                            }}>
+                            <Text
+                              style={{
+                                color: '#793422',
+                                fontSize: 16,
+                                textAlign: 'center',
+                                fontFamily: 'OpenSans-Bold',
+                              }}>
+                              Remove
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    );
+                  })}
                 </View>
-                <Text
+              ) : (
+                <View
                   style={{
-                    alignSelf: 'center',
-                    fontSize: 14,
-                    fontFamily:'OpenSans-Regular',
-                    color: '#2D0400',
-                    marginTop: 10,
-                    marginBottom: 10,
-                    textAlign:'center',
-                    width:230
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 20,
+                    marginBottom: 50,
                   }}>
-                  Check back for seasonal offers, new menu items and promotions.
-                </Text>
-              </View>
-            )}
-             </View>
+                  <FastImage
+                    source={No_Message_icon}
+                    style={{height: 100, width: 100}}
+                  />
+                  <View style={{alignSelf: 'center'}}>
+                    <Text
+                      style={{
+                        alignSelf: 'center',
+                        fontSize: 20,
+                        color: '#414040',
+                        fontFamily: 'OpenSans-Bold',
+                        textAlign: 'center',
+                      }}>
+                      No message right now
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      fontSize: 14,
+                      fontFamily: 'OpenSans-Regular',
+                      color: '#2D0400',
+                      marginTop: 10,
+                      marginBottom: 10,
+                      textAlign: 'center',
+                      width: 230,
+                    }}>
+                    Check back for seasonal offers, new menu items and
+                    promotions.
+                  </Text>
+                </View>
+              )}
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -279,7 +278,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     margin: 10,
     color: '#222624',
-    fontFamily:'OpenSans-SemiBold',
+    fontFamily: 'OpenSans-SemiBold',
   },
   headerImageView: {
     height: 50,
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
   cardTitleText: {
     fontSize: 20,
     color: '#000',
-    fontFamily:'OpenSans-Bold',
+    fontFamily: 'OpenSans-Bold',
     margin: 5,
   },
   cardSubtitleText: {
@@ -323,14 +322,14 @@ const styles = StyleSheet.create({
     color: '#2D0400',
     paddingStart: 0,
     paddingEnd: 10,
-    fontFamily:'OpenSans-Bold',
+    fontFamily: 'OpenSans-Bold',
     margin: 1,
     width: '90%',
     flexDirection: 'column',
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchMessageData: () => {
       dispatch(getMessageData());
@@ -344,13 +343,13 @@ const mapDispatchToProps = (dispatch) => {
     messageCountResetDispatch: () => {
       dispatch(messageCountReset());
     },
-    singleInboxRemoveDispatch: (InboxNumber) => {
+    singleInboxRemoveDispatch: InboxNumber => {
       dispatch(messageSingleDataReset(InboxNumber));
     },
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     messageStore: state.messageStore,
     userstore: state.userstore,

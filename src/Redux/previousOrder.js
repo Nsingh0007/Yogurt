@@ -49,7 +49,6 @@ export const fetchPrevOrderDataAsyncCreator = () => async dispatch => {
         prevdata.push(singlePrevOrder);
       }
     });
-    console.log("Prev Data ----> ", prevdata)
     dispatch({type: FETCH_PREV_SUCCESS, data: prevdata});
   } else {
     dispatch({type: FETCH_PREV_ERROR, data: []});
