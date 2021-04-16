@@ -19,6 +19,7 @@ import {
   setCurrentSelectedCategory,
 } from '@redux';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
+import {fetchPrevOrderDataAsyncCreator} from '@redux/previousOrder.js';
 LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
@@ -143,6 +144,8 @@ class Home extends Component {
     this.progressBarData();
     this.props.readyProductDispatch();
     this.props.fetchCategoryData();
+    this.props.FetchPrevOrderData();
+
     setTimeout(() => {
       this.checkVersion();
     }, 1500);
@@ -822,6 +825,9 @@ const mapDispatchToProps = dispatch => {
     fetchCartData: cb => {
       dispatch(fetchCartDataAsyncCreator(cb));
     },
+    FetchPrevOrderData: () => {
+      dispatch(fetchPrevOrderDataAsyncCreator());
+    }
   };
 };
 
