@@ -150,7 +150,7 @@ export class ViewPrevious extends Component {
           </View>
         </View>
         <ScrollView>
-          {previousOrderItemsData.map(singlePreviousItem => {
+          {previousOrderItemsData.map((singlePreviousItem, singlePreviousItemIndex) => {
             let sixpackFlavor = [];
             let sixpackTopping = [];
             let IsTopping = true;
@@ -173,6 +173,7 @@ export class ViewPrevious extends Component {
             }
             return (
               <View
+              key={singlePreviousItemIndex}
                 style={{
                   borderColor: 'red',
                   borderWidth: 0,
@@ -265,7 +266,7 @@ export class ViewPrevious extends Component {
                           {singlePreviousItem.IsSixPack === true ? (
                             sixpackFlavor.map((flavorName, index) => {
                               return (
-                                <Text style={styles.subHeaderText}>
+                                <Text key={index} style={styles.subHeaderText}>
                                   {`\n${flavorName.type}: ${flavorName.products}`}
                                 </Text>
                               );
@@ -333,7 +334,7 @@ export class ViewPrevious extends Component {
                           <Text style={styles.subHeaderText}>
                             {sixpackTopping.map((toppingName, index) => {
                               return (
-                                <Text style={styles.subHeadingText}>
+                                <Text key={index} style={styles.subHeadingText}>
                                   {`\n${toppingName.type}: ${toppingName.products}`}
                                 </Text>
                               );
