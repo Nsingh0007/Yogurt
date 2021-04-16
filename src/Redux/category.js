@@ -88,16 +88,22 @@ export const getCategoryData = () => async (dispatch) => {
   const categoryDetails = await GetCategory();
   const priceDetails = await GetItemPrice();
   if (categoryDetails.result && priceDetails.result) {
-    let updatedResponse = categoryDetails.response.map((singleResponse) => {
-      let categoryPrice = priceDetails.response.find(
-        (singlePrice) => singlePrice.CategoryId === singleResponse.CategoryId,
-      ); 
-      return {
-        ...singleResponse,
-        priceDetails: categoryPrice != undefined ? categoryPrice.FlavorTypeInfolst : [],
-        collapse: true,
-      };
-    });
+    let updatedResponse;
+    if (priceDetails.response) {
+      updatedResponse = categoryDetails.response.map((singleResponse) => {
+        let categoryPrice = priceDetails.response.find(
+          (singlePrice) => singlePrice.CategoryId === singleResponse.CategoryId,
+        ); 
+        return {
+          ...singleResponse,
+          priceDetails: categoryPrice != undefined ? categoryPrice.FlavorTypeInfolst : [],
+          collapse: true,
+        };
+      });
+    }else {
+      updatedResponse = categoryDetails.response;
+    }
+    
     dispatch(initialSelectedProductData(updatedResponse));
     dispatch(categoryRequestSuccess(updatedResponse));
   } else {

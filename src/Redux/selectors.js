@@ -11,6 +11,9 @@ class Selectors {
     getFlavourData = () => {
         return [...this.store.getState().productstore.flavorData];
     }
+    getToppingdata = () => {
+        return [...this.store.getState().productstore.toppingsData];
+    }
 }
 
 export default new Selectors();

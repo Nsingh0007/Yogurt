@@ -107,8 +107,7 @@ class Menu extends Component {
               return null;
             }
             let showSubCategory =
-              singleMenu.SubCategoryInfolst != null &&
-              singleMenu.SubCategoryInfolst.length > 1 &&
+              singleMenu.SubCategoryInfolst != null && 
               singleMenu.IsSubCategory === true;
             return (
               <View>

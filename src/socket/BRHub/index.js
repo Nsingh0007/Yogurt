@@ -26,6 +26,7 @@ class BRHub extends BRHandlers {
                 name: EventsList.broadcast,
                 handler: this.broadcast
             },
+            // Category
             {
                 name: EventsList.Category.BrCategoryAdd,
                 handler: this.BrCategoryAdd
@@ -42,6 +43,7 @@ class BRHub extends BRHandlers {
                 name: EventsList.Category.BrCategoryDelete,
                 handler: this.BrCategoryDelete
             },
+            // SubCategory
             {
                 name: EventsList.SubCategory.BrSubCategoryStatus,
                 handler: this.BrSubCategoryStatus
@@ -54,6 +56,12 @@ class BRHub extends BRHandlers {
                 name: EventsList.SubCategory.BrSubCategoryAdd,
                 handler: this.BrSubCategoryAdd
             },
+            {
+                name: EventsList.SubCategory.BrSubCategoryDelete,
+                handler: this.BrSubCategoryDelete
+            },
+
+            // Flavor
             {
                 name: EventsList.Flavor.BrFlavorAdd,
                 handler: this.BrFlavorAdd
@@ -69,7 +77,26 @@ class BRHub extends BRHandlers {
             {
                 name: EventsList.Flavor.BrFlavorDelete,
                 handler: this.BrFlavorDelete
+            },
+
+            // Toppings
+            {
+                name: EventsList.Topping.BrToppingAdd,
+                handler: this.BrToppingAdd
+            },
+            {
+                name: EventsList.Topping.BrToppingUpdate,
+                handler: this.BrToppingUpdate
+            },
+            {
+                name: EventsList.Topping.BrToppingStatus,
+                handler: this.BrToppingStatus
+            },
+            {
+                name: EventsList.Topping.BrToppingDelete,
+                handler: this.BrToppingDelete
             }
+
         );
     }
     

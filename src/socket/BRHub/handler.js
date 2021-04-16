@@ -36,7 +36,7 @@ class BRHubHandler {
     //Subacategory Mutations
     BrSubCategoryAdd = (msg, newSubCategory) => {
         this.eventRecieved('BrSubCategoryAdd', msg, newSubCategory);
-        
+        SocketMutations.subCategory.onSubCategoryAdd(JSON.parse(deletedSubCategory));
     }
     BrSubCategoryStatus = (msg, updatedSubCategory) => {
         this.eventRecieved('BrSubCategoryStatus', msg, updatedSubCategory);
@@ -46,7 +46,10 @@ class BRHubHandler {
         this.eventRecieved('BrSubCategoryUpdate', msg, updatedSubCategory);
         SocketMutations.subCategory.onSubCategoryUpdate(JSON.parse(updatedSubCategory));
     }
-
+    BrSubCategoryDelete = (msg, deletedSubCategory) => {
+        this.eventRecieved('BrSubCategoryDelete', msg, deletedSubCategory);
+        SocketMutations.subCategory.onSubCategoryDelete(JSON.parse(deletedSubCategory));
+    }
 
     //Flavour Mutations
     BrFlavorAdd = (msg, newAddedFlavor) => {
@@ -66,7 +69,20 @@ class BRHubHandler {
         SocketMutations.flavor.onFlavorDelete(JSON.parse(deletedFlavor));
     }
     
-
+    //Toppings Mutations
+    BrToppingAdd = (msg, newAddedTopping) => {
+        this.eventRecieved('BrToppingAdd', msg, newAddedTopping); 
+    }
+    BrToppingUpdate = (msg, updatedTopping) => {
+        this.eventRecieved('BrToppingUpdate', msg, updatedTopping);
+        SocketMutations.topping.onToppingUpdate(JSON.parse(updatedTopping));
+    }
+    BrToppingStatus = (msg, updatedToping) => {
+        this.eventRecieved('BrToppingStatus', msg, updatedToping); 
+    }
+    BrToppingDelete = (msg, deletedTopping) => {
+        this.eventRecieved('BrToppingDelete', msg, deletedTopping); 
+    }
     
 }
 export default BRHubHandler;
