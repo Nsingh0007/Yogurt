@@ -901,7 +901,7 @@ class ReviewOrder extends Component {
                     }
                   }
                   return (
-                    <View style={styles.cardView}>
+                    <View key={cartIndex} style={styles.cardView}>
                       <View style={styles.cardSubView}>
                         <View>
                           <FastImage
@@ -951,7 +951,7 @@ class ReviewOrder extends Component {
                                 {singleCartData.IsSixPack === true ? (
                                   sixpackFlavor.map((flavorName, index) => {
                                     return (
-                                      <Text style={styles.subHeadingText}>
+                                      <Text key={index} style={styles.subHeadingText}>
                                         {`\n${flavorName.type}: ${flavorName.products}`}
                                       </Text>
                                     );
@@ -1019,7 +1019,7 @@ class ReviewOrder extends Component {
                               <Text style={styles.subHeadingText}>
                                 {sixpackTopping.map((toppingName, index) => {
                                   return (
-                                    <Text style={styles.subHeadingText}>
+                                    <Text key={index} style={styles.subHeadingText}>
                                       {`\n${toppingName.type}: ${toppingName.products}`}
                                     </Text>
                                   );

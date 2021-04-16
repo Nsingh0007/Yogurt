@@ -210,9 +210,9 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				18F06DB9261C27490017022C /* ShellScript */,
 				0123AFB8D2D321CB78FA5EF2 /* [CP] Embed Pods Frameworks */,
 				49F71204CA6C90C05308C29B /* [CP] Copy Pods Resources */,
+				1CC78BEB26295E9D00355C82 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -335,7 +335,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		18F06DB9261C27490017022C /* ShellScript */ = {
+		1CC78BEB26295E9D00355C82 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

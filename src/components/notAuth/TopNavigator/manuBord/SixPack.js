@@ -79,7 +79,7 @@ class SixPack extends Component {
     const navigateParam = navigateRoute[getParam("type")];
     const { sixPackDataIndex } = this.readyRender();
     return (
-      <View style={styles.cardView}>
+      <View key={index} style={styles.cardView}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate(navigateParam, {
@@ -109,7 +109,7 @@ class SixPack extends Component {
             } = singleProduct;
             let text = ToppingName ? ToppingName : FlavorName;
 
-            return <Text style={styles.subTextContent}>{text}</Text>;
+            return <Text key={index} style={styles.subTextContent}>{text}</Text>;
           })}
           </View>
           

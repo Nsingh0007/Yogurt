@@ -132,8 +132,8 @@ class Favorites extends Component {
     const {favoritesItemData, spinner, adding} = this.state;
     const {cartData} = this.props.getCartStore;
     const newArray = [];
-    let image = ''
-    let CategoryName = ''
+    let image = '';
+    let CategoryName = '';
     favoritesItemData.forEach(obj => {
       if (!newArray.some(o => o.CategoryName === obj.CategoryName)) {
         newArray.push({...obj});
@@ -145,309 +145,312 @@ class Favorites extends Component {
         <Spinner visible={spinner} size="large" color="#793422" />
         <ScrollView showsVerticalScrollIndicator={false}>
           {favoritesItemData.length > 0 ? (
-            favoritesItemData.map(singleFavoriteItem => {
-              image = singleFavoriteItem.CategoryImage
-              CategoryName = singleFavoriteItem.CategoryName
-              let sixpackFlavor = [];
-              let sixpackTopping = [];
-              let IsTopping = true;
-              if (singleFavoriteItem.IsSixPack === true) {
-                sixpackFlavor = JSON.parse(singleFavoriteItem.FlavorName);
-                if (singleFavoriteItem.ToppingName != '') {
-                  sixpackTopping = JSON.parse(singleFavoriteItem.ToppingName);
-                }
-                let count = 0;
-                sixpackTopping.map((toppingName, index) => {
-                  if (toppingName.products === '') {
-                    count += 1;
+            favoritesItemData.map(
+              (singleFavoriteItem, singleFavoriteItemIndex) => {
+                image = singleFavoriteItem.CategoryImage;
+                CategoryName = singleFavoriteItem.CategoryName;
+                let sixpackFlavor = [];
+                let sixpackTopping = [];
+                let IsTopping = true;
+                if (singleFavoriteItem.IsSixPack === true) {
+                  sixpackFlavor = JSON.parse(singleFavoriteItem.FlavorName);
+                  if (singleFavoriteItem.ToppingName != '') {
+                    sixpackTopping = JSON.parse(singleFavoriteItem.ToppingName);
                   }
-                });
-                if (count == sixpackTopping.length) {
-                  IsTopping = false;
+                  let count = 0;
+                  sixpackTopping.map((toppingName, index) => {
+                    if (toppingName.products === '') {
+                      count += 1;
+                    }
+                  });
+                  if (count == sixpackTopping.length) {
+                    IsTopping = false;
+                  }
                 }
-              }
-              return (
-                <View
-                  style={{
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    margin: 3,
-                    backgroundColor: '#FFFFFF',
-                    borderBottomColor: '#E5E5E5',
-                    borderBottomWidth: 1,
-                  }}>
-                  <View style={{flexDirection: 'row', margin: 7}}>
-                    <View
-                      style={{
-                        width: 60,
-                        height: 60,
-                        borderColor: '#DDDDDD',
-                        borderWidth: 0.5,
-                        borderRadius: 30,
-                        justifyContent: 'center',
-                        marginTop: 10,
-                      }}>
-                      <FastImage
-                        source={{
-                          uri: `${HostURL}${singleFavoriteItem.CategoryImage}`,
-                        }}
-                        style={{height: 40, width: 40, alignSelf: 'center'}}
-                        resizeMode="contain"
-                      />
-                    </View>
-                    <View
-                      style={{
-                        borderColor: 'red',
-                        borderWidth: 0,
-                        alignSelf: 'flex-start',
-                        marginStart: 4,
-                        marginTop: 10,
-                        width: '75%',
-                      }}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text
-                          style={{
-                            alignSelf: 'flex-start',
-                            fontSize: 14,
-                            fontFamily: 'OpenSans-ExtraBold',
-                            color: '#505755',
-                            paddingStart: 10,
-                          }}>
-                          {singleFavoriteItem.CategoryName + ' '}
-                        </Text>
-                        {singleFavoriteItem?.SubCategoryName &&
-                          singleFavoriteItem.CategoryName !=
-                            singleFavoriteItem?.SubCategoryName && (
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontFamily: 'OpenSans-Bold',
-                                color: '#414040',
-                              }}>
-                              ({singleFavoriteItem?.SubCategoryName})
-                            </Text>
-                          )}
-                      </View>
-                      {singleFavoriteItem.SizeName != '' &&
-                      singleFavoriteItem.SizeName != null ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Size:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.SizeName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-                      {singleFavoriteItem.Comment != '' &&
-                      singleFavoriteItem.Comment != null ? (
-                        <Text numberOfLines={2} style={styles.subHeader}>
-                          Special Instruction:
-                          <Text style={styles.subHeaderText}>
-                            {' ' + singleFavoriteItem.Comment}
-                          </Text>
-                        </Text>
-                      ) : null}
-                      {singleFavoriteItem.FlavorName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text
-                            numberOfLines={
-                              singleFavoriteItem.IsSixPack ? 25 : 2
-                            }
-                            style={styles.subHeader}>
-                            Flavors:
-                            {singleFavoriteItem.IsSixPack === true ? (
-                              sixpackFlavor.map((flavorName, index) => {
-                                return (
-                                  <Text style={styles.subHeaderText}>
-                                    {`\n${flavorName.type}: ${flavorName.products}`}
-                                  </Text>
-                                );
-                              })
-                            ) : (
-                              <Text style={styles.subHeaderText}>
-                                {' ' + singleFavoriteItem.FlavorName}
-                              </Text>
-                            )}
-                          </Text>
-                        </View>
-                      ) : null}
-                      {singleFavoriteItem.TopFlavorName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Top Flavors:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.TopFlavorName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-                      {singleFavoriteItem.MiddleFlavorName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Middle Flavors:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.MiddleFlavorName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-                      {singleFavoriteItem.BottomFlavorName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Bottom Flavors:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.BottomFlavorName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.ToppingName != '' &&
-                      singleFavoriteItem.IsSixPack == false ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Toppings:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.ToppingName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.ToppingName != '' &&
-                      singleFavoriteItem.IsSixPack == true &&
-                      IsTopping == true ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={25} style={styles.subHeader}>
-                            Toppings:
-                            <Text style={styles.subHeaderText}>
-                              {sixpackTopping.map((toppingName, index) => {
-                                return (
-                                  <Text style={styles.subHeadingText}>
-                                    {`\n${toppingName.type}: ${toppingName.products}`}
-                                  </Text>
-                                );
-                              })}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.TopToppingName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Top Toppings:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.TopToppingName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.BottomToppingName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text numberOfLines={2} style={styles.subHeader}>
-                            Bottom Topping:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.BottomToppingName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.MiddleToppingName != '' ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text style={styles.subHeader}>
-                            Middle Topping:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.MiddleToppingName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.IsSideTopping === true ? (
-                        <View style={{flexDirection: 'row'}}>
-                          <Text style={styles.subHeader}>
-                            Side Topping:
-                            <Text style={styles.subHeaderText}>
-                              {' ' + singleFavoriteItem.SideToppingName}
-                            </Text>
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      {singleFavoriteItem.IsLayered == true ? (
-                        <Text numberOfLines={2} style={styles.subHeader}>
-                          Layered
-                        </Text>
-                      ) : null}
-                      {singleFavoriteItem.IsCandle == true ? (
-                        <Text numberOfLines={2} style={styles.subHeader}>
-                          With candle
-                        </Text>
-                      ) : null}
-                      {singleFavoriteItem.IsWippedCream == true ? (
-                        <Text numberOfLines={2} style={styles.subHeader}>
-                          Whipped Cream
-                        </Text>
-                      ) : null}
-                      <Text numberOfLines={1} style={styles.subHeader}>
-                        Quantity:
-                        <Text style={styles.subHeaderText}>
-                          {' ' + singleFavoriteItem.Quantity}
-                        </Text>
-                      </Text>
-
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.addToCart(singleFavoriteItem.CartIdId)
-                        }
+                return (
+                  <View
+                    key={singleFavoriteItemIndex}
+                    style={{
+                      borderColor: 'red',
+                      borderWidth: 0,
+                      margin: 3,
+                      backgroundColor: '#FFFFFF',
+                      borderBottomColor: '#E5E5E5',
+                      borderBottomWidth: 1,
+                    }}>
+                    <View style={{flexDirection: 'row', margin: 7}}>
+                      <View
                         style={{
-                          justifyContent: 'center',
-                          margin: 4,
+                          width: 60,
+                          height: 60,
+                          borderColor: '#DDDDDD',
+                          borderWidth: 0.5,
                           borderRadius: 30,
-                          width: 30,
-                          height: 27,
-                          marginLeft: 10,
+                          justifyContent: 'center',
+                          marginTop: 10,
                         }}>
                         <FastImage
-                          source={Add_Item}
-                          style={{height: 30, width: 30, alignSelf: 'center'}}
+                          source={{
+                            uri: `${HostURL}${singleFavoriteItem.CategoryImage}`,
+                          }}
+                          style={{height: 40, width: 40, alignSelf: 'center'}}
+                          resizeMode="contain"
                         />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{marginTop: 10}}>
-                      <TouchableOpacity style={{margin: -15, marginEnd: -36}}>
-                        <CheckBox
-                          checkedIcon={
-                            <FastImage
-                              source={heart}
-                              style={styles.heartImg}
-                              resizeMode="contain"
-                            />
-                          }
-                          uncheckedIcon={
-                            <FastImage
-                              source={uncheckedIcon}
-                              style={styles.heartImg}
-                              resizeMode="contain"
-                            />
-                          }
-                          checked={singleFavoriteItem.IsFavourite}
+                      </View>
+                      <View
+                        style={{
+                          borderColor: 'red',
+                          borderWidth: 0,
+                          alignSelf: 'flex-start',
+                          marginStart: 4,
+                          marginTop: 10,
+                          width: '75%',
+                        }}>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text
+                            style={{
+                              alignSelf: 'flex-start',
+                              fontSize: 14,
+                              fontFamily: 'OpenSans-ExtraBold',
+                              color: '#505755',
+                              paddingStart: 10,
+                            }}>
+                            {singleFavoriteItem.CategoryName + ' '}
+                          </Text>
+                          {singleFavoriteItem?.SubCategoryName &&
+                            singleFavoriteItem.CategoryName !=
+                              singleFavoriteItem?.SubCategoryName && (
+                              <Text
+                                style={{
+                                  fontSize: 14,
+                                  fontFamily: 'OpenSans-Bold',
+                                  color: '#414040',
+                                }}>
+                                ({singleFavoriteItem?.SubCategoryName})
+                              </Text>
+                            )}
+                        </View>
+                        {singleFavoriteItem.SizeName != '' &&
+                        singleFavoriteItem.SizeName != null ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Size:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.SizeName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+                        {singleFavoriteItem.Comment != '' &&
+                        singleFavoriteItem.Comment != null ? (
+                          <Text numberOfLines={2} style={styles.subHeader}>
+                            Special Instruction:
+                            <Text style={styles.subHeaderText}>
+                              {' ' + singleFavoriteItem.Comment}
+                            </Text>
+                          </Text>
+                        ) : null}
+                        {singleFavoriteItem.FlavorName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text
+                              numberOfLines={
+                                singleFavoriteItem.IsSixPack ? 25 : 2
+                              }
+                              style={styles.subHeader}>
+                              Flavors:
+                              {singleFavoriteItem.IsSixPack === true ? (
+                                sixpackFlavor.map((flavorName, index) => {
+                                  return (
+                                    <Text key={index} style={styles.subHeaderText}>
+                                      {`\n${flavorName.type}: ${flavorName.products}`}
+                                    </Text>
+                                  );
+                                })
+                              ) : (
+                                <Text style={styles.subHeaderText}>
+                                  {' ' + singleFavoriteItem.FlavorName}
+                                </Text>
+                              )}
+                            </Text>
+                          </View>
+                        ) : null}
+                        {singleFavoriteItem.TopFlavorName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Top Flavors:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.TopFlavorName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+                        {singleFavoriteItem.MiddleFlavorName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Middle Flavors:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.MiddleFlavorName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+                        {singleFavoriteItem.BottomFlavorName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Bottom Flavors:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.BottomFlavorName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.ToppingName != '' &&
+                        singleFavoriteItem.IsSixPack == false ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Toppings:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.ToppingName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.ToppingName != '' &&
+                        singleFavoriteItem.IsSixPack == true &&
+                        IsTopping == true ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={25} style={styles.subHeader}>
+                              Toppings:
+                              <Text style={styles.subHeaderText}>
+                                {sixpackTopping.map((toppingName, index) => {
+                                  return (
+                                    <Text key={index} style={styles.subHeadingText}>
+                                      {`\n${toppingName.type}: ${toppingName.products}`}
+                                    </Text>
+                                  );
+                                })}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.TopToppingName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Top Toppings:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.TopToppingName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.BottomToppingName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text numberOfLines={2} style={styles.subHeader}>
+                              Bottom Topping:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.BottomToppingName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.MiddleToppingName != '' ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.subHeader}>
+                              Middle Topping:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.MiddleToppingName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.IsSideTopping === true ? (
+                          <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.subHeader}>
+                              Side Topping:
+                              <Text style={styles.subHeaderText}>
+                                {' ' + singleFavoriteItem.SideToppingName}
+                              </Text>
+                            </Text>
+                          </View>
+                        ) : null}
+
+                        {singleFavoriteItem.IsLayered == true ? (
+                          <Text numberOfLines={2} style={styles.subHeader}>
+                            Layered
+                          </Text>
+                        ) : null}
+                        {singleFavoriteItem.IsCandle == true ? (
+                          <Text numberOfLines={2} style={styles.subHeader}>
+                            With candle
+                          </Text>
+                        ) : null}
+                        {singleFavoriteItem.IsWippedCream == true ? (
+                          <Text numberOfLines={2} style={styles.subHeader}>
+                            Whipped Cream
+                          </Text>
+                        ) : null}
+                        <Text numberOfLines={1} style={styles.subHeader}>
+                          Quantity:
+                          <Text style={styles.subHeaderText}>
+                            {' ' + singleFavoriteItem.Quantity}
+                          </Text>
+                        </Text>
+
+                        <TouchableOpacity
                           onPress={() =>
-                            this.fetchupdateFavoriteItemStatus(
-                              singleFavoriteItem.CartIdId,
-                            )
+                            this.addToCart(singleFavoriteItem.CartIdId)
                           }
-                        />
-                      </TouchableOpacity>
+                          style={{
+                            justifyContent: 'center',
+                            margin: 4,
+                            borderRadius: 30,
+                            width: 30,
+                            height: 27,
+                            marginLeft: 10,
+                          }}>
+                          <FastImage
+                            source={Add_Item}
+                            style={{height: 30, width: 30, alignSelf: 'center'}}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{marginTop: 10}}>
+                        <TouchableOpacity style={{margin: -15, marginEnd: -36}}>
+                          <CheckBox
+                            checkedIcon={
+                              <FastImage
+                                source={heart}
+                                style={styles.heartImg}
+                                resizeMode="contain"
+                              />
+                            }
+                            uncheckedIcon={
+                              <FastImage
+                                source={uncheckedIcon}
+                                style={styles.heartImg}
+                                resizeMode="contain"
+                              />
+                            }
+                            checked={singleFavoriteItem.IsFavourite}
+                            onPress={() =>
+                              this.fetchupdateFavoriteItemStatus(
+                                singleFavoriteItem.CartIdId,
+                              )
+                            }
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
-              );
-            })
+                );
+              },
+            )
           ) : (
             <View style={{justifyContent: 'center'}}>
               <FastImage

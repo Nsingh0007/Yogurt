@@ -19,6 +19,7 @@ import {
   setCurrentSelectedCategory,
 } from '@redux';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
+import {fetchPrevOrderDataAsyncCreator} from '@redux/previousOrder.js';
 LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
@@ -42,7 +43,7 @@ import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
 import { withBackHandler } from '@appHoc';
 
-import Socket from '@socket';
+import Socket from '@YSocket';
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 
@@ -77,7 +78,7 @@ class Home extends Component {
 
 
   componentDidMount = async () => {
-    Socket.initialize();
+    
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
     this.props.fetchCartData();
@@ -143,6 +144,8 @@ class Home extends Component {
     this.progressBarData();
     this.props.readyProductDispatch();
     this.props.fetchCategoryData();
+    this.props.FetchPrevOrderData();
+
     setTimeout(() => {
       this.checkVersion();
     }, 1500);
@@ -822,6 +825,9 @@ const mapDispatchToProps = dispatch => {
     fetchCartData: cb => {
       dispatch(fetchCartDataAsyncCreator(cb));
     },
+    FetchPrevOrderData: () => {
+      dispatch(fetchPrevOrderDataAsyncCreator());
+    }
   };
 };
 

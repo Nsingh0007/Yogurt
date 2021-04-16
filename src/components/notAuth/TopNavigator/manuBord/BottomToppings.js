@@ -29,6 +29,7 @@ class BottomToppings extends Component {
     super(props);
     this.state = { searchTerm: "" };
   }
+
   handleMutate = (subCategoryData, currentTopTopingArray) => {
     //return true;
     if (subCategoryData.BottomToppingCount > currentTopTopingArray.length) {
@@ -76,6 +77,7 @@ class BottomToppings extends Component {
       "ADD"
     );
   };
+
   readyRender = () => {
     const { getParam } = this.props.navigation;
     const CategoryId = getParam("CategoryId");
@@ -242,9 +244,9 @@ class BottomToppings extends Component {
               POPULAR TOPPINGS
             </Text>
           </View>
-          {toppingsData.map((singleBottomTopping) => {
+          {toppingsData.map((singleBottomTopping, singleBottomToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleBottomToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleBottomTopping.ToppingTypeName ===
@@ -330,9 +332,9 @@ class BottomToppings extends Component {
               NUTS & PEANUT TOPPINGS
             </Text>
           </View>
-          {toppingsData.map((singleBottomTopping) => {
+          {toppingsData.map((singleBottomTopping, singleBottomToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleBottomToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleBottomTopping.ToppingTypeName ===
@@ -418,9 +420,9 @@ class BottomToppings extends Component {
               CANDIES
             </Text>
           </View>
-          {toppingsData.map((singleBottomTopping) => {
+          {toppingsData.map((singleBottomTopping, singleBottomToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleBottomToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleBottomTopping.ToppingTypeName === "Candies" ? (
@@ -505,9 +507,9 @@ class BottomToppings extends Component {
               SAUCES
             </Text>
           </View>
-          {toppingsData.map((singleBottomTopping) => {
+          {toppingsData.map((singleBottomTopping, singleBottomToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleBottomToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleBottomTopping.ToppingTypeName === "Sauces" ? (
@@ -592,9 +594,9 @@ class BottomToppings extends Component {
               FRUITS
             </Text>
           </View>
-          {toppingsData.map((singleBottomTopping) => {
+          {toppingsData.map((singleBottomTopping, singleBottomToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleBottomToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleBottomTopping.ToppingTypeName === "Fruits" ? (

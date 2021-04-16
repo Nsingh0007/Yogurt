@@ -102,6 +102,7 @@ class MiddleToppings extends Component {
       "ADD"
     );
   };
+
   readyRender = () => {
     const { getParam } = this.props.navigation;
     const CategoryId = getParam("CategoryId");
@@ -270,9 +271,9 @@ class MiddleToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleMiddleTopping) => {
+          {toppingsData.map((singleMiddleTopping, singleMiddleToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleMiddleToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleMiddleTopping.ToppingTypeName ===
@@ -359,9 +360,9 @@ class MiddleToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleMiddleTopping) => {
+          {toppingsData.map((singleMiddleTopping, singleMiddleToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleMiddleToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleMiddleTopping.ToppingTypeName ===
@@ -448,9 +449,9 @@ class MiddleToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleMiddleTopping) => {
+          {toppingsData.map((singleMiddleTopping, singleMiddleToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleMiddleToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleMiddleTopping.ToppingTypeName === "Candies" ? (
@@ -536,9 +537,9 @@ class MiddleToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleMiddleTopping) => {
+          {toppingsData.map((singleMiddleTopping, singleMiddleToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleMiddleToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleMiddleTopping.ToppingTypeName === "Sauces" ? (
@@ -626,9 +627,9 @@ class MiddleToppings extends Component {
             </Text>
           </View>
 
-          {toppingsData.map((singleMiddleTopping) => {
+          {toppingsData.map((singleMiddleTopping, singleMiddleToppingIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleMiddleToppingIndex}>
                 <ScrollView>
                   <View>
                     {singleMiddleTopping.ToppingTypeName === "Fruits" ? (
