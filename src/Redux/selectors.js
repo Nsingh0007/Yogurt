@@ -14,6 +14,11 @@ class Selectors {
     getToppingdata = () => {
         return [...this.store.getState().productstore.toppingsData];
     }
+    getFeaturedData = () => {
+        return [
+            ...this.store.getState().featureStore.features
+        ]
+    }
 }
 
 export default new Selectors();

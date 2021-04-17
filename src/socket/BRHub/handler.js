@@ -84,6 +84,26 @@ class BRHubHandler {
         this.eventRecieved('BrToppingDelete', msg, deletedTopping); 
         SocketMutations.topping.onToppingDelete(JSON.parse(deletedTopping));
     }
+
+    // Featured Mutations
+
+    //Toppings Mutations
+    BrFeatureAdd = (msg, newFeature) => {
+        this.eventRecieved('BrFeatureAdd', msg, newFeature); 
+        SocketMutations.featured.onFeatureAdd(JSON.parse(newFeature));
+    }
+    BrFeatureUpdate = (msg, featureUpdate) => {
+        this.eventRecieved('BrFeatureUpdate', msg, featureUpdate); 
+        SocketMutations.featured.onFeatureUpdate(JSON.parse(featureUpdate));
+    }
+    BrFeatureStatus = (msg, featureUpdate) => {
+        this.eventRecieved('BrFeatureStatus', msg, featureUpdate); 
+        SocketMutations.featured.onFeatureUpdate(JSON.parse(featureUpdate));
+    }
+    BrFeatureDelete = (msg, deletedFeature) => {
+        this.eventRecieved('BrFeatureDelete', msg, deletedFeature);
+        SocketMutations.featured.onFeaturedDelete(JSON.parse(deletedFeature));  
+    }
     
 }
 export default BRHubHandler;

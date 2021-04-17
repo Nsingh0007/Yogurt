@@ -95,8 +95,25 @@ class BRHub extends BRHandlers {
             {
                 name: EventsList.Topping.BrToppingDelete,
                 handler: this.BrToppingDelete
-            }
+            },
 
+            // Featured
+            {
+                name: EventsList.Feature.BrFeatureAdd,
+                handler: this.BrFeatureAdd
+            },
+            {
+                name: EventsList.Feature.BrFeatureUpdate,
+                handler: this.BrFeatureUpdate
+            },
+            {
+                name: EventsList.Feature.BrFeatureStatus,
+                handler: this.BrFeatureStatus
+            },
+            {
+                name: EventsList.Feature.BrFeatureDelete,
+                handler: this.BrFeatureDelete
+            } 
         );
     }
     
