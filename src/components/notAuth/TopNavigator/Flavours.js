@@ -19,7 +19,7 @@ import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
-
+import FeaturedStore from '../../../Redux/featured';
 SimpleLineIcon.loadFont();
 Text.defaultProps = {
   allowFontScaling: false,
@@ -33,37 +33,14 @@ class Featured extends Component {
       featureData: [],
       cartDataLength: 0,
     };
-  }
-
-  // backAction = () => {
-  //   const isFocused = this.props.navigation.isFocused();
-  //   if (isFocused) {
-  //     console.log('Featured true');
-  //     return true;
-  //   } else {
-  //     console.log('Featured false');
-  //     return false;
-  //   }
-  // };
-
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener('hardwareBackPress', this.backAction);
-  // }
-
-  fetchGetCategory = async () => {
-    const FeatureResponse = await FeaturePageByUser();
-    if (FeatureResponse.result === true) {
-      var featureData = FeatureResponse.response;
-    }
-    this.setState({featureData});
-  };
+  }  
 
   componentDidMount = async () => {
     //BackHandler.addEventListener('hardwareBackPress', this.backAction);
-    this.fetchGetCategory();
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.fetchGetCategory();
-    });
+    this.props.fetchFeaturedData();
+    // this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    //   this.fetchGetCategory();
+    // });
   };
 
   handle_Navigate() {
@@ -74,15 +51,15 @@ class Featured extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
 
-  render() {
-    const {featureData} = this.state;
-    const {getCartStore} = this.props;
-    const {cartData} = getCartStore;
+  render() {  
     return (
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {featureData.length > 0
-            ? featureData?.map(singleslide => {
+          {this.props.featuredData?.length > 0
+            ? this.props.featuredData?.map(singleslide => {
+              if (singleslide.Status == 'Inactive'){
+                return null;
+              }
                 return (
                   <View
                     style={{
@@ -169,7 +146,8 @@ class Featured extends Component {
                                 fontFamily: 'OpenSans-SemiBold',
                                 fontSize: 15,
                               }}>
-                              {singleslide.ButtonName.split(' ')[0]}
+                              {
+                              singleslide.ButtonName && singleslide.ButtonName.split(' ')[0]}
                             </Text>
                           </TouchableOpacity>
                         }
@@ -245,6 +223,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     getCartStore: state.getCartStore,
+    featuredData: state.featureStore.features
   };
 };
 
@@ -253,6 +232,9 @@ const mapDispatchToProps = dispatch => {
     fetchCartData: () => {
       dispatch(fetchCartDataAsyncCreator());
     },
+    fetchFeaturedData: () => {
+      dispatch(FeaturedStore.fetchFeaturesRequest());
+    }
   };
 };
 
