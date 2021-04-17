@@ -56,7 +56,7 @@ class Featured extends Component {
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {this.props.featuredData?.length > 0
-            ? this.props.featuredData?.map(singleslide => {
+            ? this.props.featuredData?.map((singleslide, singleSlideIndex) => {
               if (singleslide.Status == 'Inactive'){
                 return null;
               }
