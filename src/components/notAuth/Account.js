@@ -16,7 +16,6 @@ import cross from '../../assets/icon/Wrong.png';
 import rightArrow from '../../assets/icon/order/icons8-forward-26.png'
 import { userLogoutSucess, updateUserOnEdit } from '@redux';
 import { UpdateNotificationData, addToken } from '@api'
-import { topLevelNavigate } from '@navigation/topLevelRef';
 import { connect } from 'react-redux';
 import FastImage from 'react-native-fast-image'; 
 

@@ -6,7 +6,7 @@ import MessageReducer from './inbox';
 import {SixPackReducer} from './sixPack';
 import {getCartReducer} from './getcart';
 import {getPrevReducer} from './previousOrder';
-
+import FeatureStore from './featured';
 export default combineReducers({
   userstore: UserReducer,
   productstore: ProductReducer,
@@ -15,5 +15,6 @@ export default combineReducers({
   sixPackStore: SixPackReducer,
   getCartStore: getCartReducer,
   getPrevStore: getPrevReducer,
+  featureStore: FeatureStore.featureReducer
 
 });

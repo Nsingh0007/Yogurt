@@ -5,6 +5,8 @@ import {
     updateFlavorTree,
     updateToppingTree
 } from './products';
+import FeaturedStore from './featured';
+
 class CategoryMutations {
     selectors;
     constructor(selectors) {
@@ -169,6 +171,46 @@ class SubCategoryMutations {
         this.setCategoryData(nextCategory);
     }
 }
+
+class FeaturedMutations {
+    selectors;
+    constructor(selectors) {
+        this.selectors = selectors;
+    }
+    setFeature = (nextFeatured) => {
+        return Store.dispatch(FeaturedStore.actionFetchFeatureSuccess(nextFeatured));
+    }
+    onFeatureUpdate = (updatedFeatured) => {
+        return Store.dispatch(FeaturedStore.fetchFeaturesRequest());
+        let previousFeature = this.selectors.getFeaturedData();
+        let nextFeature = [...previousFeature];
+        let updateIndex = previousFeature.findIndex(pF => pF.FeatureId == updatedFeatured.FeatureId);
+        if (updateIndex > -1) {
+            nextFeature[updateIndex] = {
+                ...nextFeature[updateIndex],
+                ...updatedFeatured
+            }
+        } else {
+            nextFeature.push(updatedFeatured);
+        }
+        return this.setFeature(nextFeature);
+
+    }
+    onFeatureAdd = (newFeature) => {
+        return Store.dispatch(FeaturedStore.fetchFeaturesRequest());
+        let nextFeatured = this.selectors.getFeaturedData();
+        nextFeatured.push(newFeature);
+        return this.setFeature(nextFeatured);
+    }
+    onFeaturedDelete = (deletedFeature) => {
+        return Store.dispatch(FeaturedStore.fetchFeaturesRequest());
+        let previousFeatured = this.selectors.getFeaturedData();
+        let nextFeatured = previousFeatured.filter((featured) => {
+            return featured.FeatureId != deletedFeature.FeatureId;
+        });
+        return this.setFeature(nextFeatured);
+    }
+}
 class SocketMutations {
 
     selectors;
@@ -182,6 +224,7 @@ class SocketMutations {
         this.subCategory = new SubCategoryMutations(this.selectors);
         this.flavor = new FlavorMutations(this.selectors);
         this.topping = new ToppingMutations(this.selectors);
+        this.featured = new FeaturedMutations(this.selectors);
     }
 
 }
