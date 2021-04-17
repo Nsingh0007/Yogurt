@@ -62,6 +62,7 @@ class Featured extends Component {
               }
                 return (
                   <View
+                    key={singleSlideIndex}
                     style={{
                       height: 350,
                       width: '97%',

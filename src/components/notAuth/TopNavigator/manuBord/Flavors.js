@@ -100,7 +100,8 @@ class Flavors extends Component {
       ready: true,
       sixPackData,
     });
-  }; 
+  };
+
   render() {
     const { selectedProductData, flavorData } = this.props?.productstore;
     const { selectedCategory } = this.props?.categorystore;
@@ -191,12 +192,9 @@ class Flavors extends Component {
               YOGURT
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
-            if (singleflavor.Status == 'Inactive') {
-              return null;
-            }
+          {flavorData.map((singleflavor, singleFlavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleFlavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Yogurt" ? (
@@ -284,9 +282,9 @@ class Flavors extends Component {
               GLACÉ
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleFlavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleFlavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Glace" ? (
@@ -374,9 +372,9 @@ class Flavors extends Component {
               NO SUGAR ADDED
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleFlavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleFlavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "No Sugar Added" ? (
@@ -464,9 +462,9 @@ class Flavors extends Component {
               DAIRY FREE
             </Text>
           </View>
-          {flavorData.map((singleflavor) => {
+          {flavorData.map((singleflavor, singleFlavorIndex) => {
             return (
-              <Fragment>
+              <Fragment key={singleFlavorIndex}>
                 <ScrollView>
                   <View>
                     {singleflavor.FlavorTypeName === "Dairy Free Sorbet" ? (

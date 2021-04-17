@@ -76,7 +76,7 @@ export default class orderStatusDetails extends Component {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
-          {orderStatusDetailsData?.map((singleOrderDetails) => {
+          {orderStatusDetailsData?.map((singleOrderDetails, singleOrderDetailsIndex) => {
             let sixpackFlavor = []
             let sixpackTopping = []
             let IsTopping = true
@@ -96,7 +96,7 @@ export default class orderStatusDetails extends Component {
               }
             }
             return (
-              <View style={{ borderColor: 'red', borderWidth: 0, margin: 3, backgroundColor: '#FFFFFF', borderBottomColor: '#E5E5E5', borderBottomWidth: 1 }}>
+              <View key={singleOrderDetailsIndex} style={{ borderColor: 'red', borderWidth: 0, margin: 3, backgroundColor: '#FFFFFF', borderBottomColor: '#E5E5E5', borderBottomWidth: 1 }}>
                 <View style={{ flexDirection: 'row', margin: 7 }}>
                   <View style={{ width: 60, height: 60, borderColor: '#DDDDDD', borderWidth: 0.5, borderRadius: 30, justifyContent: 'center', marginTop: 10 }}>
                     <FastImage source={{
@@ -152,7 +152,7 @@ export default class orderStatusDetails extends Component {
                               {
                                 singleOrderDetails.IsSixPack === true ?
                                   sixpackFlavor.map((flavorName, index) => {
-                                    return <Text style={styles.subHeaderText}>
+                                    return <Text key={index} style={styles.subHeaderText}>
                                       {`\n${flavorName.type}: ${flavorName.products}`}
                                     </Text>
                                   })
@@ -213,7 +213,7 @@ export default class orderStatusDetails extends Component {
                               <Text style={styles.subHeaderText}>
                             {
                               sixpackTopping.map((toppingName, index) => {
-                                return <Text style={styles.subHeaderText}>
+                                return <Text key={index} style={styles.subHeaderText}>
                                   {`\n${toppingName.type}: ${toppingName.products}`}
                                 </Text>
                               })
