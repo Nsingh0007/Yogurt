@@ -3,14 +3,18 @@ import React, {Component, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import ORDERPLACED from '../../../../assets/icon/order/OrderPlacedIMG.png';
-
+import { topLevelNavigate } from '../../../../router/topLevelRef';
+import { navigateRootBottomTab } from '../../../../router/rootBottomTabRef';
 // create a component
 const OrderPlaced = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      props.navigation.navigate('RootHome');
-    }, 5000);
+      topLevelNavigate('RootHome');
+      setTimeout(()=>{
+        navigateRootBottomTab('Status');
+      }, 100);
+    }, 2000);
   }, []);
 
   return (

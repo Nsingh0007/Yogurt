@@ -7,7 +7,7 @@ import Gift from '../Gift';
 import Status from '../Status';
 import TopNav from '../TopNavigator';
 import Contact from '../Contact';
-import { setRootBottomTabRef, navigateRootBottomTab } from '../../../router/rootBottomTabRef';
+import { setRootBottomTabRef, navigateRootBottomTab,currentBottomTabSubject } from '../../../router/rootBottomTabRef';
 import { createAppContainer } from 'react-navigation';
 import {withBackHandler,withToppingFlavor} from '@appHoc';
 import { connect } from 'react-redux';
@@ -54,13 +54,19 @@ const RootHomeNavigatorR = createAppContainer(RootHomeNavigator);
 const RootHome = (props) => { 
     const [routeName, setRouteName] = useState('Home');
     const rootLevelNavigate = (routeName, params = {}) => {
-        setRouteName(routeName);
+        //setRouteName(routeName);
         navigateRootBottomTab(routeName);
     }  
     useEffect(()=>{
         socket.init();
-    }, []);
-    //console.log('TEST_STORE_6 ', JSON.stringify(Store.getState()));
+        let rootNameSub = currentBottomTabSubject.subscribe(routeName => setRouteName(i => routeName));
+
+        return () => {
+             
+            rootNameSub.unsubscribe();
+        }
+    }, []); 
+
     return (
         <Fragment>
             <RootHomeNavigatorR ref={setRootBottomTabRef} /> 

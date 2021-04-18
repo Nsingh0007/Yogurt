@@ -6,7 +6,7 @@ import {
     updateToppingTree
 } from './products';
 import FeaturedStore from './featured';
-
+import BannerStore from './offerbanner';
 class CategoryMutations {
     selectors;
     constructor(selectors) {
@@ -211,6 +211,16 @@ class FeaturedMutations {
         return this.setFeature(nextFeatured);
     }
 }
+
+class BannerMutations {
+    updateBanner = async () => {
+        try{
+            await BannerStore.fetchBannerRequest();
+        }catch(error) {
+            console.log('ERROR');
+        }
+    }
+}
 class SocketMutations {
 
     selectors;
@@ -225,6 +235,7 @@ class SocketMutations {
         this.flavor = new FlavorMutations(this.selectors);
         this.topping = new ToppingMutations(this.selectors);
         this.featured = new FeaturedMutations(this.selectors);
+        this.banner = new BannerMutations(this.selectors);
     }
 
 }
