@@ -42,8 +42,8 @@ import VersionCheck from 'react-native-version-check';
 import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
 import { withBackHandler } from '@appHoc';
+import BannerStore from '../../Redux/offerbanner'; 
 
-import Socket from '@YSocket';
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 
@@ -207,14 +207,19 @@ class Home extends Component {
   };
 
   fetchSlideByUser = async () => {
-    const GetSlideByUserResponse = await GetSliderByUser();
-    if (GetSlideByUserResponse.result === true) {
-      var slideByUserData = GetSlideByUserResponse.response;
-      this.setState({slideByUserData});
-    } else {
-      this.fetchSlideByUser();
-      //Alert.alert('Warning', "Oops something went wrong, please try again later.")
+    try{
+      await BannerStore.fetchBannerRequest();
+    }catch(error) {
+      console.log('FETCH_BANNER_ERROR - ', error);
     }
+    // const GetSlideByUserResponse = await GetSliderByUser();
+    // if (GetSlideByUserResponse.result === true) {
+    //   var slideByUserData = GetSlideByUserResponse.response;
+    //   this.setState({slideByUserData});
+    // } else {
+    //   this.fetchSlideByUser();
+    //   //Alert.alert('Warning', "Oops something went wrong, please try again later.")
+    // }
   };
 
   progressBarData() {
@@ -331,8 +336,7 @@ class Home extends Component {
     const {isUserLoggedIn, loading, userDetails} = this.props.userstore;
     const {
       IsRedeem,
-      spinner,
-      slideByUserData,
+      spinner, 
       firstCircleColor,
       secondCircleColor,
       thirdCircleColor,
@@ -526,8 +530,8 @@ class Home extends Component {
               />
             ) : null}
 
-            {slideByUserData.length > 0
-              ? slideByUserData?.map((singleslide, index) => {
+            {this.props.bannerStore.banners.length > 0
+              ? this.props.bannerStore.banners?.map((singleslide, index) => {
                   return (
                     <View style={styles.bannerView} key={index}>
                       <View>
@@ -796,6 +800,7 @@ const mapStateToProps = state => {
     messageStore: state.messageStore,
     categoryStore: state.categoryStore,
     getCartStore: state.getCartStore,
+    bannerStore: state.bannerStore
   };
 };
 

@@ -104,6 +104,26 @@ class BRHubHandler {
         this.eventRecieved('BrFeatureDelete', msg, deletedFeature);
         SocketMutations.featured.onFeaturedDelete(JSON.parse(deletedFeature));  
     }
-    
+    BANewOrderRecieved = (msg, newOrder) => {
+        this.eventRecieved('BANewOrderRecieved', msg, newOrder);
+    }
+    BrOfferBannersAdd = (msg, newBanner) => {
+        this.eventRecieved('BrOfferBannersAdd', msg, newBanner);
+        SocketMutations.banner.updateBanner();
+    }
+    BrOfferBannersUpdate = (msg, updatedBanner) => {
+        this.eventRecieved('BrOfferBannersUpdate', msg, updatedBanner);
+        SocketMutations.banner.updateBanner();
+    }
+
+    BrOfferBannersStatus = (msg, bannerStatus) => {
+        this.eventRecieved('BrOfferBannersStatus', msg, bannerStatus);
+        SocketMutations.banner.updateBanner();
+    }
+
+    BrOfferBannersDelete = (msg, bannerDelete) => {
+        this.eventRecieved('BrOfferBannersDelete', msg, bannerDelete);
+        SocketMutations.banner.updateBanner();
+    }
 }
 export default BRHubHandler;
