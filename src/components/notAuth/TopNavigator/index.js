@@ -1,5 +1,5 @@
  
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect } from 'react';
  
 import { View, Text, Platform, TouchableOpacity } from 'react-native';
  
@@ -85,9 +85,12 @@ const App = createStackNavigator({
     },
   },
 });
-
+ 
 let AppWithCreateAppContainer = createAppContainer(App);
-const MapScreen = () => {
+const MapScreen = (props) => {
+  useEffect(() => {
+     
+  }, []);
   return (
     <Fragment>
       <AppWithCreateAppContainer />

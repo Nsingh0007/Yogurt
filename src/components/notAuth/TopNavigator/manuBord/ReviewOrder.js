@@ -29,6 +29,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Dimensions } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { rootLevelBackFunction } from '@appHoc';
+import { navigateRootBottomTab } from '../../../../router/rootBottomTabRef';
+import { navigateTopTabRef } from '../../../../router/topTabRef';
 
 MaterialIcons.loadFont();
 
@@ -1237,7 +1239,12 @@ class ReviewOrder extends Component {
                   </Text>
                   <TouchableOpacity
                     style={styles.EmptyCartBtnTouch}
-                    onPress={() => this.props.navigation.navigate('topNav')}>
+                    onPress={() => {
+                      this.props.navigation.goBack();
+                      setTimeout(() => {
+                        navigateTopTabRef('Menu');
+                      }, 150);
+                    }}>
                     <View style={styles.EmptyCartBtnView}>
                       <Text style={styles.EmptyCartBtnText}>Add Item</Text>
                     </View>

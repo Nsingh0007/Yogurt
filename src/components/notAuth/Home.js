@@ -41,6 +41,8 @@ import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
 import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
+import {navigateRootBottomTab} from '../../router/rootBottomTabRef';
+import {navigateTopTabRef} from '../../router/topTabRef';
 import { withBackHandler } from '@appHoc';
 import BannerStore from '../../Redux/offerbanner'; 
 
@@ -561,9 +563,15 @@ class Home extends Component {
                           singleslide.ButtonName === 'Order Now' ? (
                             <TouchableOpacity
                               onPress={() => {
-                                singleslide.ButtonName == 'Order Now'
-                                  ? topLevelNavigate('topNav')
-                                  : topLevelNavigate('login');
+                                if(singleslide.ButtonName == 'Order Now')
+                                  {
+                                    navigateRootBottomTab('Order');
+                                    setTimeout(()=>{
+                                      navigateTopTabRef('Menu');
+                                    },150);
+                                  }
+                                else
+                                  topLevelNavigate('login');
                               }}
                               style={styles.bannerButton}>
                               <Text style={styles.bannerButtonText}>
