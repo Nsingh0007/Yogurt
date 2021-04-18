@@ -110,6 +110,7 @@ class Toppings extends Component {
       sixPackData,
     });
   };
+
   renderSingleTopping = ({ topping, toppingIndex,
     selectedToppings, selectedCategory, isSixPackLogic }) => {
     return (
@@ -169,6 +170,7 @@ class Toppings extends Component {
       </Fragment>
     );
   }
+  
   render() {
     const {
       // toppingsData = [],

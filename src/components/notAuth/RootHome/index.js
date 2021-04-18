@@ -60,7 +60,7 @@ const RootHome = (props) => {
     useEffect(()=>{
         socket.init();
     }, []);
-    console.log('TEST_STORE_6 ', JSON.stringify(Store.getState()));
+    //console.log('TEST_STORE_6 ', JSON.stringify(Store.getState()));
     return (
         <Fragment>
             <RootHomeNavigatorR ref={setRootBottomTabRef} /> 

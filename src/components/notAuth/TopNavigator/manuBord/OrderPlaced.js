@@ -9,7 +9,7 @@ const OrderPlaced = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      props.navigation.navigate('Status');
+      props.navigation.navigate('RootHome');
     }, 5000);
   }, []);
 
