@@ -113,7 +113,31 @@ class BRHub extends BRHandlers {
             {
                 name: EventsList.Feature.BrFeatureDelete,
                 handler: this.BrFeatureDelete
-            } 
+            },
+            
+            // Angular
+            {
+                name: EventsList.Angular.BANewOrderRecieved,
+                handler: this.BANewOrderRecieved
+            },
+
+            // Banner
+            {
+                name: EventsList.BANNER.BrOfferBannersAdd,
+                handler: this.BrOfferBannersAdd
+            },
+            {
+                name: EventsList.BANNER.BrOfferBannersUpdate,
+                handler: this.BrOfferBannersUpdate
+            },
+            {
+                name: EventsList.BANNER.BrOfferBannersStatus,
+                handler: this.BrOfferBannersStatus
+            },
+            {
+                name: EventsList.BANNER.BrOfferBannersDelete,
+                handler: this.BrOfferBannersDelete
+            },
         );
     }
     

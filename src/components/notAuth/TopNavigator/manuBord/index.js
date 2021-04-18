@@ -235,7 +235,7 @@ class SelectProduct extends Component {
   getSelectedPriceDetailsWithPrice = () => {
     const { selectedSize } = this.state;
     const { selectedCategory } = this.props?.categorystore;
-    return selectedCategory.priceDetails.find((singlePriceDetails, index) => {
+    return selectedCategory?.priceDetails.find((singlePriceDetails, index) => {
       if (selectedCategory.subCategory.IsSize) {
         if (singlePriceDetails.SizeId === selectedSize.SizeId) {
           return singlePriceDetails;
@@ -1650,14 +1650,13 @@ class SelectProduct extends Component {
           // );
         }
       } else {
-        console.log('BODY ----> ', { ...sendBody[0], CartId: this.state.cartId });
         let TempBody = { ...sendBody[0], CartId: this.state.cartId };
         const editCartResponse = await editCart(TempBody);
         if (editCartResponse.result === true) {
           this.setState({
             adding: true,
           });
-          console.log('reponse --> ', editCartResponse.response);
+          
           setTimeout(() => {
             this.props.fetchCartData();
             this.handleResetReciepe();

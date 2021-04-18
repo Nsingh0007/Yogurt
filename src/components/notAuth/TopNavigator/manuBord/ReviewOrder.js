@@ -29,6 +29,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Dimensions } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { rootLevelBackFunction } from '@appHoc';
+import { navigateRootBottomTab } from '../../../../router/rootBottomTabRef';
+import { navigateTopTabRef } from '../../../../router/topTabRef';
 
 MaterialIcons.loadFont();
 
@@ -77,16 +79,6 @@ class ReviewOrder extends Component {
       paymentId: '',
     };
   }
-  // backAction = () => {
-  //   const isFocused = this.props.navigation.isFocused();
-  //   if (isFocused) {
-  //     this.props.navigation.goBack();
-  //     return true;
-  //   } else {
-  //     console.log('reviewOrder false');
-  //     return false;
-  //   }
-  // };
 
   Show_Custom_AlertForTime(visible) {
     this.showTimeSlot();
@@ -170,7 +162,6 @@ class ReviewOrder extends Component {
         //topLevelNavigate(navigateOnBackParam);
         this.props.navigation.goBack();
       }
-      console.log('Review Order Focused --')
       this.getCardData();
     });
   };
@@ -403,7 +394,7 @@ class ReviewOrder extends Component {
   handleCartEdit = (singleCartData, cartIndex) => {
     const { categoryStore, getCartStore } = this.props;
     const { categoryData, loader } = categoryStore;
-    console.log('Single Cart Data ---> ', singleCartData);
+
     if (singleCartData.IsSixPack) {
       return this.handleSixPackEdit(singleCartData, cartIndex);
     }
@@ -1237,7 +1228,14 @@ class ReviewOrder extends Component {
                   </Text>
                   <TouchableOpacity
                     style={styles.EmptyCartBtnTouch}
-                    onPress={() => this.props.navigation.navigate('topNav')}>
+
+                    onPress={() => {
+                      this.props.navigation.goBack();
+                      setTimeout(() => {
+                        navigateTopTabRef('Menu');
+                      }, 150);
+                    }}>
+
                     <View style={styles.EmptyCartBtnView}>
                       <Text style={styles.EmptyCartBtnText}>Add Item</Text>
                     </View>

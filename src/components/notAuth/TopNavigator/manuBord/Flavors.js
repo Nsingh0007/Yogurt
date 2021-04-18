@@ -13,6 +13,7 @@ import { mutateProducts } from "@redux";
 import FastImage from "react-native-fast-image";
 import BackHoc from './BackHoc';
 import { TransformFlavor } from '../../../../pipes';
+
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1,
@@ -218,8 +219,6 @@ class Flavors extends Component {
         sixPackObject.Products[type][productIndex].products;
     }
     flavorData = TransformFlavor(flavorData);
-    console.log('TRANSFORMED_FLAVOR_DATA - ', JSON.stringify(flavorData));
-
 
     return (
       <View style={styles.continer}>
