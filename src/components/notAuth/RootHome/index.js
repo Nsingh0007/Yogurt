@@ -59,10 +59,11 @@ const RootHome = (props) => {
     }  
     useEffect(()=>{
         socket.init();
-        currentBottomTabSubject.subscribe(routeName => setRouteName(i => routeName));
+        let rootNameSub = currentBottomTabSubject.subscribe(routeName => setRouteName(i => routeName));
 
         return () => {
-            //currentBottomTabSubject.unsubscribe();
+             
+            rootNameSub.unsubscribe();
         }
     }, []); 
     return (
