@@ -66,6 +66,7 @@ const RootHome = (props) => {
             rootNameSub.unsubscribe();
         }
     }, []); 
+
     return (
         <Fragment>
             <RootHomeNavigatorR ref={setRootBottomTabRef} /> 

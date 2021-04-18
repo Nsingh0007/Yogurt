@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,15 @@ import {
   ScrollView,
   Alert,
   Dimensions,
-} from "react-native";
-import Vector2 from "../../../../assets/icon/order/Vector2.png";
-import search from "../../../../assets/icon/order/search.png";
-import { connect } from "react-redux";
-import { mutateProducts } from "@redux";
-import SearchInput, { createFilter } from "react-native-search-filter";
-import FastImage from "react-native-fast-image";
+} from 'react-native';
+import Vector2 from '../../../../assets/icon/order/Vector2.png';
+import search from '../../../../assets/icon/order/search.png';
+import {connect} from 'react-redux';
+import {mutateProducts} from '@redux';
+import SearchInput, {createFilter} from 'react-native-search-filter';
+import FastImage from 'react-native-fast-image';
 import BackHoc from './BackHoc';
-const KEYS_TO_FILTERS = ["ToppingName"];
+import {TransformTopping} from '../../../../pipes';
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -25,7 +25,7 @@ Text.defaultProps = {
 class TopToppings extends Component {
   constructor(props) {
     super(props);
-    this.state = { searchTerm: "" };
+    this.state = {searchTerm: ''};
   }
 
   handleMutate = (subCategoryData, currentTopTopingArray) => {
@@ -33,25 +33,25 @@ class TopToppings extends Component {
       return true;
     } else {
       Alert.alert(
-        "Message",
+        'Message',
         `Oops! Please select only ${subCategoryData.TopToppingCount} top toppings`,
         [
           {
-            text: "Okay",
+            text: 'Okay',
           },
-        ]
+        ],
       );
       return false;
     }
   };
 
   searchUpdated(term) {
-    this.setState({ searchTerm: term });
+    this.setState({searchTerm: term});
   }
 
   addToppings = (selectedCategory, singleTopTopping) => {
-    let { sixPackStore } = this.props;
-    let { sixPackData } = sixPackStore;
+    let {sixPackStore} = this.props;
+    let {sixPackData} = sixPackStore;
     const {
       sixPackDataIndex,
       productIndex,
@@ -60,9 +60,9 @@ class TopToppings extends Component {
     } = this.readyRender();
     if (isSixPackLogic) {
       sixPackData[sixPackDataIndex].Products[type][productIndex].products.push(
-        singleTopTopping
+        singleTopTopping,
       );
-      return this.props.mutateSixPackStore("MUTATE", {
+      return this.props.mutateSixPackStore('MUTATE', {
         ready: true,
         sixPackData,
       });
@@ -70,18 +70,19 @@ class TopToppings extends Component {
     return this.props.mutateProductsDispatch(
       selectedCategory,
       singleTopTopping,
-      "TOPTOPINGS",
-      "ADD"
+      'TOPTOPINGS',
+      'ADD',
     );
   };
+
   readyRender = () => {
-    const { getParam } = this.props.navigation;
-    const CategoryId = getParam("CategoryId");
-    const SubCategoryId = getParam("SubCategoryId");
-    const type = getParam("type");
-    const sixPackDataIndex = getParam("sixPackDataIndex");
-    const productIndex = getParam("productIndex");
-    const isSixPackLogic = getParam("isSixPackLogic", false);
+    const {getParam} = this.props.navigation;
+    const CategoryId = getParam('CategoryId');
+    const SubCategoryId = getParam('SubCategoryId');
+    const type = getParam('type');
+    const sixPackDataIndex = getParam('sixPackDataIndex');
+    const productIndex = getParam('productIndex');
+    const isSixPackLogic = getParam('isSixPackLogic', false);
     return {
       CategoryId,
       SubCategoryId,
@@ -92,35 +93,89 @@ class TopToppings extends Component {
     };
   };
 
-  removeSixPackFlavor = (mutateIndex) => {
-    let { sixPackStore } = this.props;
-    let { sixPackData } = sixPackStore;
-    const { sixPackDataIndex, productIndex, type } = this.readyRender();
+  removeSixPackFlavor = mutateIndex => {
+    let {sixPackStore} = this.props;
+    let {sixPackData} = sixPackStore;
+    const {sixPackDataIndex, productIndex, type} = this.readyRender();
     let updatedProduct = sixPackData[sixPackDataIndex].Products[type][
       productIndex
-    ].products.filter((itr) => itr.ToppingId != mutateIndex);
+    ].products.filter(itr => itr.ToppingId != mutateIndex);
 
     sixPackData[sixPackDataIndex].Products[type][
       productIndex
     ].products = updatedProduct;
-    return this.props.mutateSixPackStore("MUTATE", {
+    return this.props.mutateSixPackStore('MUTATE', {
       ready: true,
       sixPackData,
     });
   };
 
-  render() {
-    const toppingsData = this.props.productstore.toppingsData.filter(
-      createFilter(this.state.searchTerm, KEYS_TO_FILTERS)
+  renderSingleTopping = ({
+    topping,
+    toppingIndex,
+    selectedTopTopping,
+    selectedCategory,
+    isSixPackLogic,
+  }) => {
+    return (
+      <Fragment>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 10,
+          }}>
+          <Text style={styles.subContent}> {topping.ToppingName}</Text>
+          {selectedTopTopping.some(
+            item => item.ToppingId == topping.ToppingId,
+          ) ? (
+            <TouchableOpacity
+              onPress={() => {
+                if (isSixPackLogic) {
+                  return this.removeSixPackFlavor(topping.ToppingId);
+                }
+                this.props.mutateProductsDispatch(
+                  selectedCategory,
+                  topping,
+                  'TOPTOPINGS',
+                  'REMOVE',
+                );
+              }}>
+              <Text style={styles.addRemoveButton}>Remove</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                if (
+                  this.handleMutate(
+                    selectedCategory.subCategory,
+                    selectedTopTopping,
+                  )
+                ) {
+                  this.addToppings(selectedCategory, topping);
+                }
+              }}>
+              <Text style={styles.addRemoveButton}>Add</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        <View style={styles.borderLine} />
+      </Fragment>
     );
+  };
+
+  render() {
+    // const toppingsData = this.props.productstore.toppingsData.filter(
+    //   createFilter(this.state.searchTerm, KEYS_TO_FILTERS)
+    // );
     const {
       // toppingsData = [],
       selectedProductData,
       flavorData,
     } = this.props?.productstore;
-    const { selectedCategory } = this.props?.categorystore;
+    const {selectedCategory} = this.props?.categorystore;
 
-    const { sixPackStore } = this.props;
+    const {sixPackStore} = this.props;
     const {
       CategoryId,
       SubCategoryId,
@@ -133,7 +188,7 @@ class TopToppings extends Component {
     let selectedTopTopping = [];
     if (!isSixPackLogic) {
       if (!selectedCategory.isSubCategory) {
-        let updatedDemo = selectedProductData.find((singleCategory) => {
+        let updatedDemo = selectedProductData.find(singleCategory => {
           if (
             selectedCategory.category.CategoryId === singleCategory.CategoryId
           ) {
@@ -146,9 +201,9 @@ class TopToppings extends Component {
       } else {
         let updatedDemo = [];
 
-        selectedProductData.map((singleMap) => {
+        selectedProductData.map(singleMap => {
           if (singleMap.CategoryId === selectedCategory.category.CategoryId) {
-            singleMap.subCategoryData.map((singleSubCategory) => {
+            singleMap.subCategoryData.map(singleSubCategory => {
               if (
                 singleSubCategory.SubCategoryId ===
                 selectedCategory.subCategory.SubCategoryId
@@ -166,6 +221,8 @@ class TopToppings extends Component {
       let sixPackObject = sixPackStore.sixPackData[sixPackDataIndex];
       selectedTopTopping = sixPackObject.Products[type][productIndex].products;
     }
+    let toppingsData = this.props.productstore.toppingsData;
+    toppingsData = TransformTopping(toppingsData, true, this.state.searchTerm);
     return (
       <View style={styles.continer}>
         <View style={styles.header}>
@@ -173,12 +230,11 @@ class TopToppings extends Component {
             onPress={() => {
               isSixPackLogic
                 ? this.props.navigation.goBack()
-                : this.props.navigation.navigate("menuIndex");
-            }}
-          >
+                : this.props.navigation.navigate('menuIndex');
+            }}>
             <FastImage
               source={Vector2}
-              style={{ height: 22, width: 22, margin: 1 }}
+              style={{height: 22, width: 22, margin: 1}}
             />
           </TouchableOpacity>
           <Text style={styles.headerText}>TOP TOPPINGS</Text>
@@ -186,26 +242,25 @@ class TopToppings extends Component {
         </View>
         <View
           style={{
-            alignSelf: "center",
+            alignSelf: 'center',
             margin: 10,
-            width: "90%",
-            borderColor: "#E5E5E5",
+            width: '90%',
+            borderColor: '#E5E5E5',
             borderWidth: 2,
             height: 45,
             borderRadius: 50,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ justifyContent: "center" }}>
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{justifyContent: 'center'}}>
             <SearchInput
-              onChangeText={(term) => {
+              onChangeText={term => {
                 this.searchUpdated(term);
               }}
               placeholder="Search Topping"
               style={{
                 paddingStart: 20,
-                width: Dimensions.get("window").width * 0.75,
+                width: Dimensions.get('window').width * 0.75,
               }}
             />
           </View>
@@ -213,456 +268,47 @@ class TopToppings extends Component {
             <TouchableOpacity>
               <FastImage
                 source={search}
-                style={{ height: 30, width: 30, margin: 6 }}
+                style={{height: 30, width: 30, margin: 6}}
               />
             </TouchableOpacity>
           </View>
         </View>
         <ScrollView>
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              POPULAR TOPPINGS
-            </Text>
-          </View>
-          {toppingsData.map((singleTopTopping, singleTopToppingIndex) => {
+          {toppingsData.map((toppingType, toppingTypeKey) => {
             return (
-              <Fragment key={singleTopToppingIndex}>
-                <ScrollView>
-                  <View>
-                    {singleTopTopping.ToppingTypeName === "Popular Toppings" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <Text style={styles.subContent}>
-                            {" "}
-                            {singleTopTopping.ToppingName}
-                          </Text>
-                          {selectedTopTopping.some(
-                            (item) =>
-                              item.ToppingId == singleTopTopping.ToppingId
-                          ) ? (
-                              <TouchableOpacity
-
-                                onPress={() => {
-                                  if (isSixPackLogic) {
-                                    return this.removeSixPackFlavor(
-                                      singleTopTopping.ToppingId
-                                    );
-                                  }
-                                  this.props.mutateProductsDispatch(
-                                    selectedCategory,
-                                    singleTopTopping,
-                                    "TOPTOPINGS",
-                                    "REMOVE"
-                                  );
-                                }}
-
-                              >
-                                <Text style={styles.addRemoveButton}>Remove</Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  if (
-                                    this.handleMutate(
-                                      selectedCategory.subCategory,
-                                      selectedTopTopping
-                                    )
-                                  ) {
-                                    this.addToppings(
-                                      selectedCategory,
-                                      singleTopTopping
-                                    );
-                                  }
-                                }}
-                              >
-                                <Text style={styles.addRemoveButton}>Add</Text>
-                              </TouchableOpacity>
-                            )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
+              <Fragment key={toppingTypeKey}>
+                <View
+                  style={{
+                    backgroundColor: '#DBDDDE',
+                    height: 50,
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: 'OpenSans-Bold',
+                      fontSize: 18,
+                      fontWeight: '700',
+                      margin: 0,
+                      marginStart: 20,
+                    }}>
+                    {toppingType.ToppingTypeName}
+                  </Text>
+                </View>
+                {toppingType.toppings.length > 0 ? (
+                  toppingType.toppings.map((topping, toppingIndex) => {
+                    return this.renderSingleTopping({
+                      topping,
+                      toppingIndex,
+                      selectedTopTopping,
+                      selectedCategory,
+                      isSixPackLogic,
+                    });
+                  })
+                ) : (
+                  <View style={styles.noSingleTopAvailView}>
+                    <Text>No Topping Available</Text>
                   </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              NUTS & PEANUT TOPPINGS
-            </Text>
-          </View>
-          {toppingsData.map((singleTopTopping, singleTopToppingIndex) => {
-            return (
-              <Fragment key={singleTopToppingIndex}>
-                <ScrollView>
-                  <View>
-                    {singleTopTopping.ToppingTypeName ===
-                      "Nuts & Peanut Toppings" ? (
-                        <ScrollView>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              justifyContent: "space-between",
-                              margin: 10,
-                            }}
-                          >
-                            <Text style={styles.subContent}>
-                              {" "}
-                              {singleTopTopping.ToppingName}
-                            </Text>
-                            {selectedTopTopping.some(
-                              (item) =>
-                                item.ToppingId == singleTopTopping.ToppingId
-                            ) ? (
-                                <TouchableOpacity
-
-                                  onPress={() => {
-                                    if (isSixPackLogic) {
-                                      return this.removeSixPackFlavor(
-                                        singleTopTopping.ToppingId
-                                      );
-                                    }
-                                    this.props.mutateProductsDispatch(
-                                      selectedCategory,
-                                      singleTopTopping,
-                                      "TOPTOPINGS",
-                                      "REMOVE"
-                                    );
-                                  }}
-
-                                >
-                                  <Text style={styles.addRemoveButton}>Remove</Text>
-                                </TouchableOpacity>
-                              ) : (
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    if (
-                                      this.handleMutate(
-                                        selectedCategory.subCategory,
-                                        selectedTopTopping
-                                      )
-                                    ) {
-                                      this.addToppings(
-                                        selectedCategory,
-                                        singleTopTopping
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <Text style={styles.addRemoveButton}>Add</Text>
-                                </TouchableOpacity>
-                              )}
-                          </View>
-                          <View style={styles.borderLine} />
-                        </ScrollView>
-                      ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              CANDIES
-            </Text>
-          </View>
-          {toppingsData.map((singleTopTopping, singleTopToppingIndex) => {
-            return (
-              <Fragment key={singleTopToppingIndex}>
-                <ScrollView>
-                  <View>
-                    {singleTopTopping.ToppingTypeName === "Candies" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <Text style={styles.subContent}>
-                            {" "}
-                            {singleTopTopping.ToppingName}
-                          </Text>
-                          {selectedTopTopping.some(
-                            (item) =>
-                              item.ToppingId == singleTopTopping.ToppingId
-                          ) ? (
-                              <TouchableOpacity
-
-                                onPress={() => {
-                                  if (isSixPackLogic) {
-                                    return this.removeSixPackFlavor(
-                                      singleTopTopping.ToppingId
-                                    );
-                                  }
-                                  this.props.mutateProductsDispatch(
-                                    selectedCategory,
-                                    singleTopTopping,
-                                    "TOPTOPINGS",
-                                    "REMOVE"
-                                  );
-                                }}
-
-                              >
-                                <Text style={styles.addRemoveButton}>Remove</Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  if (
-                                    this.handleMutate(
-                                      selectedCategory.subCategory,
-                                      selectedTopTopping
-                                    )
-                                  ) {
-                                    this.addToppings(
-                                      selectedCategory,
-                                      singleTopTopping
-                                    );
-                                  }
-                                }}
-                              >
-                                <Text style={styles.addRemoveButton}>Add</Text>
-                              </TouchableOpacity>
-                            )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              SAUCES
-            </Text>
-          </View>
-          {toppingsData.map((singleTopTopping, singleTopToppingIndex) => {
-            return (
-              <Fragment key={singleTopToppingIndex}>
-                <ScrollView>
-                  <View>
-                    {singleTopTopping.ToppingTypeName === "Sauces" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <Text style={styles.subContent}>
-                            {" "}
-                            {singleTopTopping.ToppingName}
-                          </Text>
-                          {selectedTopTopping.some(
-                            (item) =>
-                              item.ToppingId == singleTopTopping.ToppingId
-                          ) ? (
-                              <TouchableOpacity
-
-                                onPress={() => {
-                                  if (isSixPackLogic) {
-                                    return this.removeSixPackFlavor(
-                                      singleTopTopping.ToppingId
-                                    );
-                                  }
-                                  this.props.mutateProductsDispatch(
-                                    selectedCategory,
-                                    singleTopTopping,
-                                    "TOPTOPINGS",
-                                    "REMOVE"
-                                  );
-                                }}
-
-                              >
-                                <Text style={styles.addRemoveButton}>Remove</Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  if (
-                                    this.handleMutate(
-                                      selectedCategory.subCategory,
-                                      selectedTopTopping
-                                    )
-                                  ) {
-                                    this.addToppings(
-                                      selectedCategory,
-                                      singleTopTopping
-                                    );
-                                  }
-                                }}
-                              >
-                                <Text style={styles.addRemoveButton}>Add</Text>
-                              </TouchableOpacity>
-                            )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
-              </Fragment>
-            );
-          })}
-
-          {/* NEW TOPPING START FROM HERE------- */}
-
-          <View
-            style={{
-              backgroundColor: "#DBDDDE",
-              height: 50,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
-                fontSize: 18,
-                fontWeight: "700",
-                margin: 0,
-                marginStart: 20,
-              }}
-            >
-              FRUITS
-            </Text>
-          </View>
-          {toppingsData.map((singleTopTopping, singleTopToppingIndex) => {
-            return (
-              <Fragment key={singleTopToppingIndex}>
-                <ScrollView>
-                  <View>
-                    {singleTopTopping.ToppingTypeName === "Fruits" ? (
-                      <ScrollView>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            margin: 10,
-                          }}
-                        >
-                          <Text style={styles.subContent}>
-                            {" "}
-                            {singleTopTopping.ToppingName}
-                          </Text>
-                          {selectedTopTopping.some(
-                            (item) =>
-                              item.ToppingId == singleTopTopping.ToppingId
-                          ) ? (
-                              <TouchableOpacity
-
-                                onPress={() => {
-                                  if (isSixPackLogic) {
-                                    return this.removeSixPackFlavor(
-                                      singleTopTopping.ToppingId
-                                    );
-                                  }
-                                  this.props.mutateProductsDispatch(
-                                    selectedCategory,
-                                    singleTopTopping,
-                                    "TOPTOPINGS",
-                                    "REMOVE"
-                                  );
-                                }}
-
-                              >
-                                <Text style={styles.addRemoveButton}>Remove</Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  if (
-                                    this.handleMutate(
-                                      selectedCategory.subCategory,
-                                      selectedTopTopping
-                                    )
-                                  ) {
-                                    this.addToppings(
-                                      selectedCategory,
-                                      singleTopTopping
-                                    );
-                                  }
-                                }}
-                              >
-                                <Text style={styles.addRemoveButton}>Add</Text>
-                              </TouchableOpacity>
-                            )}
-                        </View>
-                        <View style={styles.borderLine} />
-                      </ScrollView>
-                    ) : null}
-                  </View>
-                </ScrollView>
+                )}
               </Fragment>
             );
           })}
@@ -674,87 +320,94 @@ class TopToppings extends Component {
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     marginBottom: 20,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: '#F9F9F9',
   },
   header: {
-    backgroundColor: "#2D2926",
-    width: "100%",
+    backgroundColor: '#2D2926',
+    width: '100%',
     height: 60,
     padding: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   headerText: {
     fontSize: 20,
-    fontFamily: "OpenSans-ExtraBold",
-    fontWeight: "700",
-    color: "#FFFFFF",
+    fontFamily: 'OpenSans-ExtraBold',
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   subheaderView: {
-    backgroundColor: "#DBDDDE",
+    backgroundColor: '#DBDDDE',
     height: 50,
-    width: "100%",
+    width: '100%',
   },
   borderLine: {
     borderWidth: 0.5,
-    borderColor: "#E6E6E6",
-    width: "90%",
-    alignSelf: "center",
+    borderColor: '#E6E6E6',
+    width: '90%',
+    alignSelf: 'center',
     margin: 0,
   },
   subContent: {
     fontSize: 16,
-    fontFamily: "OpenSans-SemiBold",
+    fontFamily: 'OpenSans-SemiBold',
     margin: 0,
     marginStart: 20,
   },
   subTextContent: {
     fontSize: 14,
-    fontFamily: "OpenSans-SemiBold",
-    color: "#793422",
-    fontWeight: "500",
+    fontFamily: 'OpenSans-SemiBold',
+    color: '#793422',
+    fontWeight: '500',
     marginStart: 20,
     marginEnd: 20,
   },
   addRemoveButton: {
     fontSize: 16,
-    fontFamily: "OpenSans-Bold",
-    color: "#793422",
-    fontWeight: "700",
+    fontFamily: 'OpenSans-Bold',
+    color: '#793422',
+    fontWeight: '700',
     marginTop: 5,
     marginEnd: 10,
   },
+  noSingleTopAvailView: {
+    alignSelf: 'center',
+    marginVertical: 25
+  }, 
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     productstore: state.productstore,
     categorystore: state.categoryStore,
     sixPackStore: state.sixPackStore,
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     mutateProductsDispatch: (
       currentSelectedCategory,
       productData,
       productType,
-      productAction
+      productAction,
     ) => {
       dispatch(
         mutateProducts(
           currentSelectedCategory,
           productData,
           productType,
-          productAction
-        )
+          productAction,
+        ),
       );
     },
     mutateSixPackStore: (type, data) => {
-      dispatch({ type, data });
+      dispatch({type, data});
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(BackHoc(TopToppings));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BackHoc(TopToppings));
