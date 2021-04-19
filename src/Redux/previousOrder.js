@@ -1,32 +1,32 @@
 import { GetOrderStatus } from '@api';
 
-const FETCH_PREV_REQUEST = 'FETCH_PREV_REQUEST';
-const FETCH_PREV_SUCCESS = 'FETCH_PREV_SUCCESS';
-const FETCH_PREV_ERROR = 'FETCH_PREV_ERROR';
+const FETCH_ORDER_REQUEST = 'FETCH_ORDER_REQUEST';
+const FETCH_ORDER_SUCCESS = 'FETCH_ORDER_SUCCESS';
+const FETCH_ORDER_ERROR = 'FETCH_ORDER_ERROR';
 
 const initialCartData = {
   loading: false,
   error: false,
-  PreviousData: [],
+  OrderData: [],
 };
 
-export const getPrevReducer = (state = initialCartData, action) => {
+export const getOrderReducer = (state = initialCartData, action) => {
   const {type, data} = action;
   switch (type) {
-    case FETCH_PREV_REQUEST:
+    case FETCH_ORDER_REQUEST:
       return {
         ...state,
         loading: true,
         error: false,
       };
-    case FETCH_PREV_SUCCESS:
+    case FETCH_ORDER_SUCCESS:
       return {
         ...state,
         loading: false,
         error: false,
-        PreviousData: data,
+        OrderData: data,
       };
-    case FETCH_PREV_ERROR:
+    case FETCH_ORDER_ERROR:
       return {
         ...state,
         loading: false,
@@ -37,20 +37,20 @@ export const getPrevReducer = (state = initialCartData, action) => {
   }
 };
 
-export const fetchPrevOrderDataAsyncCreator = () => async dispatch => {
-  dispatch({type: FETCH_PREV_REQUEST, data: []});
-  console.log('Prev Calling')
-  const GetPreviousOrderRespone = await GetOrderStatus();
-  if (GetPreviousOrderRespone.result === true) {
-    let prevdata = [];
-    var previousOrderData = GetPreviousOrderRespone.response;
-    previousOrderData.map((singlePrevOrder, index) => {
-      if (singlePrevOrder.Status === 'Order Completed') {
-        prevdata.push(singlePrevOrder);
-      }
-    });
-    dispatch({type: FETCH_PREV_SUCCESS, data: prevdata});
+export const fetchOrderDataAsyncCreator = () => async dispatch => {
+  dispatch({type: FETCH_ORDER_REQUEST, data: []});
+
+  const GetAllOrderResponse = await GetOrderStatus();
+  if (GetAllOrderResponse.result === true) {
+    // let orderData = [];
+    // var AllOrderData = GetPreviousOrderResponse.response;
+    // previousOrderData.map((singlePrevOrder, index) => {
+    //   if (singlePrevOrder.Status === 'Order Completed') {
+    //     orderData.push(singlePrevOrder);
+    //   }
+    // });
+    dispatch({type: FETCH_ORDER_SUCCESS, data: GetAllOrderResponse.response});
   } else {
-    dispatch({type: FETCH_PREV_ERROR, data: []});
+    dispatch({type: FETCH_ORDER_ERROR, data: []});
   }
 };
