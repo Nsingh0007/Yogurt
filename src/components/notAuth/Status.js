@@ -24,6 +24,7 @@ import FastImage from 'react-native-fast-image';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {withBackHandler} from '@appHoc';
+import OrderStore from '../../Redux/order'; 
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -56,40 +57,14 @@ class Status extends Component {
   componentDidMount = async () => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
+    this.fetchOrderStatusByUser();
   };
 
-  componentWillUnmount() {
-    //AppState.removeEventListener('change', this.stateListener);
-    //BackHandler.removeEventListener('hardwareBackPress', this.backAction);
-  }
-
   fetchOrderStatusByUser = async () => {
-    let focused = this.props.navigation.isFocused();
-    const GetOrderStatusResponse = await GetOrderStatus();
-    let OrderData = [];
-    if (GetOrderStatusResponse.result === true) {
-      var orderStatus = GetOrderStatusResponse.response;
-      orderStatus.map((singleOrderStatus, index) => {
-        if (singleOrderStatus.Status != 'Order Completed') {
-          OrderData.push(singleOrderStatus);
-        }
-      });
-      this.setState({orderStatus: OrderData, loader: false});
-      setTimeout(() => {
-        if (focused) {
-          this.fetchOrderStatusByUser();
-        }
-      }, 10000);
-    } else {
-      console.log(
-        'error on Status --> ',
-        JSON.stringify(GetOrderStatusResponse),
-      );
-      setTimeout(() => {
-        if (focused) {
-          this.fetchOrderStatusByUser();
-        }
-      }, 10000);
+    try{
+      await OrderStore.fetchOrderRequest();
+    }catch(error) {
+      console.log('FETCH_BANNER_ERROR - ', error);
     }
   };
 
@@ -99,9 +74,9 @@ class Status extends Component {
 
   render() {
     const {orderStatus, loader} = this.state;
-    const { OrderData, error, loading } = this.props.getOrderStore
+    const { orders, error, loading, success } = this.props.orderStore
     let orderData = [];
-    OrderData.map((singleOrder, index) => {
+    orders.map((singleOrder, index) => {
       if (singleOrder.Status != 'Order Completed') {
         orderData.push(singleOrder);
       }
@@ -662,7 +637,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userstore: state.userstore,
-    getOrderStore: state.getOrderStore
+    orderStore: state.orderStore
   };
 };
 
@@ -670,9 +645,6 @@ const mapDispatchToProps = dispatch => {
   return {
     updateUserTreeOnLogin: payload => {
       dispatch(updateUserTree(payload));
-    },
-    fetchCartData: () => {
-      dispatch(fetchCartDataAsyncCreator());
     },
   };
 };

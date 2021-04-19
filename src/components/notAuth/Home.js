@@ -19,7 +19,6 @@ import {
   setCurrentSelectedCategory,
 } from '@redux';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
-import {fetchOrderDataAsyncCreator} from '@redux/previousOrder.js';
 LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
@@ -93,19 +92,6 @@ class Home extends Component {
       this.progressBarData();
     }, 2000);
 
-    // this.messageData = setInterval(() => {
-    //   const isFocused = this.props.navigation.isFocused();
-    //   console.log('is Focused Home Page ----> ', isFocused);
-    //   if (isUserLoggedIn && isFocused) {
-    //     console.log('Calling Message API');
-    //     this.props.fetchMessageData();
-    //   } else {
-    //     if (!isFocused) {
-    //       clearInterval(this.messageData);
-    //     }
-    //   }
-    // }, 15000);
-
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
       this.setState({
         spinner: true,
@@ -146,7 +132,6 @@ class Home extends Component {
     this.progressBarData();
     this.props.readyProductDispatch();
     this.props.fetchCategoryData();
-    this.props.FetchOrderData();
 
     setTimeout(() => {
       this.checkVersion();
@@ -839,9 +824,6 @@ const mapDispatchToProps = dispatch => {
     fetchCartData: cb => {
       dispatch(fetchCartDataAsyncCreator(cb));
     },
-    FetchOrderData: () => {
-      dispatch(fetchOrderDataAsyncCreator());
-    }
   };
 };
 

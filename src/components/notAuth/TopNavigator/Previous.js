@@ -21,6 +21,7 @@ import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import OrderStore from '../../../Redux/order'; 
 
 SimpleLineIcon.loadFont();
 
@@ -40,22 +41,31 @@ class Previous extends Component {
   }
 
   fetchPreviousOrders = async () => {
-    const GetPreviousOrderRespone = await GetOrderStatus();
-    if (GetPreviousOrderRespone.result === true) {
-      let prevdata = [];
-      var previousOrderData = GetPreviousOrderRespone.response;
-      previousOrderData.map((singlePrevOrder, index) => {
-        if (singlePrevOrder.Status === 'Order Completed') {
-          prevdata.push(singlePrevOrder);
-        }
-      });
-      this.setState({previousOrderData: prevdata});
+    try{
+      await OrderStore.fetchOrderRequest();
+    }catch(error) {
+      console.log('FETCH_BANNER_ERROR - ', error);
     }
+    // const GetPreviousOrderRespone = await GetOrderStatus();
+    // if (GetPreviousOrderRespone.result === true) {
+    //   let prevdata = [];
+    //   var previousOrderData = GetPreviousOrderRespone.response;
+    //   previousOrderData.map((singlePrevOrder, index) => {
+    //     if (singlePrevOrder.Status === 'Order Completed') {
+    //       prevdata.push(singlePrevOrder);
+    //     }
+    //   });
+    //   this.setState({previousOrderData: prevdata});
+    // }
   };
 
   componentDidMount = async () => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
+    this.fetchPreviousOrders();
+    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      this.fetchPreviousOrders();
+    });
   };
 
   phoneNoWithDash(phoneNo) {
@@ -64,10 +74,10 @@ class Previous extends Component {
   }
 
   render() {
-    const { OrderData, error, loading } = this.props.getOrderStore
+    const { orders, error, loading, success } = this.props.orderStore
     const {cartData} = this.props.getCartStore;
     let PrevData = [];
-    OrderData.map((singleOrder, index) => {
+    orders.map((singleOrder, index) => {
         if (singleOrder.Status === 'Order Completed') {
           PrevData.push(singleOrder);
         }
@@ -75,7 +85,7 @@ class Previous extends Component {
     return (
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {PrevData.length > 0 ? (
+          {PrevData.length > 0 && success ? (
             PrevData?.map((singleOrderStatus, singleIndex) => {
               let PickUpTimeNew =
                 singleOrderStatus?.PickUpTime != null
@@ -291,7 +301,7 @@ const mapStateToProps = (state) => {
   return {
     userstore: state.userstore,
     getCartStore: state.getCartStore,
-    getOrderStore: state.getOrderStore
+    orderStore: state.orderStore
   };
 };
 
