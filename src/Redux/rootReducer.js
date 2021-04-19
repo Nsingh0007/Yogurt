@@ -5,7 +5,7 @@ import ProductReducer from './products';
 import MessageReducer from './inbox';
 import {SixPackReducer} from './sixPack';
 import {getCartReducer} from './getcart';
-import {getOrderReducer} from './previousOrder';
+import OrderStore from './order';
 import FeatureStore from './featured';
 import BannerStore from './offerbanner';
 
@@ -16,7 +16,7 @@ export default combineReducers({
   messageStore: MessageReducer,
   sixPackStore: SixPackReducer,
   getCartStore: getCartReducer,
-  getOrderStore: getOrderReducer,
+  orderStore: OrderStore.orderReducer,
   featureStore: FeatureStore.featureReducer,
   bannerStore: BannerStore.bannerReducer
 });
