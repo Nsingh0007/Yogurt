@@ -80,7 +80,7 @@ class Home extends Component {
 
 
   componentDidMount = async () => {
-    console.log('STOER_1 - ', JSON.stringify(this.props.reduxStore));
+     
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
     this.props.fetchCartData();

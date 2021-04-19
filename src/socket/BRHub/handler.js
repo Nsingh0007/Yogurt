@@ -36,7 +36,7 @@ class BRHubHandler {
     //Subacategory Mutations
     BrSubCategoryAdd = (msg, newSubCategory) => {
         this.eventRecieved('BrSubCategoryAdd', msg, newSubCategory);
-        SocketMutations.subCategory.onSubCategoryAdd(JSON.parse(deletedSubCategory));
+        SocketMutations.subCategory.onSubCategoryAdd(JSON.parse(newSubCategory));
     }
     BrSubCategoryStatus = (msg, updatedSubCategory) => {
         this.eventRecieved('BrSubCategoryStatus', msg, updatedSubCategory);

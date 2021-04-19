@@ -28,6 +28,7 @@ import { fetchCartDataAsyncCreator } from '@redux/getcart.js';
 import FastImage from "react-native-fast-image";
 import VersionCheck from 'react-native-version-check';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import Store from '../../../Redux/store';
 
 SimpleLineIcon.loadFont();
 FontAwesome.loadFont();
@@ -106,8 +107,9 @@ class Menu extends Component {
               return null;
             }
             let showSubCategory =
-              singleMenu.SubCategoryInfolst != null && 
-              singleMenu.IsSubCategory === true;
+              singleMenu?.SubCategoryInfolst != null && 
+              singleMenu?.IsSubCategory === true &&
+              singleMenu?.SubCategoryInfolst?.length > 0
             return (
               <View key={categoryIndex}>
                 <View
@@ -121,15 +123,21 @@ class Menu extends Component {
                   <TouchableOpacity
                     key={categoryIndex}
                     style={{ flexDirection: "row", alignItems: "center" }}
-                    onPress={() => {
-                      if (!showSubCategory) {
+                    onPress={() => { 
+                      // console.log('ALL_STORE_TESt44 - ', JSON.stringify(Store.getState()));
+                      // return false;
+                      if(singleMenu?.SubCategoryInfolst == null ||
+                        singleMenu?.SubCategoryInfolst?.length == 0){
+                        return null;
+                      }
+                      if (!showSubCategory) { 
                         this.props.setCurrentSelectedCategoryDispatch({
                           category: singleMenu,
                           subCategory: singleMenu.SubCategoryInfolst[0],
                           isSubCategory: false,
                           priceDetails: singleMenu.priceDetails,
                           categoryIndex,
-                        });
+                        }); 
                         topLevelNavigate("menuIndex", {
                           category: singleMenu,
                           subCategory: singleMenu.SubCategoryInfolst[0],

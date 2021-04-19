@@ -19,6 +19,11 @@ class Selectors {
             ...this.store.getState().featureStore.features
         ]
     }
+    getSaveProductData = () => {
+        return [
+            ...this.store.getState().productstore.selectedProductData
+        ]
+    }
 }
 
 export default new Selectors();

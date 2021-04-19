@@ -1,5 +1,6 @@
 import { GetFlavors, GetToppings } from "@api";
 import { initSixPack } from "./sixPack";
+import ProductModel from '../models/ProductModel';
 
 const FETCH_PRODUCT_REQUEST = "FETCH_PRODUCT_REQUEST";
 const FETCH_PRODUCT_SUCCESS = "FETCH_PRODUCT_SUCCESS";
@@ -964,52 +965,9 @@ export const mutateProducts = (
 
 export const initialSelectedProductData = (categoryData) => (dispatch) => {
   let updatedCategoryData = categoryData.map((singleCategory) => {
-    if (
-      singleCategory.SubCategoryInfolst != null &&
-      singleCategory.SubCategoryInfolst.length > 1
-    ) {
-      let updatedSubCategory = singleCategory.SubCategoryInfolst.map(
-        (singleSubCategory) => {
-          return {
-            SubCategoryId: singleSubCategory.SubCategoryId,
-            isEditMode: false,
-            flavours: [],
-            bottomflavours: [],
-            middleflavours: [],
-            topflavours: [],
-
-            toppings: [],
-            bottomTopping: [],
-            middleTopping: [],
-            topTopping: [],
-            sideTopping: [],
-          };
-        }
-      );
-      return {
-        CategoryId: singleCategory.CategoryId,
-        isSubCategory: true,
-        subCategoryData: updatedSubCategory,
-      };
-    } else {
-      return {
-        CategoryId: singleCategory.CategoryId,
-        isEditMode: false,
-        isSubCategory: false,
-        flavours: [],
-        bottomflavours: [],
-        middleflavours: [],
-        topflavours: [],
-
-        toppings: [],
-        bottomTopping: [],
-        middleTopping: [],
-        topTopping: [],
-        sideTopping: [],
-      };
-    }
+      let productModel = new ProductModel(singleCategory); 
+      return productModel.init();
   });
-
   //Initialize Six Pack Logic here
   // if(singleSubCategory.SubCategoryName === "Six Pack"){
   //   dispatch(initSixPack(singleCategory,singleSubCategory));

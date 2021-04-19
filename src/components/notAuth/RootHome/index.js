@@ -66,7 +66,7 @@ const RootHome = (props) => {
             rootNameSub.unsubscribe();
         }
     }, []); 
-
+    // console.log('ALL_STOR22 - ', JSON.stringify(Store.getState()));
     return (
         <Fragment>
             <RootHomeNavigatorR ref={setRootBottomTabRef} /> 

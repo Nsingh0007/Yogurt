@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		14DB4FEA0407330D67195197 /* libPods-Yogurt-YogurtTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB110EF52804C2D10D94DA43 /* libPods-Yogurt-YogurtTests.a */; };
 		18F06DC0261C27C20017022C /* OpenSansHebrew-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DBA261C27C20017022C /* OpenSansHebrew-Regular.ttf */; };
 		18F06DC1261C27C20017022C /* SquareInAppPaymentsSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DBB261C27C20017022C /* SquareInAppPaymentsSDKResources.bundle */; };
 		18F06DC2261C27C20017022C /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DBC261C27C20017022C /* OpenSans-ExtraBold.ttf */; };
@@ -18,10 +19,9 @@
 		18F06DC4261C27C20017022C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DBE261C27C20017022C /* OpenSans-Bold.ttf */; };
 		18F06DC5261C27C20017022C /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DBF261C27C20017022C /* OpenSans-Light.ttf */; };
 		18F06DC9261C27E60017022C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F06DC8261C27E60017022C /* OpenSans-Regular.ttf */; };
+		1908DB181DC89C898272F8F4 /* libPods-Yogurt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB68AE66A8B9C818370A166 /* libPods-Yogurt.a */; };
 		1C9D1FE3261D8F22005CD015 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D1FE2261D8F22005CD015 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9CECEDEB8522F596CD869402 /* libPods-Yogurt-YogurtTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F69E0029AFA0C1D16E8A702 /* libPods-Yogurt-YogurtTests.a */; };
-		D6CD7911CC1F104F3F670190 /* libPods-Yogurt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 289CA8EC654BC2DED8FA8E85 /* libPods-Yogurt.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,14 +53,14 @@
 		18F06DC8261C27E60017022C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		18F06DCC261C27FF0017022C /* SquareInAppPaymentsSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SquareInAppPaymentsSDK.framework; sourceTree = "<group>"; };
 		18F06F20261C309B0017022C /* Yogurt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Yogurt.entitlements; path = Yogurt/Yogurt.entitlements; sourceTree = "<group>"; };
-		1C48AF92204BDDEAC8D6B880 /* Pods-Yogurt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt.release.xcconfig"; path = "Target Support Files/Pods-Yogurt/Pods-Yogurt.release.xcconfig"; sourceTree = "<group>"; };
 		1C9D1FE2261D8F22005CD015 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		25C3B3416DC7D07A326903B8 /* Pods-Yogurt-YogurtTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt-YogurtTests.debug.xcconfig"; path = "Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests.debug.xcconfig"; sourceTree = "<group>"; };
-		289CA8EC654BC2DED8FA8E85 /* libPods-Yogurt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Yogurt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F69E0029AFA0C1D16E8A702 /* libPods-Yogurt-YogurtTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Yogurt-YogurtTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		596979291E126F21E0A4D624 /* Pods-Yogurt-YogurtTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt-YogurtTests.debug.xcconfig"; path = "Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests.debug.xcconfig"; sourceTree = "<group>"; };
+		726770DC6DB86FD18C8CA028 /* Pods-Yogurt-YogurtTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt-YogurtTests.release.xcconfig"; path = "Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Yogurt/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		97DA68916B567774380B026C /* Pods-Yogurt-YogurtTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt-YogurtTests.release.xcconfig"; path = "Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests.release.xcconfig"; sourceTree = "<group>"; };
-		D2FE5D83D47917E7319E7B2E /* Pods-Yogurt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt.debug.xcconfig"; path = "Target Support Files/Pods-Yogurt/Pods-Yogurt.debug.xcconfig"; sourceTree = "<group>"; };
+		8C113FCFEC828B1653C462BB /* Pods-Yogurt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt.release.xcconfig"; path = "Target Support Files/Pods-Yogurt/Pods-Yogurt.release.xcconfig"; sourceTree = "<group>"; };
+		AB110EF52804C2D10D94DA43 /* libPods-Yogurt-YogurtTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Yogurt-YogurtTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D356B6E15A0E493E3FAB63B5 /* Pods-Yogurt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yogurt.debug.xcconfig"; path = "Target Support Files/Pods-Yogurt/Pods-Yogurt.debug.xcconfig"; sourceTree = "<group>"; };
+		DAB68AE66A8B9C818370A166 /* libPods-Yogurt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Yogurt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CECEDEB8522F596CD869402 /* libPods-Yogurt-YogurtTests.a in Frameworks */,
+				14DB4FEA0407330D67195197 /* libPods-Yogurt-YogurtTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6CD7911CC1F104F3F670190 /* libPods-Yogurt.a in Frameworks */,
+				1908DB181DC89C898272F8F4 /* libPods-Yogurt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,8 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				289CA8EC654BC2DED8FA8E85 /* libPods-Yogurt.a */,
-				5F69E0029AFA0C1D16E8A702 /* libPods-Yogurt-YogurtTests.a */,
+				DAB68AE66A8B9C818370A166 /* libPods-Yogurt.a */,
+				AB110EF52804C2D10D94DA43 /* libPods-Yogurt-YogurtTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,10 +168,10 @@
 		E3555D2F7C1CB6C2992AE9CB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D2FE5D83D47917E7319E7B2E /* Pods-Yogurt.debug.xcconfig */,
-				1C48AF92204BDDEAC8D6B880 /* Pods-Yogurt.release.xcconfig */,
-				25C3B3416DC7D07A326903B8 /* Pods-Yogurt-YogurtTests.debug.xcconfig */,
-				97DA68916B567774380B026C /* Pods-Yogurt-YogurtTests.release.xcconfig */,
+				D356B6E15A0E493E3FAB63B5 /* Pods-Yogurt.debug.xcconfig */,
+				8C113FCFEC828B1653C462BB /* Pods-Yogurt.release.xcconfig */,
+				596979291E126F21E0A4D624 /* Pods-Yogurt-YogurtTests.debug.xcconfig */,
+				726770DC6DB86FD18C8CA028 /* Pods-Yogurt-YogurtTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -183,12 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "YogurtTests" */;
 			buildPhases = (
-				F9BF3C92198B9F1D73B5B8F0 /* [CP] Check Pods Manifest.lock */,
+				F0D66A134088EBAF24A419EB /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				D6F3399A49EC5B0E359853A6 /* [CP] Embed Pods Frameworks */,
-				0AE6DFA6A47BD4AF7D6EE016 /* [CP] Copy Pods Resources */,
+				4612D7E0F2CCB9CADC5B75BC /* [CP] Embed Pods Frameworks */,
+				538315579B1B37242A2396E9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,15 +204,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Yogurt" */;
 			buildPhases = (
-				EC5D05A8641589D8B90373E7 /* [CP] Check Pods Manifest.lock */,
+				AACEC7CE616B903367BF7CAA /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D12DAC2D2ED19AF538A25456 /* [CP] Embed Pods Frameworks */,
-				7E253518D8FBD5F4F80E5CF2 /* [CP] Copy Pods Resources */,
 				1C06EA83262C1F3400D8CD09 /* ShellScript */,
+				CAC47421D993FF0E2ED8FC49 /* [CP] Embed Pods Frameworks */,
+				4B19202B045FB640F2CDEA67 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,23 +301,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0AE6DFA6A47BD4AF7D6EE016 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1C06EA83262C1F3400D8CD09 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,41 +318,7 @@
 			shellPath = /bin/sh;
 			shellScript = "FRAMEWORKS=\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\"${FRAMEWORKS}/SquareInAppPaymentsSDK.framework/setup\"\n";
 		};
-		7E253518D8FBD5F4F80E5CF2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D12DAC2D2ED19AF538A25456 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D6F3399A49EC5B0E359853A6 /* [CP] Embed Pods Frameworks */ = {
+		4612D7E0F2CCB9CADC5B75BC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -386,7 +335,41 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EC5D05A8641589D8B90373E7 /* [CP] Check Pods Manifest.lock */ = {
+		4B19202B045FB640F2CDEA67 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		538315579B1B37242A2396E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt-YogurtTests/Pods-Yogurt-YogurtTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AACEC7CE616B903367BF7CAA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -408,7 +391,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F9BF3C92198B9F1D73B5B8F0 /* [CP] Check Pods Manifest.lock */ = {
+		CAC47421D993FF0E2ED8FC49 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yogurt/Pods-Yogurt-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0D66A134088EBAF24A419EB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -482,7 +482,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25C3B3416DC7D07A326903B8 /* Pods-Yogurt-YogurtTests.debug.xcconfig */;
+			baseConfigurationReference = 596979291E126F21E0A4D624 /* Pods-Yogurt-YogurtTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -510,7 +510,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 97DA68916B567774380B026C /* Pods-Yogurt-YogurtTests.release.xcconfig */;
+			baseConfigurationReference = 726770DC6DB86FD18C8CA028 /* Pods-Yogurt-YogurtTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -535,7 +535,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2FE5D83D47917E7319E7B2E /* Pods-Yogurt.debug.xcconfig */;
+			baseConfigurationReference = D356B6E15A0E493E3FAB63B5 /* Pods-Yogurt.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -567,7 +567,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C48AF92204BDDEAC8D6B880 /* Pods-Yogurt.release.xcconfig */;
+			baseConfigurationReference = 8C113FCFEC828B1653C462BB /* Pods-Yogurt.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

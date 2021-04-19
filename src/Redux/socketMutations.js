@@ -7,10 +7,12 @@ import {
 } from './products';
 import FeaturedStore from './featured';
 import BannerStore from './offerbanner';
+import ProductModel from '../models/ProductModel';
 class CategoryMutations {
     selectors;
-    constructor(selectors) {
+    constructor(selectors, selectedProduct) {
         this.selectors = selectors;
+        this.selectedProduct = selectedProduct;
     }
     setCategoryData = (newCategoryData) => {
         return Store.dispatch(categoryRequestSuccess(newCategoryData));
@@ -31,7 +33,14 @@ class CategoryMutations {
     }
     newCategoryAdd = (newCategoryData) => {
         let nextCategory = this.selectors.getCategoryData();
+        if (newCategoryData.IsSubCategory) {
+            newCategoryData.SubCategoryInfolst = [];
+        }
         nextCategory.push(newCategoryData);
+        let previousProducts = this.selectors.getSaveProductData();
+        let newProductModel = new ProductModel(newCategoryData);
+        previousProducts.push(newProductModel.init());
+        this.selectedProduct.setProductData(previousProducts);
         this.setCategoryData(nextCategory);
     }
     onCategoryDelete = (newCategoryData) => {
@@ -113,8 +122,9 @@ class ToppingMutations {
 }
 class SubCategoryMutations {
     selectors;
-    constructor(selectors) {
+    constructor(selectors, selectedProduct) {
         this.selectors = selectors;
+        this.selectedProduct = selectedProduct;
     }
     setCategoryData = (newCategoryData) => {
         return Store.dispatch(categoryRequestSuccess(newCategoryData));
@@ -166,8 +176,19 @@ class SubCategoryMutations {
     }
     onSubCategoryAdd = (newSubCategory) => {
         let nextCategory = this.selectors.getCategoryData();
+        console.log('NEW_SUBCAT_ADDED - ', newSubCategory);
         let catIndex = nextCategory.findIndex(cat => cat.CategoryId == newSubCategory.CategoryId);
-        nextCategory[catIndex].SubCategoryInfolst.push(newSubCategory);
+        console.log('CAT_ON_ADD - ', catIndex);
+        console.log('NEXT_CAT - ', JSON.stringify(nextCategory));
+        nextCategory[catIndex].SubCategoryInfolst.push(newSubCategory.SubCategoryInfolst[0]);
+
+        // add data for selecting user
+        let nextSelectedProductData = this.selectors.getSaveProductData();
+        let findCurrentIndex = nextSelectedProductData.findIndex(i => i.CategoryId == newSubCategory.CategoryId);
+        let newSubCategoryModel = new ProductModel(null, newSubCategory.SubCategoryInfolst[0]);
+        nextSelectedProductData[findCurrentIndex].subCategoryData.push(newSubCategoryModel.initSubCategory());
+        this.selectedProduct.setProductData(nextSelectedProductData);
+        console.log('GEN_ON_FLY_TEST - ', JSON.stringify(nextSelectedProductData))
         this.setCategoryData(nextCategory);
     }
 }
@@ -214,11 +235,20 @@ class FeaturedMutations {
 
 class BannerMutations {
     updateBanner = async () => {
-        try{
+        try {
             await BannerStore.fetchBannerRequest();
-        }catch(error) {
+        } catch (error) {
             console.log('ERROR');
         }
+    }
+}
+class SelectedProductMutations {
+    constructor(selector) {
+        this.selector = selector;
+
+    }
+    setProductData = (newProductData) => {
+        Store.dispatch({ type: "READY_SELECTED_PRODUCT_DATA", payload: newProductData })
     }
 }
 class SocketMutations {
@@ -230,12 +260,14 @@ class SocketMutations {
     topping;
     constructor() {
         this.selectors = selectors;
-        this.category = new CategoryMutations(this.selectors);
-        this.subCategory = new SubCategoryMutations(this.selectors);
+        this.selectedProduct = new SelectedProductMutations(selectors);
+        this.category = new CategoryMutations(this.selectors, this.selectedProduct);
+        this.subCategory = new SubCategoryMutations(this.selectors, this.selectedProduct);
         this.flavor = new FlavorMutations(this.selectors);
         this.topping = new ToppingMutations(this.selectors);
         this.featured = new FeaturedMutations(this.selectors);
         this.banner = new BannerMutations(this.selectors);
+
     }
 
 }
