@@ -56,10 +56,6 @@ class Previous extends Component {
   componentDidMount = async () => {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      //this.fetchPreviousOrders();
-      //Put your Data loading function here instead of my this.LoadData()
-    });
   };
 
   phoneNoWithDash(phoneNo) {
@@ -68,13 +64,19 @@ class Previous extends Component {
   }
 
   render() {
-    const { PreviousData, error, loading } = this.props.getPrevStore
+    const { OrderData, error, loading } = this.props.getOrderStore
     const {cartData} = this.props.getCartStore;
+    let PrevData = [];
+    OrderData.map((singleOrder, index) => {
+        if (singleOrder.Status === 'Order Completed') {
+          PrevData.push(singleOrder);
+        }
+    });
     return (
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {PreviousData.length > 0 ? (
-            PreviousData?.map((singleOrderStatus, singleIndex) => {
+          {PrevData.length > 0 ? (
+            PrevData?.map((singleOrderStatus, singleIndex) => {
               let PickUpTimeNew =
                 singleOrderStatus?.PickUpTime != null
                   ? singleOrderStatus?.PickUpTime.split(':')
@@ -289,7 +291,7 @@ const mapStateToProps = (state) => {
   return {
     userstore: state.userstore,
     getCartStore: state.getCartStore,
-    getPrevStore: state.getPrevStore
+    getOrderStore: state.getOrderStore
   };
 };
 
