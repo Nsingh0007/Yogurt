@@ -138,6 +138,11 @@ class BRHub extends BRHandlers {
                 name: EventsList.BANNER.BrOfferBannersDelete,
                 handler: this.BrOfferBannersDelete
             },
+            //OrderStatus
+            {
+                name: EventsList.ORDERS.BrOrderStatus,
+                handler: this.BrOrderStatus
+            },
         );
     }
     

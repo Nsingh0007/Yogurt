@@ -48,6 +48,10 @@ class EventsList {
         BrOfferBannersStatus : 'BrOfferBannersStatus',
         BrOfferBannersDelete: 'BrOfferBannersDelete'
     };
+
+    ORDERS = {
+        BrOrderStatus: 'BrOrderStatus'
+    }
 }
 
 export default new EventsList();

@@ -7,6 +7,7 @@ import {
 } from './products';
 import FeaturedStore from './featured';
 import BannerStore from './offerbanner';
+import OrderStore from './order';
 import ProductModel from '../models/ProductModel';
 class CategoryMutations {
     selectors;
@@ -120,6 +121,7 @@ class ToppingMutations {
         return this.setTopping(nextTopping);
     }
 }
+
 class SubCategoryMutations {
     selectors;
     constructor(selectors, selectedProduct) {
@@ -242,6 +244,17 @@ class BannerMutations {
         }
     }
 }
+
+class OrderMutations {
+    updateOrder = async () => {
+        try {
+            await OrderStore.fetchOrderRequest();
+        } catch (error) {
+            console.log('ERROR');
+        }
+    }
+}
+
 class SelectedProductMutations {
     constructor(selector) {
         this.selector = selector;
@@ -251,6 +264,7 @@ class SelectedProductMutations {
         Store.dispatch({ type: "READY_SELECTED_PRODUCT_DATA", payload: newProductData })
     }
 }
+
 class SocketMutations {
 
     selectors;
@@ -267,6 +281,7 @@ class SocketMutations {
         this.topping = new ToppingMutations(this.selectors);
         this.featured = new FeaturedMutations(this.selectors);
         this.banner = new BannerMutations(this.selectors);
+        this.order = new OrderMutations(this.selectors);
 
     }
 

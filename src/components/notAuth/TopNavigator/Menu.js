@@ -55,13 +55,13 @@ class Menu extends Component {
     setTimeout(() => {
       this.checkVersion();
     }, 2200)
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.props.fetchCartData();
-      setTimeout(() => {
-        this.props.readyProductDispatch();
-        this.fetchGetCategory();
-      }, 100);
-    })
+    // this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    //   this.props.fetchCartData();
+    //   setTimeout(() => {
+    //     this.props.readyProductDispatch();
+    //     this.fetchGetCategory();
+    //   }, 100);
+    // })
     
   };
 

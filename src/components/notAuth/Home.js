@@ -79,11 +79,10 @@ class Home extends Component {
 
 
   componentDidMount = async () => {
-     
     this.props.isUserLoggedIn();
     this.fetchSlideByUser();
     this.props.fetchCartData();
-    const {isUserLoggedIn} = this.props.userstore;
+    
     setTimeout(() => {
       this.checkVersion();
     }, 1500);
@@ -93,9 +92,9 @@ class Home extends Component {
     }, 2000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.setState({
-        spinner: true,
-      });
+      // this.setState({
+      //   spinner: true,
+      // });
       this.props.isUserLoggedIn();
       setTimeout(() => {
         this.allData();
@@ -126,12 +125,12 @@ class Home extends Component {
   };
 
   allData() {
-    this.props.fetchCartData();
-    this.fetchSlideByUser();
+    // this.props.fetchCartData();
+    // this.fetchSlideByUser();
     this.getCardData();
     this.progressBarData();
     this.props.readyProductDispatch();
-    this.props.fetchCategoryData();
+    // this.props.fetchCategoryData();
 
     setTimeout(() => {
       this.checkVersion();
@@ -139,7 +138,6 @@ class Home extends Component {
   }
 
   getCardData = async () => {
-    //const GetCartDataResponse = await getCartDetails();
     this.props.fetchCartData(GetCartDataResponse => {
       if (GetCartDataResponse.result === true) {
         let IsRedeem = false;
@@ -199,14 +197,6 @@ class Home extends Component {
     }catch(error) {
       console.log('FETCH_BANNER_ERROR - ', error);
     }
-    // const GetSlideByUserResponse = await GetSliderByUser();
-    // if (GetSlideByUserResponse.result === true) {
-    //   var slideByUserData = GetSlideByUserResponse.response;
-    //   this.setState({slideByUserData});
-    // } else {
-    //   this.fetchSlideByUser();
-    //   //Alert.alert('Warning', "Oops something went wrong, please try again later.")
-    // }
   };
 
   progressBarData() {
@@ -487,16 +477,6 @@ class Home extends Component {
             {useNativeDriver: false},
           )}
           showsVerticalScrollIndicator={false}>
-          {/* <View style={{ flexDirection: 'column', marginTop: 65 }}>
-            <Text style={styles.headerText}>Hungry meets</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.headerText}>happy</Text>
-              <FastImage
-                source={iceCreamCorn}
-                style={{ width: 32, height: 32, }}
-              />
-            </View>
-          </View> */}
 
           <View style={{marginTop: 10, marginBottom: 5, marginTop: 200}}>
             {/* code here for the rewards points */}

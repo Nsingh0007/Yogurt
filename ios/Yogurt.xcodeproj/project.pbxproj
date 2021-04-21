@@ -210,7 +210,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				1C06EA83262C1F3400D8CD09 /* ShellScript */,
 				CAC47421D993FF0E2ED8FC49 /* [CP] Embed Pods Frameworks */,
 				4B19202B045FB640F2CDEA67 /* [CP] Copy Pods Resources */,
 			);
@@ -300,23 +299,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		1C06EA83262C1F3400D8CD09 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "FRAMEWORKS=\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\"${FRAMEWORKS}/SquareInAppPaymentsSDK.framework/setup\"\n";
 		};
 		4612D7E0F2CCB9CADC5B75BC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -542,7 +524,7 @@
 				CODE_SIGN_ENTITLEMENTS = Yogurt/Yogurt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4;
+				CURRENT_PROJECT_VERSION = 2.6;
 				DEVELOPMENT_TEAM = FS87CRZ2ZU;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Yogurt/Info.plist;
@@ -574,7 +556,7 @@
 				CODE_SIGN_ENTITLEMENTS = Yogurt/Yogurt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4;
+				CURRENT_PROJECT_VERSION = 2.6;
 				DEVELOPMENT_TEAM = FS87CRZ2ZU;
 				INFOPLIST_FILE = Yogurt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
