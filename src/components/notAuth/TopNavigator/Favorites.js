@@ -8,7 +8,6 @@ import {
   Dimensions,
   Vibration,
 } from 'react-native';
-import BottomNavigator from '../../../router/BottomNavigator';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 import {CheckBox} from 'react-native-elements';
@@ -22,14 +21,12 @@ import FavoriteIcon from '../../../assets/icon/PreviousIcon.png';
 import Add_Item from '../../../assets/icon/order/Add_Item.png';
 import uncheckedIcon from '../../../assets/icon/order/Heart_Like.png';
 import heart from '../../../assets/icon/order/heart.png';
-import cart1 from '../../../assets/icon/order/cart1.png';
-import cart2 from '../../../assets/icon/order/cart2.png';
-import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 SimpleLineIcon.loadFont();
+
 Text.defaultProps = {
   allowFontScaling: false,
   fontScale: 1,
@@ -75,16 +72,6 @@ class Favorites extends Component {
       } else {
         this.setState({spinner: false}, () => {
           this.fetchFavoritesItems();
-          // setTimeout(() => {
-          //   Alert.alert("Message", "Something went wrong!", [
-          //     {
-          //       text: 'Okay',
-          //       onPress: () => {
-          //         this.props.navigation.goBack();
-          //       }
-          //     }
-          //   ])
-          // }, 200)
         });
       }
     });
@@ -261,7 +248,9 @@ class Favorites extends Component {
                               {singleFavoriteItem.IsSixPack === true ? (
                                 sixpackFlavor.map((flavorName, index) => {
                                   return (
-                                    <Text key={index} style={styles.subHeaderText}>
+                                    <Text
+                                      key={index}
+                                      style={styles.subHeaderText}>
                                       {`\n${flavorName.type}: ${flavorName.products}`}
                                     </Text>
                                   );
@@ -326,7 +315,9 @@ class Favorites extends Component {
                               <Text style={styles.subHeaderText}>
                                 {sixpackTopping.map((toppingName, index) => {
                                   return (
-                                    <Text key={index} style={styles.subHeadingText}>
+                                    <Text
+                                      key={index}
+                                      style={styles.subHeadingText}>
                                       {`\n${toppingName.type}: ${toppingName.products}`}
                                     </Text>
                                   );

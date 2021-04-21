@@ -139,7 +139,7 @@ class BottomToppings extends Component {
                 this.props.mutateProductsDispatch(
                   selectedCategory,
                   topping,
-                  'MIDDLETOPPINGS',
+                  'BOTTOMTOPPINGS',
                   'REMOVE',
                 );
               }}>

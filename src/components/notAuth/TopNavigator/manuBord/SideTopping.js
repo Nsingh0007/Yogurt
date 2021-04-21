@@ -157,7 +157,7 @@ class SideToppings extends Component {
                 this.props.mutateProductsDispatch(
                   selectedCategory,
                   topping,
-                  'MIDDLETOPPINGS',
+                  'SIDETOPPING',
                   'REMOVE',
                 );
               }}>

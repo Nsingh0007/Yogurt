@@ -8,7 +8,7 @@ class BRHubHandler {
     }
     broadcast = (arg) => {
         this.eventRecieved('broadcast', arg);
-    } 
+    }
 
     //Category Mutations
     BrCategoryAdd = (msg, newCategoryAdded) => {
@@ -124,6 +124,11 @@ class BRHubHandler {
     BrOfferBannersDelete = (msg, bannerDelete) => {
         this.eventRecieved('BrOfferBannersDelete', msg, bannerDelete);
         SocketMutations.banner.updateBanner();
+    }
+
+    BrOrderStatus = (msg, orderUpdate) => {
+        this.eventRecieved('BrOrderStatus', msg, orderUpdate);
+        SocketMutations.order.updateOrder();
     }
 }
 export default BRHubHandler;

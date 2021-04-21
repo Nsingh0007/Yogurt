@@ -63,9 +63,9 @@ class Previous extends Component {
     const {userDetails, authToken} = this.props.userstore;
     this.setState({userDetails: userDetails, authToken: authToken});
     this.fetchPreviousOrders();
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.fetchPreviousOrders();
-    });
+    // this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    //   this.fetchPreviousOrders();
+    // });
   };
 
   phoneNoWithDash(phoneNo) {
@@ -85,7 +85,7 @@ class Previous extends Component {
     return (
       <View style={styles.continer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {PrevData.length > 0 && success ? (
+          {PrevData.length > 0 ? (
             PrevData?.map((singleOrderStatus, singleIndex) => {
               let PickUpTimeNew =
                 singleOrderStatus?.PickUpTime != null
@@ -232,6 +232,7 @@ class Previous extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
@@ -297,6 +298,7 @@ const styles = StyleSheet.create({
     color: '#414040',
   },
 });
+
 const mapStateToProps = (state) => {
   return {
     userstore: state.userstore,

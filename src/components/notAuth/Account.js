@@ -220,7 +220,7 @@ class Account extends Component {
 
           </View>
           <Text style={styles.versionText}>
-            App Version : {version+' (2.4)'}
+            App Version : {version+' (2.6)'}
           </Text>
         </ScrollView>
       </View>
