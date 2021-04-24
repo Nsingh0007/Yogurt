@@ -108,10 +108,10 @@ class ToppingMutations {
         });
         this.setTopping(nextTopping);
     }
-    onNewFlavorAdd = (newFlavor) => {
-        let nextFlavor = this.selectors.getFlavourData();
-        nextFlavor.push(newFlavor);
-        this.setFlavor(nextFlavor);
+    onNewToppingAdd = (newTopping) => {
+        let nextTopping = this.selectors.getToppingdata();
+        nextTopping.push(newTopping);
+        this.setTopping(nextTopping);
     }
     onToppingDelete = (deletedTopping) => {
         let deletedToppingId = deletedTopping.ToppingId;

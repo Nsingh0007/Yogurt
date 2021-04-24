@@ -18,7 +18,7 @@ const transformFlavor = (flavorData) => {
         });
         transformedFlavor.push({
             ...sorted,
-            flavours
+            flavours: flavours.filter(i => i.Status == "Active")
         })
     });
     console.log('FINALOUTPUTS = ', JSON.stringify(transformedFlavor));
