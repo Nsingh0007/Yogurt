@@ -54,11 +54,11 @@ class BRHubHandler {
     //Flavour Mutations
     BrFlavorAdd = (msg, newAddedFlavor) => {
         this.eventRecieved('BrFlavorAdd', msg, newAddedFlavor);
-        SocketMutations.flavor.onNewFlavorAdd(newAddedFlavor);
+        SocketMutations.flavor.onNewFlavorAdd(JSON.parse(newAddedFlavor));
     }
     BrFlavorUpdate = (msg, updatedFlavor) => {
-        this.eventRecieved('BrSubCategoryUpdate', msg, updatedFlavor);
-        SocketMutations.flavor.onFlavorUpdate(updatedFlavor);
+        this.eventRecieved('BrFlavorUpdate', msg, updatedFlavor);
+        SocketMutations.flavor.onFlavorUpdate(JSON.parse(updatedFlavor));
     }
     BrFlavorStatus = (msg, updatedFlavor) => {
         this.eventRecieved('BrFlavorStatus', msg, updatedFlavor);
@@ -72,13 +72,15 @@ class BRHubHandler {
     //Toppings Mutations
     BrToppingAdd = (msg, newAddedTopping) => {
         this.eventRecieved('BrToppingAdd', msg, newAddedTopping); 
+        SocketMutations.topping.onNewToppingAdd(JSON.parse(newAddedTopping));
     }
     BrToppingUpdate = (msg, updatedTopping) => {
         this.eventRecieved('BrToppingUpdate', msg, updatedTopping);
         SocketMutations.topping.onToppingUpdate(JSON.parse(updatedTopping));
     }
-    BrToppingStatus = (msg, updatedToping) => {
-        this.eventRecieved('BrToppingStatus', msg, updatedToping); 
+    BrToppingStatus = (msg, updatedTopping) => {
+        this.eventRecieved('BrToppingStatus', msg, updatedTopping);
+        SocketMutations.topping.onToppingUpdate(JSON.parse(updatedTopping));
     }
     BrToppingDelete = (msg, deletedTopping) => {
         this.eventRecieved('BrToppingDelete', msg, deletedTopping); 
@@ -86,8 +88,6 @@ class BRHubHandler {
     }
 
     // Featured Mutations
-
-    //Toppings Mutations
     BrFeatureAdd = (msg, newFeature) => {
         this.eventRecieved('BrFeatureAdd', msg, newFeature); 
         SocketMutations.featured.onFeatureAdd(JSON.parse(newFeature));

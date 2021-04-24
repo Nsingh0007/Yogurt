@@ -246,7 +246,7 @@ class MiddleToppings extends Component {
         sixPackObject.Products[type][productIndex].products;
     }
     let toppingsData = this.props.productstore.toppingsData;
-    toppingsData = TransformTopping(toppingsData, true, this.state.searchTerm);
+    toppingsData = TransformTopping(toppingsData, this.state.searchTerm != ''? true : false, this.state.searchTerm);
 
     return (
       <View style={styles.continer}>
