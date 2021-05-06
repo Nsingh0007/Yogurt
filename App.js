@@ -1,35 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { SafeAreaView, Text, Alert, View, Button, BackHandler } from 'react-native';
-import { ReduxStore } from '@redux';
-import { Provider } from 'react-redux';
+import React from 'react';
+import {SafeAreaView, Text, Alert} from 'react-native';
+import {ReduxStore} from '@redux';
+import {Provider} from 'react-redux';
 import Appcontainer from './src/router/index';
-import { setJSExceptionHandler } from "react-native-exception-handler";
-import RNRestart from "react-native-restart";
-import { setTopLevelNav } from '@navigation/topLevelRef.js';
-import { Component } from 'react';
+import {setJSExceptionHandler} from 'react-native-exception-handler';
+import RNRestart from 'react-native-restart';
+import {setTopLevelNav} from '@navigation/topLevelRef.js';
+
 Text.defaultProps = {
   allowFontScaling: false,
-  fontScale: 1
-}
+  fontScale: 1,
+};
 
 class App extends React.Component {
-
   jsExceptionHandler = (e, isFatal) => {
-    //console.log("JS Error ", e, "isfatal:", isFatal);
-    //crashlytics().log(e);
     if (isFatal) {
       Alert.alert(
-        "Unexpected error occurred",
-        `Error: ${isFatal ? "Fatal:" : ""} ${e.name} ${e.message}
+        'Unexpected error occurred',
+        `Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
             We will need to restart the app.`,
         [
           {
-            text: "Restart",
+            text: 'Restart',
             onPress: () => {
               RNRestart.Restart();
             },
           },
-        ]
+        ],
       );
     } else {
       //console.log("--------------------------", e, "isfatal:", isFatal);
@@ -44,7 +41,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{flex: 1}}>
         <Provider store={ReduxStore}>
           <Appcontainer ref={setTopLevelNav} />
         </Provider>
@@ -52,4 +49,4 @@ class App extends React.Component {
     );
   }
 }
-export default App; 
+export default App;

@@ -10,7 +10,6 @@ import {
   Linking,
   Alert,
   BackHandler,
-  Button,
 } from 'react-native';
 import {
   getCategoryData,
@@ -19,7 +18,6 @@ import {
   setCurrentSelectedCategory,
 } from '@redux';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
-LogBox.ignoreAllLogs();
 import ProgressBar from '../../custom/ProgressBar';
 import {Badge} from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -31,19 +29,14 @@ import rewards from '../../assets/icon/snow.png';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {validateIsUserLoggedIn, getMessageData, updateUserOnEdit} from '@redux';
-import BottomNavigator from '../../router/BottomNavigator';
-
-import {GetSliderByUser, getCartDetails, HostURL} from '@api';
-import {NotificationService} from '@service';
-
+import {HostURL} from '@api';
 import FastImage from 'react-native-fast-image';
 import VersionCheck from 'react-native-version-check';
-import TestComponent from '../../custom/TestComponent';
 import {topLevelNavigate} from '@navigation/topLevelRef';
 import {navigateRootBottomTab} from '../../router/rootBottomTabRef';
 import {navigateTopTabRef} from '../../router/topTabRef';
-import { withBackHandler } from '@appHoc';
-import BannerStore from '../../Redux/offerbanner'; 
+import {fetchBannerRequest} from '../../Redux/offerbanner'; 
+LogBox.ignoreAllLogs();
 
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
@@ -92,9 +85,6 @@ class Home extends Component {
     }, 2000);
 
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      // this.setState({
-      //   spinner: true,
-      // });
       this.props.isUserLoggedIn();
       setTimeout(() => {
         this.allData();
@@ -125,12 +115,9 @@ class Home extends Component {
   };
 
   allData() {
-    // this.props.fetchCartData();
-    // this.fetchSlideByUser();
     this.getCardData();
     this.progressBarData();
     this.props.readyProductDispatch();
-    // this.props.fetchCategoryData();
 
     setTimeout(() => {
       this.checkVersion();
@@ -193,7 +180,7 @@ class Home extends Component {
 
   fetchSlideByUser = async () => {
     try{
-      await BannerStore.fetchBannerRequest();
+      await fetchBannerRequest();
     }catch(error) {
       console.log('FETCH_BANNER_ERROR - ', error);
     }
@@ -497,8 +484,8 @@ class Home extends Component {
               />
             ) : null}
 
-            {this.props.bannerStore.banners.length > 0
-              ? this.props.bannerStore.banners?.map((singleslide, index) => {
+            {this.props.bannerStore?.banners.length > 0
+              ? this.props.bannerStore?.banners.map((singleslide, index) => {
                   return (
                     <View style={styles.bannerView} key={index}>
                       <View>

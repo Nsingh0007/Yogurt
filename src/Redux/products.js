@@ -984,10 +984,12 @@ export const updateFlavorTree = (newFlavor) => {
     payload: newFlavor
   }
 }
+
 export const updateToppingTree = (newTopping) => {
   return {
     type: UPDATE_TOPPING,
     payload: newTopping
   }
 }
+
 export default productReducer;

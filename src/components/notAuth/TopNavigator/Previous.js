@@ -21,7 +21,7 @@ import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {fetchCartDataAsyncCreator} from '@redux/getcart.js';
 import FastImage from 'react-native-fast-image';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
-import OrderStore from '../../../Redux/order'; 
+import {fetchOrderRequest} from '../../../Redux/order'; 
 
 SimpleLineIcon.loadFont();
 
@@ -42,21 +42,10 @@ class Previous extends Component {
 
   fetchPreviousOrders = async () => {
     try{
-      await OrderStore.fetchOrderRequest();
+      await fetchOrderRequest();
     }catch(error) {
-      console.log('FETCH_BANNER_ERROR - ', error);
+      console.log('FETCH_ORDER_ERROR - ', error);
     }
-    // const GetPreviousOrderRespone = await GetOrderStatus();
-    // if (GetPreviousOrderRespone.result === true) {
-    //   let prevdata = [];
-    //   var previousOrderData = GetPreviousOrderRespone.response;
-    //   previousOrderData.map((singlePrevOrder, index) => {
-    //     if (singlePrevOrder.Status === 'Order Completed') {
-    //       prevdata.push(singlePrevOrder);
-    //     }
-    //   });
-    //   this.setState({previousOrderData: prevdata});
-    // }
   };
 
   componentDidMount = async () => {

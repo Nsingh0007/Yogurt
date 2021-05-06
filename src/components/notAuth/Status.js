@@ -24,7 +24,7 @@ import FastImage from 'react-native-fast-image';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {topLevelNavigate} from '@navigation/topLevelRef.js';
 import {withBackHandler} from '@appHoc';
-import OrderStore from '../../Redux/order'; 
+import {fetchOrderRequest} from '../../Redux/order'; 
 
 Text.defaultProps = {
   allowFontScaling: false,
@@ -62,9 +62,9 @@ class Status extends Component {
 
   fetchOrderStatusByUser = async () => {
     try{
-      await OrderStore.fetchOrderRequest();
+      await fetchOrderRequest();
     }catch(error) {
-      console.log('FETCH_BANNER_ERROR - ', error);
+      console.log('FETCH_STATUS_ERROR - ', error);
     }
   };
 

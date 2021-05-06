@@ -39,6 +39,7 @@ const categoryCollapseProcess = (id) => {
     payload: id,
   };
 };
+
 const categoryReducer = (intialState = CategoryIntialState, action) => {
   const {type} = action;
   switch (type) {
@@ -116,10 +117,10 @@ export const handleCollapse = (id) => (dispatch) => {
 };
 
 export const setCurrentSelectedCategory = (categoryData) => {
-  //console.log('here - ', categoryData);
   return {
     type: SET_CURRENT_CATEGORY,
     payload: categoryData,
   };
 };
+
 export default categoryReducer;

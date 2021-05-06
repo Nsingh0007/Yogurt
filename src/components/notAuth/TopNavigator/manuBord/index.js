@@ -1684,7 +1684,6 @@ class SelectProduct extends Component {
     const subCategoryData = getParam('subCategory', {});
     const isSubCategory = getParam('isSubCategory', {});
     const { selectedProductData } = this.props?.productstore;
-
     const { selectedCategory } = this.props?.categorystore;
 
     let isEditMode = false;
